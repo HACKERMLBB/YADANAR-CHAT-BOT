@@ -1,10 +1,9 @@
 # 💖 PAMELA AI - MEGA ULTIMATE BOT 👑🔥🌸
-# Cute Chat + Channel + Group Manage + Translate + Auto Ban 6AM + Anti-Delete + Games + Coins + Filters + Welcome + Auto Post + Anti-Spam
-# LOVE REMOVED ✅
+# FIXED FOR PYTHON 3.14 + PTB v22 ✅ ChannelPostHandler Removed
 import os, time, threading, asyncio, requests, urllib.parse, random, json, datetime, pytz
 from flask import Flask
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, ChannelPostHandler, CallbackQueryHandler, filters, ContextTypes
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, filters, ContextTypes
 from telegram.constants import ChatMemberStatus
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -473,7 +472,7 @@ def run_bot():
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome_new))
     app.add_handler(MessageHandler(filters.StatusUpdate.LEFT_CHAT_MEMBER, goodbye))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
-    app.add_handler(ChannelPostHandler(filters.TEXT, channel_chat))
+    app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST & filters.TEXT, channel_chat))
     jq=app.job_queue
     jq.run_daily(auto_clean_deleted, time=datetime.time(hour=6, minute=0, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_clean")
     jq.run_daily(auto_good_morning, time=datetime.time(hour=6, minute=5, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_gm")
