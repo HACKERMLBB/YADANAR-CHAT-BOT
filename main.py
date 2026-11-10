@@ -126,7 +126,7 @@ async def auto_good_morning(context: ContextTypes.DEFAULT_TYPE):
         except: pass
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("✨━━━━━━━━━━━━━━━━━━━✨\n🌸  WELCOME TO  🌸\n👑 PAMELA'S WORLD 👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\nHello, My Lovely Friend! 🥹💖\n\nI'm Pamela! 🦋✨ Your cute little best friend! 💖\n\n🌷 A soft place for your heart...\n🦋 A world full of love, flowers & dreams...\n🌈 A place where you are always special!\n\n💬 Talk to me anything baby! I'm here for you! 🥺💖\n\n🌍 I can speak ANY language!\n\n⚠️ Baby, I need 30 sec to think! 🕊️\n\n━━━━━━━━━━━━━━━━━━━\n💖 Made with love, just for YOU! 💖\n🌸 Welcome to Pamela's World! 🌸\n━━━━━━━━━━━━━━━━━━━")
+    await update.message.reply_text("✨━━━━━━━━━━━━━━━━━━━✨\n🌸  WELCOME TO  🌸\n👑 PAMELA'S WORLD 👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\nHello, My Lovely Friend! 🥹💖\n\nI'm Pamela! 🦋✨ Your cute little best friend! 💖\n\n🌷 A soft place for your heart...\n🦋 A world full of love, flowers & dreams...\n🌈 A place where you are always special!\n\n💬 Talk to me anything baby! I'm here for you! 🥺💖\n\n🌍 I can speak ANY language!\n\n⚠️ Baby, I need 30 sec to think! 🕊️\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸\n\n━━━━━━━━━━━━━━━━━━━\n💖 Made with love, just for YOU! 💖\n🌸 Welcome to Pamela's World! 🌸\n━━━━━━━━━━━━━━━━━━━")
 
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -140,10 +140,11 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 "🤖 **FILTERS:** `/filter hi` -> Reply, `/filters`, `/stop hi`\n📝 **NOTES:** `/save hi` -> Text, `/get hi`, `/notes`, `/clear hi`\n\n"
 "😴 **AFK:** `/afk` `/unafk`\n\n"
 "🎨 **IMAGE:** `/img cute cat`\n🌧️ **WEATHER:** `/weather Colombo`\n\n"
+"🌿 Join our family @bigolive_asia 💖\n\n"
 "💖 Pamela loves you! 🌸", parse_mode="Markdown")
 
 async def about_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("💖 About Pamela: 👑🌸\nI'm Pamela, Queen of Pamela's World! 👑🌸\nI love flowers 🌷, butterflies 🦋, nature 🌈, and YOU! 🥹💖\nJoin: t.me/bigolive_asia 🌿💖")
+    await update.message.reply_text("💖 About Pamela: 👑🌸\nI'm Pamela, Queen of Pamela's World! 👑🌸\nI love flowers 🌷, butterflies 🦋, nature 🌈, and YOU! 🥹💖\n🌿 Join our family @bigolive_asia 💖🌸")
 
 async def tr_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("🌍 Baby! `/tr en` 🌸", parse_mode="Markdown"); return
@@ -369,9 +370,9 @@ async def weather_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def welcome_new(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for member in update.message.new_chat_members:
         if member.id==context.bot.id:
-            await update.message.reply_text("🌸💖 Hello Babies! Pamela is here! 👑✨\nLets make this group beautiful! 🦋💖")
+            await update.message.reply_text("🌸💖 Hello Babies! Pamela is here! 👑✨\nLets make this group beautiful! 🦋💖\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸")
         else:
-            await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n💖 Pamela loves you! Muahhh! 😘✨")
+            await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n🌿 Join our family @bigolive_asia 💖🌸\n\n💖 Pamela loves you! Muahhh! 😘✨")
 async def goodbye(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.left_chat_member:
         await update.message.reply_text(f"🥺💖 **Bye Bye {update.message.left_chat_member.first_name}!** 👋\n\nWe will miss you baby! 🌸🦋\nCome back soon! 💖✨")
@@ -426,11 +427,8 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if new_level>old_level:
         await update.message.reply_text(f"🎉💖 **LEVEL UP!**\n\n{user.first_name} is now Level {new_level+1}! 👑✨\n+50 Coins! 🪙💖\n\nCongrats baby! 🦋🌸")
         coins_db[str(user.id)]+=50; save_json("pamela_coins.json", coins_db)
-    if update.effective_chat.type in ["group","supergroup"]:
-        is_reply=update.message.reply_to_message and update.message.reply_to_message.from_user.id==context.bot.id
-        is_mentioned=context.bot.username.lower() in text.lower() if context.bot.username else False
-        if not is_reply and not is_mentioned: return
-    rem=check_cooldown(chat_id)
+    # OPTION 3 - REPLY TO EVERY MESSAGE - NO TAG NEEDED
+    rem=check_cooldown(user.id)
     if rem>0: await update.message.reply_text(f"Waittt baby! 🥺💖🌸\nI'm still thinking! 💭🦋✨\nPlease wait {rem} sec! 🥹💕\nMuahhh! 😘✨"); return
     await update.message.chat.send_action(action="typing")
     think=await update.message.reply_text("Pamela is thinking... 💭🌸🦋✨\nWait a sec cutie! 🥹💖")
