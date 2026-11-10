@@ -1,5 +1,5 @@
 # 💖 PAMELA AI - MEGA ULTIMATE BOT 👑🔥🌸
-# FIXED FOR PYTHON 3.14 + PTB v22 ✅ ChannelPostHandler Removed
+# 100% ENGLISH VERSION - FIXED FOR PYTHON 3.14 + PTB v22
 import os, time, threading, asyncio, requests, urllib.parse, random, json, datetime, pytz
 from flask import Flask
 from telegram import Update
@@ -90,15 +90,15 @@ def get_target(update):
     if update.message.reply_to_message: return update.message.reply_to_message.from_user
     return None
 
-TRUTHS=["ඔයාගේ Crush කවුද? 🥹💖","අන්තිමට බොරු කිව්වේ කාටද? 😂","ඔයා කවදාවත් කාටවත් කියලා නැති Secret එකක් කියන්න! 🤫","ඔයාගේ Phone එකේ Last Photo එක මොකක්ද? 📸","ඔයා කාටද හොරෙන් ආදරේ කරන්නේ? 💖"]
-DARES=["Group එකේ Photo එකක් දාන්න! 📸","අන්තිමට Chat කරපු කෙනාට 'I Love You' කියලා Message එකක් දාන්න! 😂💖","Cute Voice එකකින් Hi කියන්න! 🥹","ඔයාගේ Crush ගේ නම Type කරන්න! 💖","Emojis වලින් විතරක් Message එකක් දාන්න! 🌸🦋"]
-ROASTS=["ඔයාගේ Face එක WiFi වගේ, හැමෝම Connect වෙන්න හදනවා ඒත් Signal නෑ! 😂","ඔයාගේ Brain එක Google වගේ, Search කරාම මොකුත් එන්නේ නෑ! 🤣","ඔයා ඉපදුන දවසේ Doctor වත් Shock උනා! 😂","ඔයාගේ Jokes වලට වඩා මගේ Bot එකේ Errors හොදයි! 🤖😂"]
+TRUTHS=["Who is your crush? 🥹💖","Who did you lie to last? 😂","Tell a secret you never told anyone! 🤫","What is the last photo on your phone? 📸","Who do you secretly love? 💖"]
+DARES=["Send a photo in the group! 📸","Message the last person you chatted with 'I Love You'! 😂💖","Say Hi in a cute voice! 🥹","Type your crush's name! 💖","Send a message using only emojis! 🌸🦋"]
+ROASTS=["Your face is like WiFi, everyone tries to connect but there is no signal! 😂","Your brain is like Google, search it and nothing comes up! 🤣","Even the doctor was shocked on the day you were born! 😂","My bot's errors are better than your jokes! 🤖😂"]
 QUOTES=["🌸 Every flower blooms in its own time. 💖","🦋 Be like a butterfly, beautiful and free! ✨","🌈 After every rain, there is a rainbow! 💖","💖 You are loved more than you know! 🥹","🌷 Grow through what you go through! ✨"]
 BAD_WORDS=["huththo","pakaya","kariya","wesi","ponnaya","balla","hukanna","fuck","bitch","shit"]
 GOOD_MORNING=[
-"☀️🌸 Good Morning Babies! 🥹💖\n\nඅලුත් දවසක්! අලුත් බලාපොරොත්තුවක්! 🌈\nඅද දවස ඔයාලට සුපිරි වෙන්න කියලා Pamela ප්‍රාර්ථනා කරනවා! 🦋✨\n\n💖 Love you! - Pamela 👑",
-"🌷✨ Good Morning! 💖\n\nඅදත් ඔයාලා Cute! 🥹💖\nහිනා වෙලා ඉන්න! 😘🌸\n\n🦋 Pamela",
-"☀️💖 Rise and Shine! ✨\n\nCoffee එකක් බොන්න! ☕💖\nඅද දවස Special! 🌈\n\n🌸 Pamela loves you!"
+"☀️🌸 Good Morning Babies! 🥹💖\n\nA new day! New hope! 🌈\nPamela wishes you a super day today! 🦋✨\n\n💖 Love you! - Pamela 👑",
+"🌷✨ Good Morning! 💖\n\nYou are all cute today too! 🥹💖\nKeep smiling! 😘🌸\n\n🦋 Pamela",
+"☀️💖 Rise and Shine! ✨\n\nHave a coffee! ☕💖\nToday is special! 🌈\n\n🌸 Pamela loves you!"
 ]
 
 async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
@@ -115,7 +115,7 @@ async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
                 except: pass
             await asyncio.sleep(0.5)
         if banned>0:
-            try: await context.bot.send_message(chat_id=chat_id, text=f"🧹💖 **Good Morning! ☀️🌸**\n\n⏰ 6 AM Cleaning Done! ✨\n🗑️ Deleted Accounts {banned}ක් Auto Remove කරා! 🚫💖\nGroup Clean! 🦋✨")
+            try: await context.bot.send_message(chat_id=chat_id, text=f"🧹💖 **Good Morning! ☀️🌸**\n\n⏰ 6 AM Cleaning Done! ✨\n🗑️ Removed {banned} Deleted Accounts! 🚫💖\nGroup Clean! 🦋✨")
             except: pass
 
 async def auto_good_morning(context: ContextTypes.DEFAULT_TYPE):
@@ -132,7 +132,7 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
 "👑💖 **PAMELA MEGA HELP** 💖👑\n\n"
 "🌸 **CHAT:** Just type! 🥹💖\n\n"
-"🌍 **TRANSLATE:** `/tr en` Reply කරලා!\n\n"
+"🌍 **TRANSLATE:** `/tr en` Reply to a message!\n\n"
 "🚫 **MANAGE:** `/ban` `/kick` `/mute` `/unmute` `/warn` `/promote` `/demote` `/pin` `/purge` `/del` `/lock` `/unlock`\n\n"
 "👀 **ANTI-DELETE:** `/snipe` `/deleted`\n🧹 `/zombies` - Deleted Clean\n\n"
 "🎮 **GAMES:** `/truth` `/dare` `/dice` `/slot` `/coin` `/8ball` `/roast` `/quote`\n\n"
@@ -150,71 +150,71 @@ async def tr_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang=context.args[0].lower(); txt=""
     if update.message.reply_to_message and update.message.reply_to_message.text: txt=update.message.reply_to_message.text
     elif len(context.args)>1: txt=" ".join(context.args[1:])
-    else: await update.message.reply_text("🥺💖 Text එකක් Reply කරන්න! 🌸"); return
+    else: await update.message.reply_text("🥺💖 Reply to a text! 🌸"); return
     tr=translate_text(txt, lang)
     if tr: await update.message.reply_text(f"🌍💖 **Translated to {lang.upper()}:**\n\n{tr}\n\n🦋 Pamela loves you! 💕", parse_mode="Markdown")
     else: await update.message.reply_text("Oops baby! 🥺💖 Try again! 🌸")
 
 async def ban_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_chat.type=="private": await update.message.reply_text("Baby! 🥺💖 Group එකක විතරයි! 🌸"); return
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if update.effective_chat.type=="private": await update.message.reply_text("Baby! 🥺💖 Only in groups! 🌸"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("🥺💖 Reply කරලා `/ban` ගහන්න! 🌸"); return
-    try: await update.effective_chat.ban_member(t.id); await update.message.reply_text(f"🚫💖 **{t.first_name}** ව Ban කරා! 👋🌸", parse_mode="Markdown")
+    if not t: await update.message.reply_text("🥺💖 Reply and type `/ban`! 🌸"); return
+    try: await update.effective_chat.ban_member(t.id); await update.message.reply_text(f"🚫💖 **{t.first_name}** Banned! 👋🌸", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def unban_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /unban ගහන්න! 🥺💖"); return
-    try: await update.effective_chat.unban_member(t.id); await update.message.reply_text(f"✅💖 Unban කරා! 🦋🌸")
+    if not t: await update.message.reply_text("Reply and type /unban! 🥺💖"); return
+    try: await update.effective_chat.unban_member(t.id); await update.message.reply_text(f"✅💖 Unbanned! 🦋🌸")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def kick_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /kick ගහන්න! 🥺💖"); return
-    try: await update.effective_chat.ban_member(t.id); await update.effective_chat.unban_member(t.id); await update.message.reply_text(f"👋💖 **{t.first_name}** ව Kick කරා! 🦋", parse_mode="Markdown")
+    if not t: await update.message.reply_text("Reply and type /kick! 🥺💖"); return
+    try: await update.effective_chat.ban_member(t.id); await update.effective_chat.unban_member(t.id); await update.message.reply_text(f"👋💖 **{t.first_name}** Kicked! 🦋", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def mute_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /mute ගහන්න! 🥺"); return
+    if not t: await update.message.reply_text("Reply and type /mute! 🥺"); return
     try:
-        from telegram import ChatPermissions; await update.effective_chat.restrict_member(t.id, ChatPermissions(can_send_messages=False)); await update.message.reply_text(f"🔇💖 **{t.first_name}** ව Mute කරා! 🤫🌸", parse_mode="Markdown")
+        from telegram import ChatPermissions; await update.effective_chat.restrict_member(t.id, ChatPermissions(can_send_messages=False)); await update.message.reply_text(f"🔇💖 **{t.first_name}** Muted! 🤫🌸", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def unmute_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /unmute ගහන්න! 🥺"); return
+    if not t: await update.message.reply_text("Reply and type /unmute! 🥺"); return
     try:
-        from telegram import ChatPermissions; await update.effective_chat.restrict_member(t.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True)); await update.message.reply_text(f"🔊💖 **{t.first_name}** ව Unmute කරා! 🦋✨", parse_mode="Markdown")
+        from telegram import ChatPermissions; await update.effective_chat.restrict_member(t.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True)); await update.message.reply_text(f"🔊💖 **{t.first_name}** Unmuted! 🦋✨", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def warn_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /warn ගහන්න! 🥺"); return
+    if not t: await update.message.reply_text("Reply and type /warn! 🥺"); return
     cid=update.effective_chat.id
     if cid not in warns: warns[cid]={}
     warns[cid][t.id]=warns[cid].get(t.id,0)+1; c=warns[cid][t.id]
     if c>=3:
-        try: await update.effective_chat.ban_member(t.id); await update.message.reply_text(f"🚫💖 **{t.first_name}** ට Warnings 3යි! Auto Ban! 👋", parse_mode="Markdown"); warns[cid][t.id]=0
+        try: await update.effective_chat.ban_member(t.id); await update.message.reply_text(f"🚫💖 **{t.first_name}** got 3 Warnings! Auto Ban! 👋", parse_mode="Markdown"); warns[cid][t.id]=0
         except Exception as e: await update.message.reply_text(f"Oops! {e}")
-    else: await update.message.reply_text(f"⚠️💖 **{t.first_name}** ට Warning {c}/3! 🥺🌸", parse_mode="Markdown")
+    else: await update.message.reply_text(f"⚠️💖 **{t.first_name}** Warning {c}/3! 🥺🌸", parse_mode="Markdown")
 async def warnings_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    t=get_target(update) or update.message.from_user; c=warns.get(update.effective_chat.id, {}).get(t.id,0); await update.message.reply_text(f"⚠️💖 **{t.first_name}** ට Warnings: {c}/3 🌸", parse_mode="Markdown")
+    t=get_target(update) or update.message.from_user; c=warns.get(update.effective_chat.id, {}).get(t.id,0); await update.message.reply_text(f"⚠️💖 **{t.first_name}** Warnings: {c}/3 🌸", parse_mode="Markdown")
 async def promote_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /promote ගහන්න! 🥺"); return
-    try: await update.effective_chat.promote_member(t.id, can_change_info=True, can_delete_messages=True, can_invite_users=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=False); await update.message.reply_text(f"👑💖 **{t.first_name}** දැන් Admin! 🦋✨🌸", parse_mode="Markdown")
+    if not t: await update.message.reply_text("Reply and type /promote! 🥺"); return
+    try: await update.effective_chat.promote_member(t.id, can_change_info=True, can_delete_messages=True, can_invite_users=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=False); await update.message.reply_text(f"👑💖 **{t.first_name}** is now Admin! 🦋✨🌸", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def demote_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     t=get_target(update)
-    if not t: await update.message.reply_text("Reply කරලා /demote ගහන්න! 🥺"); return
-    try: await update.effective_chat.promote_member(t.id, can_change_info=False, can_delete_messages=False, can_invite_users=False, can_restrict_members=False, can_pin_messages=False, can_promote_members=False); await update.message.reply_text(f"💖 **{t.first_name}** ව Admin එකෙන් අයින් කරා! 🥺🌸", parse_mode="Markdown")
+    if not t: await update.message.reply_text("Reply and type /demote! 🥺"); return
+    try: await update.effective_chat.promote_member(t.id, can_change_info=False, can_delete_messages=False, can_invite_users=False, can_restrict_members=False, can_pin_messages=False, can_promote_members=False); await update.message.reply_text(f"💖 **{t.first_name}** removed from Admin! 🥺🌸", parse_mode="Markdown")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def pin_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not update.message.reply_to_message: await update.message.reply_text("Pin කරන්න Reply කරලා /pin ගහන්න! 📌💖"); return
+    if not update.message.reply_to_message: await update.message.reply_text("Reply and type /pin to pin! 📌💖"); return
     try: await update.message.reply_to_message.pin(); await update.message.reply_text("📌💖 Pinned! 🌸✨")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def unpin_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -223,29 +223,29 @@ async def unpin_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def del_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.reply_to_message:
         try: await update.message.reply_to_message.delete(); await update.message.delete()
-        except: await update.message.reply_text("🥺 Delete කරන්න බැරි උනා!")
-    else: await update.message.reply_text("Reply කරලා /del ගහන්න! 🗑️💖")
+        except: await update.message.reply_text("🥺 Could not delete!")
+    else: await update.message.reply_text("Reply and type /del! 🗑️💖")
 async def purge_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
-    if not update.message.reply_to_message: await update.message.reply_text("Reply කරලා /purge ගහන්න! 🗑️"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
+    if not update.message.reply_to_message: await update.message.reply_text("Reply and type /purge! 🗑️"); return
     try:
         s=update.message.reply_to_message.message_id; e=update.message.message_id; cnt=0
         for mid in range(s, e+1):
             try: await context.bot.delete_message(update.effective_chat.id, mid); cnt+=1
             except: pass
-        m=await update.message.reply_text(f"🗑️💖 {cnt} Messages Delete කරා! ✨🌸"); await asyncio.sleep(3); await m.delete()
+        m=await update.message.reply_text(f"🗑️💖 Deleted {cnt} Messages! ✨🌸"); await asyncio.sleep(3); await m.delete()
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def lock_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     try:
-        from telegram import ChatPermissions; await update.effective_chat.set_permissions(ChatPermissions(can_send_messages=False)); await update.message.reply_text("🔒💖 Group Lock! 🤫🌸")
+        from telegram import ChatPermissions; await update.effective_chat.set_permissions(ChatPermissions(can_send_messages=False)); await update.message.reply_text("🔒💖 Group Locked! 🤫🌸")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
 async def unlock_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     try:
-        from telegram import ChatPermissions; await update.effective_chat.set_permissions(ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True)); await update.message.reply_text("🔓💖 Group Unlock! 🦋✨")
+        from telegram import ChatPermissions; await update.effective_chat.set_permissions(ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True)); await update.message.reply_text("🔓💖 Group Unlocked! 🦋✨")
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
-async def rules_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text("📜💖 **GROUP RULES** 🌸\n\n1. Be kind baby! 🥹💖\n2. No bad words! 🚫\n3. No spam! 🗑️\n4. Respect everyone! 🤗💖\n5. Love Pamela's World! 👑🌸\n\nBreak කරොත් Warn / Ban! ⚠️", parse_mode="Markdown")
+async def rules_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text("📜💖 **GROUP RULES** 🌸\n\n1. Be kind baby! 🥹💖\n2. No bad words! 🚫\n3. No spam! 🗑️\n4. Respect everyone! 🤗💖\n5. Love Pamela's World! 👑🌸\n\nBreak rules = Warn / Ban! ⚠️", parse_mode="Markdown")
 async def admins_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         admins=await update.effective_chat.get_administrators(); txt="👑💖 **ADMINS:**\n\n"
@@ -257,8 +257,8 @@ async def info_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def id_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text(f"🆔💖 Your ID: `{update.message.from_user.id}`\nChat ID: `{update.effective_chat.id}`", parse_mode="Markdown")
 
 async def zombies_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_chat.type=="private": await update.message.reply_text("Baby! 🥺💖 Group එකක විතරයි! 🌸"); return
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
+    if update.effective_chat.type=="private": await update.message.reply_text("Baby! 🥺💖 Only in groups! 🌸"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
     sm=await update.message.reply_text("🧹💖 Checking Deleted Accounts... 🥹🌸✨")
     cid=update.effective_chat.id; uids=user_db.get(str(cid), []); banned=0; checked=0
     for uid in list(uids):
@@ -270,13 +270,13 @@ async def zombies_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try: await context.bot.ban_chat_member(cid, uid); await context.bot.unban_chat_member(cid, uid); banned+=1
             except: pass
         await asyncio.sleep(0.3)
-    await sm.edit_text(f"🧹💖 **Cleaning Done!** ✨🌸\n\n👀 Checked: {checked}\n🗑️ Removed: {banned}\n⏰ හැමදාම උදේ 6ට Auto Clean! 👑")
+    await sm.edit_text(f"🧹💖 **Cleaning Done!** ✨🌸\n\n👀 Checked: {checked}\n🗑️ Removed: {banned}\n⏰ Auto Clean every day at 6 AM! 👑")
 async def snipe_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cid=str(update.effective_chat.id); msgs=msg_db.get(cid, [])
-    if not msgs: await update.message.reply_text("🥺💖 Baby! තාම Messages Save වෙලා නෑ! 🌸"); return
-    txt="👀💖 **PAMELA'S MESSAGE LOG** 🗑️\n\nමේ තමයි අන්තිම Messages ටික! කවුරු හරි Delete කරොත් මේකේ තියෙනවා! 🌸\n\n"
+    if not msgs: await update.message.reply_text("🥺💖 Baby! No messages saved yet! 🌸"); return
+    txt="👀💖 **PAMELA'S MESSAGE LOG** 🗑️\n\nHere are the last messages! If someone deletes, it is here! 🌸\n\n"
     for m in msgs[-10:]: txt+=f"👤 **{m['user']}** (@{m['username'] if m['username'] else 'NoUsername'}):\n💬 {m['text'][:100]}\n\n"
-    txt+="🗑️ කවුරු හරි Delete කරත් Pamela ට මතකයි! 👑💖"
+    txt+="🗑️ Even if someone deletes, Pamela remembers! 👑💖"
     await update.message.reply_text(txt, parse_mode="Markdown")
 
 async def truth_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text(f"🥹💖 **TRUTH!**\n\n{random.choice(TRUTHS)}\n\n🦋 Pamela loves you! 💕", parse_mode="Markdown")
@@ -305,11 +305,11 @@ async def leaderboard_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not sorted_coins: txt+="No one yet baby! 🥺 Be first! 🌸"
     await update.message.reply_text(txt)
 async def shop_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🛍️💖 **PAMELA SHOP**\n\n👑 VIP Title - 500 Coins\n🌸 Cute Badge - 200 Coins\n🦋 Butterfly Badge - 300 Coins\n\nCoins හොයන්න `/daily` ගහන්න! 🪙✨\n\n💖 Coming Soon! 🌸")
+    await update.message.reply_text("🛍️💖 **PAMELA SHOP**\n\n👑 VIP Title - 500 Coins\n🌸 Cute Badge - 200 Coins\n🦋 Butterfly Badge - 300 Coins\n\nUse `/daily` to get coins! 🪙✨\n\n💖 Coming Soon! 🌸")
 
 async def filter_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Admin ලට විතරයි! 👑"); return
-    if len(context.args)<2: await update.message.reply_text("Baby! `/filter hi Hello Baby!` වගේ ගහන්න! 🥺💖", parse_mode="Markdown"); return
+    if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
+    if len(context.args)<2: await update.message.reply_text("Baby! Use like `/filter hi Hello Baby!` 🥺💖", parse_mode="Markdown"); return
     kw=context.args[0].lower(); reply=" ".join(context.args[1:]); cid=str(update.effective_chat.id)
     if cid not in filters_db: filters_db[cid]={}
     filters_db[cid][kw]=reply; save_json("pamela_filters.json", filters_db)
@@ -322,9 +322,9 @@ async def stop_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("`/stop hi` 🌸", parse_mode="Markdown"); return
     cid=str(update.effective_chat.id); kw=context.args[0].lower()
     if cid in filters_db and kw in filters_db[cid]: del filters_db[cid][kw]; save_json("pamela_filters.json", filters_db); await update.message.reply_text(f"🗑️ Filter `{kw}` Deleted! 💖", parse_mode="Markdown")
-    else: await update.message.reply_text("🥺 Filter එක නෑ බබා! 🌸")
+    else: await update.message.reply_text("🥺 No filter found baby! 🌸")
 async def save_note(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not update.message.reply_to_message: await update.message.reply_text("Note එකක් Save කරන්න Message එකට Reply කරලා `/save hi` ගහන්න! 📝💖", parse_mode="Markdown"); return
+    if not update.message.reply_to_message: await update.message.reply_text("To save a note, reply to a message and type `/save hi`! 📝💖", parse_mode="Markdown"); return
     if not context.args: await update.message.reply_text("`/save hi` 🌸", parse_mode="Markdown"); return
     name=context.args[0].lower(); txt=update.message.reply_to_message.text or "Photo / Sticker"; cid=str(update.effective_chat.id)
     if cid not in notes_db: notes_db[cid]={}
@@ -334,7 +334,7 @@ async def get_note(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("`/get hi` 🌸", parse_mode="Markdown"); return
     name=context.args[0].lower(); cid=str(update.effective_chat.id); txt=notes_db.get(cid, {}).get(name)
     if txt: await update.message.reply_text(f"📝💖 **#{name}**\n\n{txt}")
-    else: await update.message.reply_text("🥺 Note එක නෑ බබා! 🌸")
+    else: await update.message.reply_text("🥺 No note found baby! 🌸")
 async def notes_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cid=str(update.effective_chat.id); n=notes_db.get(cid, {})
     if not n: await update.message.reply_text("🥺 No notes! 🌸"); return
@@ -353,25 +353,25 @@ async def unafk_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("👋💖 Welcome back baby! 🥹🌸 Missed you! 🦋✨")
 
 async def img_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not context.args: await update.message.reply_text("Baby! `/img cute cat` වගේ ගහන්න! 🎨💖", parse_mode="Markdown"); return
+    if not context.args: await update.message.reply_text("Baby! Use like `/img cute cat`! 🎨💖", parse_mode="Markdown"); return
     prompt=" ".join(context.args); await update.message.reply_text(f"🎨💖 Generating... Wait baby! 🥹✨\nPrompt: {prompt} 🌸")
     try:
         url=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt)}"
         await update.message.reply_photo(photo=url, caption=f"🎨💖 **Your Image!**\n\nPrompt: {prompt}\n\n🦋 Pamela loves you! 💕")
-    except: await update.message.reply_text("Oops baby! 🥺 Image හදන්න බැරි උනා! 🌸")
+    except: await update.message.reply_text("Oops baby! 🥺 Could not make image! 🌸")
 async def weather_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     city=" ".join(context.args) if context.args else "Colombo"
     try:
         url=f"https://wttr.in/{urllib.parse.quote(city)}?format=j1"; r=requests.get(url, timeout=10); d=r.json(); cur=d['current_condition'][0]
         await update.message.reply_text(f"🌧️💖 **Weather in {city}**\n\n🌡️ Temp: {cur['temp_C']}°C\n☁️ Condition: {cur['weatherDesc'][0]['value']}\n💧 Humidity: {cur['humidity']}%\n💨 Wind: {cur['windspeedKmph']} km/h\n\n🦋 Pamela loves you! 🌸")
-    except: await update.message.reply_text("Oops baby! 🥺 Weather බලන්න බැරි උනා! 🌸")
+    except: await update.message.reply_text("Oops baby! 🥺 Could not check weather! 🌸")
 
 async def welcome_new(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for member in update.message.new_chat_members:
         if member.id==context.bot.id:
-            await update.message.reply_text("🌸💖 Hello Babies! Pamela ආවා! 👑✨\nGroup එක ලස්සන කරමු! 🦋💖")
+            await update.message.reply_text("🌸💖 Hello Babies! Pamela is here! 👑✨\nLets make this group beautiful! 🦋💖")
         else:
-            await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 අපේ Group එකට ආවට Thank you!\n\n📜 Rules බලන්න `/rules` ගහන්න!\n💬 කතා කරන්න `Hi Pamela` කියන්න!\n\n💖 Pamela loves you! Muahhh! 😘✨")
+            await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n💖 Pamela loves you! Muahhh! 😘✨")
 async def goodbye(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.left_chat_member:
         await update.message.reply_text(f"🥺💖 **Bye Bye {update.message.left_chat_member.first_name}!** 👋\n\nWe will miss you baby! 🌸🦋\nCome back soon! 💖✨")
@@ -394,14 +394,14 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if await is_admin(update, user.id): break
             try: await update.message.delete()
             except: pass
-            await update.message.reply_text(f"🤬💖 **{user.first_name}**! Bad word එපා baby! 🥺🌸\nWarning 1/3! ⚠️")
+            await update.message.reply_text(f"🤬💖 **{user.first_name}**! No bad words baby! 🥺🌸\nWarning 1/3! ⚠️")
             cid=chat_id
             if cid not in warns: warns[cid]={}
             warns[cid][user.id]=warns[cid].get(user.id,0)+1
             return
     if ("http://" in low or "https://" in low or "t.me/" in low or "telegram.me/" in low) and update.effective_chat.type in ["group","supergroup"]:
         if not await is_admin(update, user.id):
-            try: await update.message.delete(); await update.message.reply_text(f"🔗💖 **{user.first_name}**! Link දාන්න බෑ baby! 🥺🌸 Admin ලට විතරයි! 👑")
+            try: await update.message.delete(); await update.message.reply_text(f"🔗💖 **{user.first_name}**! No links baby! 🥺🌸 Only for Admins! 👑")
             except: pass
             return
     now=time.time(); uid_str=str(user.id)
@@ -409,7 +409,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     flood_db[uid_str]=[t for t in flood_db[uid_str] if now-t<5]
     flood_db[uid_str].append(now)
     if len(flood_db[uid_str])>5 and not await is_admin(update, user.id):
-        try: await update.message.reply_text(f"🌊💖 **{user.first_name}**! Slow down baby! 🥺 Flood කරනවා! 🦋"); flood_db[uid_str]=[]
+        try: await update.message.reply_text(f"🌊💖 **{user.first_name}**! Slow down baby! 🥺 Flooding! 🦋"); flood_db[uid_str]=[]
         except: pass
         return
     cid_str=str(chat_id); fl=filters_db.get(cid_str, {})
@@ -424,7 +424,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_json("pamela_coins.json", coins_db); save_json("pamela_levels.json", levels_db)
     new_level=levels_db.get(str(user.id),0)//100
     if new_level>old_level:
-        await update.message.reply_text(f"🎉💖 **LEVEL UP!**\n\n{user.first_name} දැන් Level {new_level+1}! 👑✨\n+50 Coins! 🪙💖\n\nCongrats baby! 🦋🌸")
+        await update.message.reply_text(f"🎉💖 **LEVEL UP!**\n\n{user.first_name} is now Level {new_level+1}! 👑✨\n+50 Coins! 🪙💖\n\nCongrats baby! 🦋🌸")
         coins_db[str(user.id)]+=50; save_json("pamela_coins.json", coins_db)
     if update.effective_chat.type in ["group","supergroup"]:
         is_reply=update.message.reply_to_message and update.message.reply_to_message.from_user.id==context.bot.id
@@ -450,7 +450,7 @@ async def channel_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def run_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
-    if not BOT_TOKEN: print("❌ BOT_TOKEN නෑ!"); return
+    if not BOT_TOKEN: print("❌ BOT_TOKEN missing!"); return
     print("🌸 Pamela MEGA Starting... 💖")
     app=Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start)); app.add_handler(CommandHandler("help", help_cmd)); app.add_handler(CommandHandler("about", about_cmd))
