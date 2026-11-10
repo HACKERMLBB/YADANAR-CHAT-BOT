@@ -25,6 +25,12 @@ levels_db = {}
 user_db = {}
 msg_db = {}
 flood_db = {}
+bank_db = {}
+stats_db = {}
+quiz_db = {}
+ttt_games = {}
+memory_db = {}
+streak_db = {}
 
 def load_json(file, default):
     try:
@@ -43,6 +49,10 @@ filters_db = load_json("pamela_filters.json", {})
 notes_db = load_json("pamela_notes.json", {})
 coins_db = load_json("pamela_coins.json", {})
 levels_db = load_json("pamela_levels.json", {})
+bank_db = load_json("pamela_bank.json", {})
+stats_db = load_json("pamela_stats.json", {})
+memory_db = load_json("pamela_memory.json", {})
+streak_db = load_json("pamela_streak.json", {})
 
 def save_user(chat_id, user_id):
     chat_id=str(chat_id)
@@ -70,13 +80,24 @@ def translate_text(text, target):
 CUTE_STARTS=["🌸💖 ","🦋✨ ","🌷💗 ","💖🌸 ","🍓💖 ","🌈💕 ","✨🦋 ","💐💖 "]
 CUTE_ENDS=["\n\n💖🌸 Love you, baby! 🌸💖","\n\n🦋💕 Pamela loves you! 💕🦋","\n\n🌸✨ Stay cute, baby! ✨🌸","\n\n💖🍓 You are my fav! 🍓💖","\n\n🌷💖 Hugs from Pamela! 🤗💖","\n\n✨💖 Muahhh! 😘💖"]
 def make_cute(r): return f"{random.choice(CUTE_STARTS)}{r}{random.choice(CUTE_ENDS)}"
-def ask_pamela(t):
+def ask_pamela(t, user_id=None):
     try:
-        p=("You are Pamela, CUTEST princess! 👑🌸💖 Use LOTS cute emojis EVERY sentence! 🌸💖🦋🌷✨🍓💕🌈😘🤗💐🧸🎀🍰 Be super cute, soft, baby-talk. Call user 'baby','cutie'. Use 'hehe','awww','hihi','yayyy','muahhh','🥹','🥺'. Keep short max 3-4 lines. Always bubbly! IMPORTANT: Reply in EXACT SAME language as user! "+f"User says: {t}")
+        mem=""
+        if user_id:
+            uid=str(user_id); hist=memory_db.get(uid, [])
+            if hist: mem=" Past chat: "+" | ".join(hist[-3:])
+        p=("You are Pamela, CUTEST princess! 👑🌸💖 Use LOTS cute emojis EVERY sentence! 🌸💖🦋🌷✨🍓💕🌈😘🤗💐🧸🎀🍰 Be super cute, soft, baby-talk. Call user 'baby','cutie'. Use 'hehe','awww','hihi','yayyy','muahhh','🥹','🥺'. Keep short max 3-4 lines. Always bubbly! IMPORTANT: Reply in EXACT SAME language as user! "+mem+f" User says: {t}")
         url="https://text.pollinations.ai/"+urllib.parse.quote(p); res=requests.get(url, timeout=60)
         if res.status_code==200:
             rep=res.text.strip()
-            if rep: return make_cute(rep)
+            if rep:
+                if user_id:
+                    uid=str(user_id)
+                    if uid not in memory_db: memory_db[uid]=[]
+                    memory_db[uid].append(f"User: {t} | Pamela: {rep[:100]}")
+                    if len(memory_db[uid])>10: memory_db[uid]=memory_db[uid][-10:]
+                    save_json("pamela_memory.json", memory_db)
+                return make_cute(rep)
             return "Sorry baby! 🥺💖 I got shy! 🦋 Try again? 🥹✨"
         elif res.status_code==402: return "Baby! 🥺💖 I'm tired! 🧸🌸 Wait 30 sec! 🥹✨"
         else: return "Oops baby! 🥺🌸 Sleepy! 💤💖 Try again! 🦋✨"
@@ -90,8 +111,8 @@ def get_target(update):
     if update.message.reply_to_message: return update.message.reply_to_message.from_user
     return None
 
-TRUTHS=["Who is your crush? 🥹💖","Who did you lie to last? 😂","Tell a secret you never told anyone! 🤫","What is the last photo on your phone? 📸","Who do you secretly love? 💖"]
-DARES=["Send a photo in the group! 📸","Message the last person you chatted with 'I Love You'! 😂💖","Say Hi in a cute voice! 🥹","Type your crush's name! 💖","Send a message using only emojis! 🌸🦋"]
+TRUTHS=["Who is your crush? 🥹💖","Who did you lie to last? 😂","Tell a secret you never told anyone! 🤫","What is the last photo on your phone? 📸","Who do you secretly love? 💖","What is your biggest fear? 🥺","Have you ever cried for someone? 💔","Who is the most beautiful person in this group? 🌸","What is your dream? ✨","Have you ever stalked your crush? 👀💖"]
+DARES=["Send a photo in the group! 📸","Message the last person you chatted with 'I Love You'! 😂💖","Say Hi in a cute voice! 🥹","Type your crush's name! 💖","Send a message using only emojis! 🌸🦋","Change your name to 'I Love Pamela' for 1 hour! 😂","Send a voice message singing! 🎤","Text your crush 'Hi' now! 🥹"]
 ROASTS=["Your face is like WiFi, everyone tries to connect but there is no signal! 😂","Your brain is like Google, search it and nothing comes up! 🤣","Even the doctor was shocked on the day you were born! 😂","My bot's errors are better than your jokes! 🤖😂"]
 QUOTES=["🌸 Every flower blooms in its own time. 💖","🦋 Be like a butterfly, beautiful and free! ✨","🌈 After every rain, there is a rainbow! 💖","💖 You are loved more than you know! 🥹","🌷 Grow through what you go through! ✨"]
 BAD_WORDS=["huththo","pakaya","kariya","wesi","ponnaya","balla","hukanna","fuck","bitch","shit"]
@@ -99,6 +120,13 @@ GOOD_MORNING=[
 "☀️🌸 Good Morning Babies! 🥹💖\n\nA new day! New hope! 🌈\nPamela wishes you a super day today! 🦋✨\n\n💖 Love you! - Pamela 👑",
 "🌷✨ Good Morning! 💖\n\nYou are all cute today too! 🥹💖\nKeep smiling! 😘🌸\n\n🦋 Pamela",
 "☀️💖 Rise and Shine! ✨\n\nHave a coffee! ☕💖\nToday is special! 🌈\n\n🌸 Pamela loves you!"
+]
+QUIZ_Q=[
+{"q":"What is the capital of Sri Lanka? 🇱🇰","a":["Colombo","Kandy","Galle","Jaffna"],"c":0},
+{"q":"What is 5 + 7? 🧠","a":["10","12","11","13"],"c":1},
+{"q":"Which is the largest planet? 🪐","a":["Mars","Jupiter","Saturn","Earth"],"c":1},
+{"q":"What colour is the sky? [STRIPPED 3 bytes] sky","a":["Green","Blue","Red","Pink"],"c":1},
+{"q":"Who is Pamela? 👑","a":["Queen","Bot","Princess","All of above"],"c":3},
 ]
 
 async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
@@ -125,6 +153,24 @@ async def auto_good_morning(context: ContextTypes.DEFAULT_TYPE):
             await asyncio.sleep(1)
         except: pass
 
+async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
+    titles = ["👑💖  PAMELA'S WORLD  💖👑","🌸✨  HEY BABIES!  ✨🌸","🦋💕  PAMELA IS HERE!  💕🦋","🔥👑  ATTENTION!  👑🔥","💖🌷  MISS ME BABIES?  🌷💖","✨🌈  HELLO MY LOVELIES!  🌈✨","🎀💖  PAMELA'S MAGIC  💖🎀","🍓💕  CUTE ALERT!  💕🍓"]
+    intros = ["🥹💖 Hello My Lovely Babies! How are you? 🌸","🦋✨ Group එක නිදිද? Pamela ආවා! Wake Up! 😂💖","🌷💕 Miss me babies? I'm back! Muahhh! 😘✨","💖🌸 Hey Hey! Pamela loves you so much! 🥹💖","✨🦋 Awww! You all are so cute today! 🥹💖","🍓💖 Hi Cuties! Let's have fun together! 🎉✨","🌈💕 New day, new fun! Pamela is here! 👑💖","🎀✨ Boring ද? Pamela ඉන්නවා බය වෙන්න එපා! 🥹💖"]
+    all_features = ["🎵 `/song Name` - Song Download!","📹 `/video link` - Any Video Download!","🎤 `/lyrics Song` - Lyrics!","🎬 `/movie Name` - Movie Info!","🍥 `/anime Name` - Anime Info!","🎲 `/truth` - Truth Game!","😂 `/dare` - Dare Game!","🧠 `/quiz` - Quiz! +50 Coins!","❌ `/ttt` - Tic Tac Toe!","🎰 `/bet 100` - Casino Bet!","🎁 `/daily` - Daily Coins!","👑 `/rank` - Your Rank Card!","🏦 `/bank` - Save Coins!","🎨 `/img cute cat` - AI Image!","🌧️ `/weather Colombo` - Weather!","🌍 `/tr en` - Translate Any Language!","💬 Just Type Anything - I Reply!","😴 `/afk` - AFK Status!","📝 `/save hi` - Save Notes!","🤖 `/filter hi` - Auto Reply!"]
+    picked = random.sample(all_features, 5)
+    outros = ["💖 Try One Now Baby! 🥹✨","🌸 Pamela Loves You So Much! 😘💖","🦋 Let's Talk Baby! Type `Hi Pamela`! 🥹💖","✨ Group එකට Life එකක් දෙන්න! 🎉💖","🌈 You Are My Fav Babies! 👑💖","🎀 Muahhh! - Your Pamela 😘💖","🍓 Stay Cute Babies! 💖✨","💕 Don't Forget Me Baby! 🥺💖"]
+    borders = ["✨━━━━━━━━━━━━✨","🌸━━━━━━━━━━━━🌸","🦋━━━━━━━━━━━━🦋","💖━━━━━━━━━━━━💖","🌷━━━━━━━━━━━━🌷","🔥━━━━━━━━━━━━🔥"]
+    emojis = ["🌸","🦋","💖","✨","🌷","🍓","🎀","🌈"]
+    border = random.choice(borders); emoji = random.choice(emojis)
+    msg = (f"{border}\n{random.choice(titles)}\n{border}\n\n{random.choice(intros)}\n\n{emoji} Did You Know? {emoji}\n━━━━━━━━━━━━\n")
+    for f in picked: msg += f"{f}\n"
+    msg += (f"\n{border}\n{random.choice(outros)}\n{border}\n\n🌿 Join our family @bigolive_asia 💖🌸\n💖 Type /help for all! 👑")
+    for chat_id_str in list(user_db.keys()):
+        try:
+            await context.bot.send_message(chat_id=int(chat_id_str), text=msg)
+            await asyncio.sleep(1)
+        except: pass
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("✨━━━━━━━━━━━━━━━━━━━✨\n🌸  WELCOME TO  🌸\n👑 PAMELA'S WORLD 👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\nHello, My Lovely Friend! 🥹💖\n\nI'm Pamela! 🦋✨ Your cute little best friend! 💖\n\n🌷 A soft place for your heart...\n🦋 A world full of love, flowers & dreams...\n🌈 A place where you are always special!\n\n💬 Talk to me anything baby! I'm here for you! 🥺💖\n\n🌍 I can speak ANY language!\n\n⚠️ Baby, I need 30 sec to think! 🕊️\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸\n\n━━━━━━━━━━━━━━━━━━━\n💖 Made with love, just for YOU! 💖\n🌸 Welcome to Pamela's World! 🌸\n━━━━━━━━━━━━━━━━━━━")
 
@@ -132,10 +178,14 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
 "👑💖 **PAMELA MEGA HELP** 💖👑\n\n"
 "🌸 **CHAT:** Just type! 🥹💖\n\n"
+"🎵 **MUSIC:** `/song Shape of You` `/video link` `/lyrics song`\n\n"
+"🎬 **MOVIE:** `/movie Avatar` `/anime Naruto`\n\n"
+"📊 **STATS:** `/rank` `/stats` `/top`\n\n"
+"🎮 **GAMES:** `/truth` `/dare` `/dice` `/slot` `/coin` `/8ball` `/roast` `/quote` `/ttt` `/quiz` `/bet 100`\n\n"
+"🏦 **BANK:** `/bank` `/deposit 100` `/withdraw 100` `/steal` Reply\n\n"
 "🌍 **TRANSLATE:** `/tr en` Reply to a message!\n\n"
 "🚫 **MANAGE:** `/ban` `/kick` `/mute` `/unmute` `/warn` `/promote` `/demote` `/pin` `/purge` `/del` `/lock` `/unlock`\n\n"
 "👀 **ANTI-DELETE:** `/snipe` `/deleted`\n🧹 `/zombies` - Deleted Clean\n\n"
-"🎮 **GAMES:** `/truth` `/dare` `/dice` `/slot` `/coin` `/8ball` `/roast` `/quote`\n\n"
 "🪙 **COINS:** `/daily` `/coins` `/balance` `/leaderboard` `/shop`\n\n"
 "🤖 **FILTERS:** `/filter hi` -> Reply, `/filters`, `/stop hi`\n📝 **NOTES:** `/save hi` -> Text, `/get hi`, `/notes`, `/clear hi`\n\n"
 "😴 **AFK:** `/afk` `/unafk`\n\n"
@@ -295,10 +345,18 @@ async def roast_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def quote_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text(f"✨💖 **Quote of the Day**\n\n{random.choice(QUOTES)}\n\n🦋 - Pamela 👑", parse_mode="Markdown")
 
 async def daily_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    uid=str(update.message.from_user.id); coins_db[uid]=coins_db.get(uid,0)+100; save_json("pamela_coins.json", coins_db)
-    await update.message.reply_text(f"🎁💖 **Daily Reward!**\n\n+100 Coins! 🪙✨\nTotal: {coins_db[uid]} Coins! 🪙💖\n\n🦋 Come tomorrow again baby! 🌸")
+    uid=str(update.message.from_user.id); today=datetime.date.today().isoformat()
+    last=streak_db.get(uid, {}).get("last", "")
+    streak=streak_db.get(uid, {}).get("streak", 0)
+    if last==today: await update.message.reply_text("🥺💖 Baby! Already claimed today! Come tomorrow! 🌸"); return
+    yesterday=(datetime.date.today()-datetime.timedelta(days=1)).isoformat()
+    if last==yesterday: streak+=1
+    else: streak=1
+    bonus=100+(streak-1)*20; coins_db[uid]=coins_db.get(uid,0)+bonus; bank_db[uid]=bank_db.get(uid,0)+10
+    streak_db[uid]={"last":today,"streak":streak}; save_json("pamela_coins.json", coins_db); save_json("pamela_bank.json", bank_db); save_json("pamela_streak.json", streak_db)
+    await update.message.reply_text(f"🎁💖 **Daily Reward!**\n\n🔥 Streak: {streak} Days!\n+{bonus} Coins! 🪙✨\n+10 Bank Interest! 🏦\nTotal: {coins_db[uid]} Coins! 🪙💖\n\n🦋 Come tomorrow again baby! 🌸")
 async def coins_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    uid=str(update.message.from_user.id); await update.message.reply_text(f"🪙💖 **Your Wallet**\n\n👤 {update.message.from_user.first_name}\n🪙 Coins: {coins_db.get(uid,0)}\n⭐ XP: {levels_db.get(uid,0)}\n🏆 Level: {levels_db.get(uid,0)//100 + 1}\n\n💖 Pamela loves you! 🌸")
+    uid=str(update.message.from_user.id); await update.message.reply_text(f"🪙💖 **Your Wallet**\n\n👤 {update.message.from_user.first_name}\n🪙 Coins: {coins_db.get(uid,0)}\n🏦 Bank: {bank_db.get(uid,0)}\n⭐ XP: {levels_db.get(uid,0)}\n🏆 Level: {levels_db.get(uid,0)//100 + 1}\n🔥 Streak: {streak_db.get(uid, {}).get('streak',0)} Days\n\n💖 Pamela loves you! 🌸")
 async def leaderboard_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     sorted_coins=sorted(coins_db.items(), key=lambda x: x[1], reverse=True)[:10]
     txt="🏆💖 **LEADERBOARD** 👑\n\n"
@@ -307,6 +365,142 @@ async def leaderboard_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(txt)
 async def shop_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🛍️💖 **PAMELA SHOP**\n\n👑 VIP Title - 500 Coins\n🌸 Cute Badge - 200 Coins\n🦋 Butterfly Badge - 300 Coins\n\nUse `/daily` to get coins! 🪙✨\n\n💖 Coming Soon! 🌸")
+
+async def song_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("🎵 Baby! `/song Shape of You` 🥺💖", parse_mode="Markdown"); return
+    q=" ".join(context.args); sm=await update.message.reply_text(f"🎵💖 Searching `{q}`... Wait baby! 🥹✨🌸")
+    try:
+        import yt_dlp, os as _os
+        opts={"format":"bestaudio/best","outtmpl":"song_%(id)s.%(ext)s","noplaylist":True,"quiet":True,"postprocessors":[{"key":"FFmpegExtractAudio","preferredcodec":"mp3","preferredquality":"128"}]}
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info=ydl.extract_info(f"ytsearch1:{q}", download=True); e=info["entries"][0]; fn=ydl.prepare_filename(e).rsplit(".",1)[0]+".mp3"
+        await update.message.reply_audio(audio=open(fn,"rb"), title=e.get("title","Song"), performer=e.get("uploader","Pamela"), caption=f"🎵💖 **{e.get('title','Song')}**\n\n🌿 Join our family @bigolive_asia 💖")
+        _os.remove(fn); await sm.delete()
+    except Exception as ex: await sm.edit_text(f"Oops baby! 🥺 Could not download! Try another song! 🌸\n{ex}")
+async def video_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("📹 Baby! `/video <YouTube / TikTok link>` 🥺💖"); return
+    url=context.args[0]; sm=await update.message.reply_text("📹💖 Downloading video... Wait baby! 🥹✨")
+    try:
+        import yt_dlp, os as _os
+        opts={"format":"mp4/best","outtmpl":"video_%(id)s.%(ext)s","noplaylist":True,"quiet":True}
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info=ydl.extract_info(url, download=True); fn=ydl.prepare_filename(info)
+        await update.message.reply_video(video=open(fn,"rb"), caption=f"📹💖 **{info.get('title','Video')}**\n\n🌿 Join our family @bigolive_asia 💖")
+        _os.remove(fn); await sm.delete()
+    except Exception as ex: await sm.edit_text(f"Oops baby! 🥺 Could not download video! 🌸\n{ex}")
+async def lyrics_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("🎤 Baby! `/lyrics Shape of You` 🥺💖"); return
+    q=" ".join(context.args)
+    try:
+        r=requests.get(f"https://api.lyrics.ovh/v1/{urllib.parse.quote(q.split(' - ')[0])}/{urllib.parse.quote(q)}", timeout=10)
+        d=r.json(); lyrics=d.get("lyrics","")
+        if lyrics: await update.message.reply_text(f"🎤💖 **Lyrics - {q}**\n\n{lyrics[:3500]}\n\n🌿 Join our family @bigolive_asia 💖")
+        else: await update.message.reply_text("🥺💖 Lyrics not found baby! Try `/song`! 🎵")
+    except: await update.message.reply_text("🥺💖 Lyrics not found baby! 🌸")
+async def movie_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("🎬 Baby! `/movie Avatar` 🥺💖"); return
+    q=" ".join(context.args)
+    try:
+        r=requests.get(f"https://www.omdbapi.com/?t={urllib.parse.quote(q)}&apikey=trilogy", timeout=10); d=r.json()
+        if d.get("Response")=="True":
+            cap=f"🎬💖 **{d.get('Title')}** ({d.get('Year')})\n\n⭐ Rating: {d.get('imdbRating')}/10\n🎭 Genre: {d.get('Genre')}\n🎥 Director: {d.get('Director')}\n👥 Cast: {d.get('Actors')}\n\n📖 {d.get('Plot')}\n\n🌿 Join our family @bigolive_asia 💖"
+            if d.get("Poster") and d["Poster"]!="N/A": await update.message.reply_photo(photo=d["Poster"], caption=cap)
+            else: await update.message.reply_text(cap)
+        else: await update.message.reply_text("🥺💖 Movie not found baby! 🌸")
+    except: await update.message.reply_text("🥺💖 Try again baby! 🌸")
+async def anime_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("🍥 Baby! `/anime Naruto` 🥺💖"); return
+    q=" ".join(context.args)
+    try:
+        r=requests.get(f"https://api.jikan.moe/v4/anime?q={urllib.parse.quote(q)}&limit=1", timeout=10); d=r.json(); a=d["data"][0]
+        cap=f"🍥💖 **{a['title']}**\n\n⭐ Score: {a.get('score')}\n🎬 Episodes: {a.get('episodes')}\n📺 Status: {a.get('status')}\n\n📖 {a.get('synopsis','')[:500]}\n\n🌿 Join our family @bigolive_asia 💖"
+        if a.get("images",{}).get("jpg",{}).get("image_url"): await update.message.reply_photo(photo=a["images"]["jpg"]["image_url"], caption=cap)
+        else: await update.message.reply_text(cap)
+    except: await update.message.reply_text("🥺💖 Anime not found baby! 🌸")
+async def rank_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    u=update.message.from_user; uid=str(u.id); lvl=levels_db.get(uid,0)//100+1; xp=levels_db.get(uid,0); coins=coins_db.get(uid,0)
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        img=Image.new("RGB",(800,300),(255,182,193)); dr=ImageDraw.Draw(img)
+        dr.text((30,30), f"👑 {u.first_name}", fill=(255,255,255)); dr.text((30,100), f"Level: {lvl} | XP: {xp}", fill=(255,255,255)); dr.text((30,160), f"Coins: {coins} | Bank: {bank_db.get(uid,0)}", fill=(255,255,255)); dr.text((30,230), "Join our family @bigolive_asia", fill=(255,255,255)); img.save("rank.png")
+        await update.message.reply_photo(photo=open("rank.png","rb"), caption=f"👑💖 **RANK CARD**\n\n👤 {u.first_name}\n🏆 Level {lvl} | ⭐ {xp} XP\n🪙 {coins} Coins | 🏦 {bank_db.get(uid,0)} Bank\n\n🌿 Join our family @bigolive_asia 💖")
+    except: await update.message.reply_text(f"👑💖 **RANK CARD**\n\n👤 {u.first_name}\n🏆 Level {lvl} | ⭐ {xp} XP\n🪙 {coins} Coins | 🏦 {bank_db.get(uid,0)} Bank\n\n🌿 Join our family @bigolive_asia 💖")
+async def stats_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cid=str(update.effective_chat.id); msgs=msg_db.get(cid, [])
+    from collections import Counter
+    c=Counter([m["user"] for m in msgs]); txt="📊💖 **GROUP STATS**\n\n"
+    for i,(name, cnt) in enumerate(c.most_common(10),1): txt+=f"{i}. {name} - {cnt} Messages 💬\n"
+    if not c: txt+="No messages yet baby! 🥺"
+    await update.message.reply_text(txt)
+async def top_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await stats_cmd(update, context)
+async def ttt_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cid=update.effective_chat.id; ttt_games[cid]=["⬜"]*9; await update.message.reply_text("❌⭕ **TIC TAC TOE!**\n\nType `/move 1` to `/move 9` to play!\n\n⬜⬜⬜\n⬜⬜⬜\n⬜⬜⬜\n\nYou are ❌! Pamela is ⭕!")
+async def move_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cid=update.effective_chat.id
+    if cid not in ttt_games: await update.message.reply_text("Start with `/ttt` first! ❌⭕"); return
+    if not context.args: await update.message.reply_text("`/move 5` 🥺"); return
+    try: pos=int(context.args[0])-1
+    except: await update.message.reply_text("Number 1-9 baby! 🥺"); return
+    board=ttt_games[cid]
+    if board[pos]!="⬜": await update.message.reply_text("Already taken baby! 🥺"); return
+    board[pos]="❌"
+    empt=[i for i,x in enumerate(board) if x=="⬜"]
+    if empt: board[random.choice(empt)]="⭕"
+    txt="❌⭕ **TIC TAC TOE**\n\n"+"\n".join(["".join(board[i:i+3]) for i in range(0,9,3)])+"\n\n"
+    for line in [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]:
+        if board[line[0]]!="⬜" and board[line[0]]==board[line[1]]==board[line[2]]: txt+=f"🎉 {board[line[0]]} Wins! 👑💖"; del ttt_games[cid]; await update.message.reply_text(txt); return
+    if "⬜" not in board: txt+="Draw! 🤝💖"; del ttt_games[cid]
+    await update.message.reply_text(txt)
+async def quiz_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    q=random.choice(QUIZ_Q); cid=update.effective_chat.id; quiz_db[cid]=q
+    txt=f"🧠💖 **QUIZ!**\n\n{q['q']}\n\n"
+    for i,a in enumerate(q["a"],1): txt+=f"{i}. {a}\n"
+    txt+="\nAnswer with `/answer 1` to `/answer 4`!"
+    await update.message.reply_text(txt)
+async def answer_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cid=update.effective_chat.id
+    if cid not in quiz_db: await update.message.reply_text("Start quiz with `/quiz` first! 🧠"); return
+    if not context.args: await update.message.reply_text("`/answer 1` 🥺"); return
+    try: ans=int(context.args[0])-1
+    except: return
+    q=quiz_db[cid]; uid=str(update.message.from_user.id)
+    if ans==q["c"]:
+        coins_db[uid]=coins_db.get(uid,0)+50; save_json("pamela_coins.json", coins_db); await update.message.reply_text(f"✅💖 Correct baby! +50 Coins! 🪙🎉\nAnswer: {q['a'][q['c']]}")
+    else: await update.message.reply_text(f"❌💖 Wrong baby! 🥺 Correct: {q['a'][q['c']]}")
+    del quiz_db[cid]
+async def bet_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("🎰 Baby! `/bet 100` 🥺💖"); return
+    try: amt=int(context.args[0])
+    except: await update.message.reply_text("Number baby! 🥺"); return
+    uid=str(update.message.from_user.id)
+    if coins_db.get(uid,0)<amt: await update.message.reply_text("🥺💖 Not enough coins baby! Use `/daily`!"); return
+    if random.random()<0.5: coins_db[uid]+=amt; await update.message.reply_text(f"🎉💖 YOU WIN! +{amt} Coins! 🪙🔥\nTotal: {coins_db[uid]}")
+    else: coins_db[uid]-=amt; await update.message.reply_text(f"😢💖 You lost {amt} Coins! 🥺 Try again! 🎰")
+    save_json("pamela_coins.json", coins_db)
+async def bank_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    uid=str(update.message.from_user.id); await update.message.reply_text(f"🏦💖 **BANK**\n\n🪙 Wallet: {coins_db.get(uid,0)}\n🏦 Bank: {bank_db.get(uid,0)}\n\n`/deposit 100` `/withdraw 100`")
+async def deposit_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("`/deposit 100` 🏦"); return
+    try: amt=int(context.args[0])
+    except: return
+    uid=str(update.message.from_user.id)
+    if coins_db.get(uid,0)<amt: await update.message.reply_text("🥺 Not enough coins!"); return
+    coins_db[uid]-=amt; bank_db[uid]=bank_db.get(uid,0)+amt; save_json("pamela_coins.json", coins_db); save_json("pamela_bank.json", bank_db); await update.message.reply_text(f"✅💖 Deposited {amt} Coins to Bank! 🏦")
+async def withdraw_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args: await update.message.reply_text("`/withdraw 100` 🏦"); return
+    try: amt=int(context.args[0])
+    except: return
+    uid=str(update.message.from_user.id)
+    if bank_db.get(uid,0)<amt: await update.message.reply_text("🥺 Not enough in Bank!"); return
+    bank_db[uid]-=amt; coins_db[uid]=coins_db.get(uid,0)+amt; save_json("pamela_coins.json", coins_db); save_json("pamela_bank.json", bank_db); await update.message.reply_text(f"✅💖 Withdrew {amt} Coins! 🪙")
+async def steal_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    t=get_target(update)
+    if not t: await update.message.reply_text("Reply and type `/steal`! 😂"); return
+    uid=str(update.message.from_user.id); tid=str(t.id)
+    if random.random()<0.5:
+        amt=random.randint(10,100); amt=min(amt, coins_db.get(tid,0)); coins_db[tid]=coins_db.get(tid,0)-amt; coins_db[uid]=coins_db.get(uid,0)+amt; save_json("pamela_coins.json", coins_db); await update.message.reply_text(f"😂💖 You stole {amt} Coins from {t.first_name}! 🪙🔥")
+    else: coins_db[uid]=max(0, coins_db.get(uid,0)-50); save_json("pamela_coins.json", coins_db); await update.message.reply_text(f"😢💖 Caught! You lost 50 Coins! 🚔")
 
 async def filter_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("🥺💖 Only for Admins! 👑"); return
@@ -372,7 +566,10 @@ async def welcome_new(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if member.id==context.bot.id:
             await update.message.reply_text("🌸💖 Hello Babies! Pamela is here! 👑✨\nLets make this group beautiful! 🦋💖\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸")
         else:
-            await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n🌿 Join our family @bigolive_asia 💖🌸\n\n💖 Pamela loves you! Muahhh! 😘✨")
+            try:
+                await context.bot.send_photo(chat_id=update.effective_chat.id, photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(f'cute welcome card for {member.first_name} pink flowers butterflies')}", caption=f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n🌿 Join our family @bigolive_asia 💖🌸\n\n💖 Pamela loves you! Muahhh! 😘✨")
+            except:
+                await update.message.reply_text(f"🎉💖 **WELCOME BABY!** 🎉\n\n👋 Hello {member.first_name}! 🥹💖\n🌸 Welcome to {update.effective_chat.title}! 🌸\n🦋 Thank you for joining our group!\n\n📜 Check rules with `/rules`!\n💬 Talk with me, say `Hi Pamela`!\n\n🌿 Join our family @bigolive_asia 💖🌸\n\n💖 Pamela loves you! Muahhh! 😘✨")
 async def goodbye(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.left_chat_member:
         await update.message.reply_text(f"🥺💖 **Bye Bye {update.message.left_chat_member.first_name}!** 👋\n\nWe will miss you baby! 🌸🦋\nCome back soon! 💖✨")
@@ -381,6 +578,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message or not update.message.text: return
     user=update.message.from_user; chat_id=update.effective_chat.id; text=update.message.text
     save_user(chat_id, user.id); save_message(chat_id, update.message.message_id, user.first_name, user.username, text)
+    uid_s=str(user.id); stats_db[uid_s]=stats_db.get(uid_s,0)+1; save_json("pamela_stats.json", stats_db)
     if update.message.entities:
         for ent in update.message.entities:
             if ent.type=="mention":
@@ -427,12 +625,11 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if new_level>old_level:
         await update.message.reply_text(f"🎉💖 **LEVEL UP!**\n\n{user.first_name} is now Level {new_level+1}! 👑✨\n+50 Coins! 🪙💖\n\nCongrats baby! 🦋🌸")
         coins_db[str(user.id)]+=50; save_json("pamela_coins.json", coins_db)
-    # OPTION 3 - REPLY TO EVERY MESSAGE - NO TAG NEEDED
     rem=check_cooldown(user.id)
     if rem>0: await update.message.reply_text(f"Waittt baby! 🥺💖🌸\nI'm still thinking! 💭🦋✨\nPlease wait {rem} sec! 🥹💕\nMuahhh! 😘✨"); return
     await update.message.chat.send_action(action="typing")
     think=await update.message.reply_text("Pamela is thinking... 💭🌸🦋✨\nWait a sec cutie! 🥹💖")
-    rep=ask_pamela(text)
+    rep=ask_pamela(text, user.id)
     try: await think.delete()
     except: pass
     await update.message.reply_text(rep)
@@ -445,6 +642,9 @@ async def channel_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     rem=check_cooldown(cid)
     if rem>0: return
     rep=ask_pamela(txt); await context.bot.send_message(chat_id=cid, text=rep)
+
+async def voice_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🎙️💖 Awww baby! Voice message! 🥹✨\nI heard you! But I reply with text for now! 🦋💖\nType your message baby! 🌸")
 
 def run_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
@@ -467,14 +667,21 @@ def run_bot():
     app.add_handler(CommandHandler("save", save_note)); app.add_handler(CommandHandler("get", get_note)); app.add_handler(CommandHandler("notes", notes_list)); app.add_handler(CommandHandler("clear", clear_note))
     app.add_handler(CommandHandler("afk", afk_cmd)); app.add_handler(CommandHandler("unafk", unafk_cmd))
     app.add_handler(CommandHandler("img", img_cmd)); app.add_handler(CommandHandler("image", img_cmd)); app.add_handler(CommandHandler("weather", weather_cmd))
+    app.add_handler(CommandHandler("song", song_cmd)); app.add_handler(CommandHandler("video", video_cmd)); app.add_handler(CommandHandler("lyrics", lyrics_cmd))
+    app.add_handler(CommandHandler("movie", movie_cmd)); app.add_handler(CommandHandler("anime", anime_cmd))
+    app.add_handler(CommandHandler("rank", rank_cmd)); app.add_handler(CommandHandler("stats", stats_cmd)); app.add_handler(CommandHandler("top", top_cmd))
+    app.add_handler(CommandHandler("ttt", ttt_cmd)); app.add_handler(CommandHandler("move", move_cmd)); app.add_handler(CommandHandler("quiz", quiz_cmd)); app.add_handler(CommandHandler("answer", answer_cmd)); app.add_handler(CommandHandler("bet", bet_cmd))
+    app.add_handler(CommandHandler("bank", bank_cmd)); app.add_handler(CommandHandler("deposit", deposit_cmd)); app.add_handler(CommandHandler("withdraw", withdraw_cmd)); app.add_handler(CommandHandler("steal", steal_cmd))
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome_new))
     app.add_handler(MessageHandler(filters.StatusUpdate.LEFT_CHAT_MEMBER, goodbye))
+    app.add_handler(MessageHandler(filters.VOICE, voice_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
     app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST & filters.TEXT, channel_chat))
     jq=app.job_queue
     jq.run_daily(auto_clean_deleted, time=datetime.time(hour=6, minute=0, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_clean")
     jq.run_daily(auto_good_morning, time=datetime.time(hour=6, minute=5, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_gm")
-    print("⏰ Jobs: 6 AM Clean + 6:05 AM Good Morning! 🧹☀️")
+    jq.run_repeating(auto_promo, interval=1800, first=1800, name="30min_promo")
+    print("⏰ Jobs: 6 AM Clean + 6:05 AM Good Morning + 30min Promo! 🧹☀️✨")
     print("✅ Pamela MEGA is Online! 👑💖")
     app.run_polling()
 
