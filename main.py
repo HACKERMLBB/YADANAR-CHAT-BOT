@@ -1,4 +1,3 @@
-# PAMELA AI - FULL CODE SINGLE FILE - 100 PERCENT ENGLISH - OLD + ALL NEW - FIXED
 import os,time,threading,asyncio,requests,urllib.parse,random,json,datetime,pytz,subprocess,secrets,string
 from flask import Flask
 from telegram import Update
@@ -16,7 +15,7 @@ try:
  if _g: GROUP_IDS=[int(x.strip()) for x in _g.split(",") if x.strip()]
 except: GROUP_IDS=[]
 ACTIVE_CHATS=set(GROUP_IDS);last_request_times={};COOLDOWN_SECONDS=15
-warns={};afk_users={};filters_db={};notes_db={};coins_db={};levels_db={};user_db={};msg_db={};flood_db={};bank_db={};stats_db={};quiz_db={};ttt_games={};memory_db={};streak_db={};marry_db={};jail_db={};guess_db={};math_db={};word_db={};welcome_db={};rules_db={};birthday_db={};business_db={};stock_db={};loan_db={};event_db={};riddle_db={};chess_db={};giveaway_db={}
+warns={};afk_users={};filters_db={};notes_db={};coins_db={};levels_db={};user_db={};msg_db={};flood_db={};bank_db={};stats_db={};quiz_db={};ttt_games={};memory_db={};streak_db={};marry_db={};jail_db={};guess_db={};math_db={};word_db={};welcome_db={};rules_db={};birthday_db={};business_db={};stock_db={};loan_db={};event_db={};riddle_db={}
 def load_json(f,d):
  try:
   if os.path.exists(f):
@@ -55,7 +54,7 @@ def check_cooldown(cid):
  last_request_times[cid]=now;return 0
 def translate_text(t,lang):
  try:
-  r=requests.get(f"https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl={lang}&dt=t&q={urllib.parse.quote(t)}",timeout=10);d=r.json();return "".join([x[0] for x in d[0] if x[0]])
+  r=requests.get("https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl="+lang+"&dt=t&q="+urllib.parse.quote(t),timeout=10);d=r.json();return "".join([x[0] for x in d[0] if x[0]])
  except: return None
 CUTE_STARTS=["🌸💖 ","🦋✨ ","🌷💗 ","💖🌸 "]
 CUTE_ENDS=["\n\n💖🌸 Love you, baby! 🌸💖","\n\n🦋💕 Pamela loves you! 💕🦋","\n\n🌸✨ Stay cute, baby! ✨🌸"]
@@ -66,7 +65,7 @@ def ask_pamela(t,uid=None):
   if uid:
    hist=memory_db.get(str(uid),[])
    if hist: mem=" Past: "+" | ".join(hist[-5:])
-  p=("You are Pamela, CUTEST princess! Use LOTS cute emojis EVERY sentence! Be super cute, soft, baby-talk. Call user baby,cutie. Use hehe,awww,hihi,yayyy,muahhh. Keep short max 3-4 lines. Reply in EXACT SAME language as user! "+mem+f" User says: {t}")
+  p="You are Pamela, CUTEST princess! Use LOTS cute emojis EVERY sentence! Be super cute, soft, baby-talk. Call user baby,cutie. Use hehe,awww,hihi,yayyy,muahhh. Keep short max 3-4 lines. Reply in EXACT SAME language as user! "+mem+f" User says: {t}"
   res=requests.get("https://text.pollinations.ai/"+urllib.parse.quote(p),timeout=60)
   if res.status_code==200:
    rep=res.text.strip()
@@ -102,7 +101,7 @@ TAROTS=["The Star - Hope and dreams!","The Lovers - Love coming!","The Sun - Hap
 RIDDLES=[{"q":"I speak without a mouth and hear without ears. What am I?","a":"echo"},{"q":"What has keys but can't open locks?","a":"piano"},{"q":"What gets wetter the more it dries?","a":"towel"},{"q":"What has a face and two hands but no arms or legs?","a":"clock"},{"q":"What comes once in a minute, twice in a moment, but never in a thousand years?","a":"m"}]
 WYR=["Would you rather be rich or famous?","Would you rather fly or be invisible?","Would you rather have super strength or super speed?","Would you rather live in beach or mountain?","Would you rather be Pamela's best friend forever or have 1 million coins?"]
 NEVER=["Never have I ever lied to my best friend.","Never have I ever stalked my crush.","Never have I ever cried watching a movie.","Never have I ever eaten in class.","Never have I ever pretended to be sick to skip school."]
-async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
+async def auto_clean_deleted(context):
  for cid_str,uids in list(user_db.items()):
   cid=int(cid_str);banned=0
   for uid in list(uids):
@@ -117,34 +116,34 @@ async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
   if banned>0:
    try: await context.bot.send_message(chat_id=cid,text=f"🧹💖 6 AM Cleaning Done! Removed {banned} Deleted Accounts!")
    except: pass
-async def auto_good_morning(context: ContextTypes.DEFAULT_TYPE):
+async def auto_good_morning(context):
  for cid in get_all_chats():
   if cid>0: continue
   try: await context.bot.send_message(chat_id=cid,text=random.choice(GOOD_MORNING));await asyncio.sleep(1)
   except: pass
-async def auto_good_night(context: ContextTypes.DEFAULT_TYPE):
+async def auto_good_night(context):
  for cid in get_all_chats():
   if cid>0: continue
   try: await context.bot.send_message(chat_id=cid,text=random.choice(GOOD_NIGHT));await asyncio.sleep(1)
   except: pass
-async def auto_birthday_check(context: ContextTypes.DEFAULT_TYPE):
+async def auto_birthday_check(context):
  today=datetime.date.today().strftime("%d-%m")
  for cid_str,users in list(birthday_db.items()):
   for uid,info in list(users.items()):
    if info.get("date")==today:
     try: await context.bot.send_message(chat_id=int(cid_str),text=f"🎂🎉 HAPPY BIRTHDAY {info.get('name','Baby')}! 🎉🎂 Pamela loves you! Cake for you! 🎂💖 Join @bigolive_asia")
     except: pass
-async def auto_interest(context: ContextTypes.DEFAULT_TYPE):
+async def auto_interest(context):
  for uid in list(bank_db.keys()):
   b=int(bank_db[uid]*0.05)
   if b>0: bank_db[uid]+=b
  save_json("pamela_bank.json",bank_db)
-async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
- titles=["👑💖 PAMELA'S WORLD 💖👑","🌸✨ HEY BABIES! ✨🌸","🦋💕 PAMELA IS HERE! 💕🦋","🔥👑 ATTENTION BABIES! 👑🔥","💖🌷 MISS ME BABIES? 🌷💖"]
- intros=["🌸💖 Hello My Lovely Babies! How are you? 💖🌸","🦋✨ Is group sleeping? Pamela is here! Wake Up! ✨🦋","💕🌷 Miss me babies? I am back! Muahhh! 😘🌷","👑💖 Hey Hey! Pamela loves you so much! 💖👑"]
- feats=["🎵💖 /song Name - Song Download!","📹✨ /video link - Video Download!","🎤🌸 /lyrics Song - Lyrics!","🎬👑 /movie Name - Movie Info!","🍥🦋 /anime Name - Anime Info!","🎲💕 /truth - Truth Game!","😂🌸 /dare - Dare Game!","🧠✨ /quiz - Quiz! +50 Coins!","❌💖 /ttt - Tic Tac Toe!","🎰🔥 /bet 100 - Casino Bet!","🎁💖 /daily - Daily Coins!","👑✨ /rank - Rank Card!","🏦💰 /bank - Save Coins!","🎨🌸 /img cute cat - AI Image!","🌧️💖 /weather Colombo - Weather!","🌍✨ /tr en - Translate!","💬💖 Just Type - I Reply!","😴🌙 /afk - AFK!","📝💕 /save hi - Save Notes!","🤖✨ /filter hi - Auto Reply!","✂️🎲 /rps rock - Rock Paper Scissors!","🔤🌸 /word - Word Game!","🧮✨ /math - Math Race!","🎯💖 /guess - Guess Number!","🃏🔥 /blackjack - Blackjack!","🐎✨ /race - Horse Race!","💍💖 /marry - Marry!","💖🌸 /ship - Ship!","😂🔥 /jail - Jail!","💖✨ /love - Love %!","🤗💕 /hug - Hug!","💼💰 /work - Work for Coins!","🎟️✨ /lottery - Lottery!","🔮🌙 /horoscope - Horoscope!","🃏💖 /tarot - Tarot!","📖🌸 /story - AI Story!","🎙️✨ /say hi - Pamela Voice Text!","📸💖 /pfp - Profile Photo!","🏆👑 /profile - Full Profile!","📺🔥 /livetv - World Live TV 40+ Channels!","🌍💖 /worldtv - World TV Only!","🏏⚽ /sportstv - Sports Live TV!","📰✨ /news - Live News World!","🎬✂️ /trim - Video Cut!","📦💖 /compress - Video Compress!","🎵✨ /toaudio - Video to Audio!","🎞️🌸 /togif - Video to GIF!","🐢💕 /slowmo - Slow Motion!","🔄😂 /reverse - Reverse Video!","🎨👑 /imaginehd cute cat - 4K AI Image 4 Styles!","😍💖 /face - Face Age Mood Beauty!","✂️📸 /bgremove - Remove Background!","✨📸 /enhance - Photo HD!","🎵🤖 /aisong love - AI Song!","🕵️🔥 /mafia - Mafia Game!","🏆✨ /quizbattle - Quiz Tournament!","🔢💖 /bingo - Bingo!","🃏🔥 /poker - Poker!","🎴🌸 /uno - UNO!","🏏🔥 /cricket - Live Cricket!","⚽💖 /football - Live Football!","₿📈 /crypto - Bitcoin Live!","🥇✨ /gold - Gold Price!","📻🎵 /radio - Live Radio!","📚✨ /homework question - Homework Help!","📖💖 /dictionary love - Dictionary!","🧮💕 /solve 2+2 - Solve Math!","🏦😂 /loan 1000 - Bank Loan!","☕🔥 /business - Start Business!","📈😂 /stock - Stock Market!","💰✨ /interest - Bank Interest!","🎂🎉 /birthday 12-05 - Save Birthday!","⏰💖 /reminder 10 hello - Reminder!","🗳️✨ /poll Question | Yes | No - Poll!","🎉💖 /event Party | Tomorrow - Event!","🎤💖 /voice hi baby - Pamela AI Voice!","🎤🎵 /sing love - Pamela Sings!","🎤🔥 /rap - Pamela Rap!","📢💖 /shoutout Name - Voice Shoutout!","🎙️💖 /podcast love - AI Podcast!","🎬🤖 /aivideo cute cat dancing - AI Video!","🗣️💖 /talkingphoto - Photo Talks!","💋💖 /lipsync - Photo Lip Sync!","🔄💖 /faceswap - Face Swap!","👗💖 /outfit saree - AI Outfit!","👶💖 /babyface - Baby Photo!","👴💖 /oldface - Old Photo!","💑💖 /couplephoto - Couple Photo!","🎡🔥 /spin - Spin Wheel!","🤔💖 /wyr - Would You Rather!","🙈💖 /never - Never Have I Ever!","🧩💖 /riddle - Riddle Game!","♟️💖 /chess - Chess!","🎲💖 /ludo - Ludo!","📷💖 /qr hello - QR Code!","🔑💖 /password - Strong Password!","🔗💖 /shortlink link - Short Link!","📸💖 /screenshot link - Website Screenshot!","📄💖 /pdf hello - Make PDF!","🎭💖 /sticker - Photo to Sticker!","🌐🎤 /translatevoice en hi - Translate Voice!","🔮💖 /horoscopedaily - Daily Horoscope!","💘💖 /lovecalc - Love Calculator!","🌙💖 /dreammeaning dream - Dream Meaning!","☀️💖 /goodmorningphoto - GM Photo!","📸💖 /welcomephoto - Welcome Photo!","📊💖 /topweek - Top of Week!","👀💖 /activecheck - Active Check!","🎁💖 /giveaway prize - Giveaway!"]
+async def auto_promo(context):
+ titles=["👑💖 PAMELA'S WORLD 💖👑","🌸✨ HEY BABIES! ✨🌸","🦋💕 PAMELA IS HERE! 💕🦋"]
+ intros=["🌸💖 Hello My Lovely Babies! How are you? 💖🌸","🦋✨ Is group sleeping? Pamela is here! Wake Up! ✨🦋"]
+ feats=["🎵💖 /song Name - Song Download!","📹✨ /video link - Video Download!","🎤🌸 /lyrics Song - Lyrics!","🎬👑 /movie Name - Movie Info!","🍥🦋 /anime Name - Anime Info!","🎲💕 /truth - Truth Game!","😂🌸 /dare - Dare Game!","🧠✨ /quiz - Quiz! +50 Coins!","❌💖 /ttt - Tic Tac Toe!","🎰🔥 /bet 100 - Casino Bet!","🎁💖 /daily - Daily Coins!","👑✨ /rank - Rank Card!","🏦💰 /bank - Save Coins!","🎨🌸 /img cute cat - AI Image!","🌧️💖 /weather Colombo - Weather!","🌍✨ /tr en - Translate!","💬💖 Just Type - I Reply!","😴🌙 /afk - AFK!","📝💕 /save hi - Save Notes!","🤖✨ /filter hi - Auto Reply!","✂️🎲 /rps rock - Rock Paper Scissors!","🔤🌸 /word - Word Game!","🧮✨ /math - Math Race!","🎯💖 /guess - Guess Number!","🃏🔥 /blackjack - Blackjack!","🐎✨ /race - Horse Race!","💍💖 /marry - Marry!","💖🌸 /ship - Ship!","😂🔥 /jail - Jail!","💖✨ /love - Love %!","🤗💕 /hug - Hug!","💼💰 /work - Work for Coins!","🎟️✨ /lottery - Lottery!","🔮🌙 /horoscope - Horoscope!","🃏💖 /tarot - Tarot!","📖🌸 /story - AI Story!","📸💖 /pfp - Profile Photo!","🏆👑 /profile - Full Profile!","📺🔥 /livetv - World Live TV 40+ Channels!","🌍💖 /worldtv - World TV Only!","🏏⚽ /sportstv - Sports Live TV!","📰✨ /news - Live News World!","🎬✂️ /trim - Video Cut!","📦💖 /compress - Video Compress!","🎵✨ /toaudio - Video to Audio!","🎞️🌸 /togif - Video to GIF!","🐢💕 /slowmo - Slow Motion!","🔄😂 /reverse - Reverse Video!","🎨👑 /imaginehd cute cat - 4K AI Image 4 Styles!","😍💖 /face - Face Age Mood Beauty!","✂️📸 /bgremove - Remove Background!","✨📸 /enhance - Photo HD!","🎵🤖 /aisong love - AI Song!","🕵️🔥 /mafia - Mafia Game!","🏆✨ /quizbattle - Quiz Tournament!","🔢💖 /bingo - Bingo!","🃏🔥 /poker - Poker!","🎴🌸 /uno - UNO!","🏏🔥 /cricket - Live Cricket!","⚽💖 /football - Live Football!","₿📈 /crypto - Bitcoin Live!","🥇✨ /gold - Gold Price!","📻🎵 /radio - Live Radio!","📚✨ /homework question - Homework Help!","📖💖 /dictionary love - Dictionary!","🧮💕 /solve 2+2 - Solve Math!","🏦😂 /loan 1000 - Bank Loan!","☕🔥 /business - Start Business!","📈😂 /stock - Stock Market!","💰✨ /interest - Bank Interest!","🎂🎉 /birthday 12-05 - Save Birthday!","⏰💖 /reminder 10 hello - Reminder!","🗳️✨ /poll Question | Yes | No - Poll!","🎉💖 /event Party | Tomorrow - Event!","🎤💖 /voice hi baby - Pamela AI Voice!","🎤🎵 /sing love - Pamela Sings!","🎤🔥 /rap - Pamela Rap!","📢💖 /shoutout Name - Voice Shoutout!","🎙️💖 /podcast love - AI Podcast!","🎬🤖 /aivideo cute cat dancing - AI Video!","🗣️💖 /talkingphoto - Photo Talks!","💋💖 /lipsync - Photo Lip Sync!","🔄💖 /faceswap - Face Swap!","👗💖 /outfit saree - AI Outfit!","👶💖 /babyface - Baby Photo!","👴💖 /oldface - Old Photo!","💑💖 /couplephoto - Couple Photo!","🎡🔥 /spin - Spin Wheel!","🤔💖 /wyr - Would You Rather!","🙈💖 /never - Never Have I Ever!","🧩💖 /riddle - Riddle Game!","♟️💖 /chess - Chess!","🎲💖 /ludo - Ludo!","📷💖 /qr hello - QR Code!","🔑💖 /password - Strong Password!","🔗💖 /shortlink link - Short Link!","📸💖 /screenshot link - Website Screenshot!","📄💖 /pdf hello - Make PDF!","🎭💖 /sticker - Photo to Sticker!","🌐🎤 /translatevoice en hi - Translate Voice!","🔮💖 /horoscopedaily - Daily Horoscope!","💘💖 /lovecalc - Love Calculator!","🌙💖 /dreammeaning dream - Dream Meaning!","☀️💖 /goodmorningphoto - GM Photo!","📸💖 /welcomephoto - Welcome Photo!","📊💖 /topweek - Top of Week!","👀💖 /activecheck - Active Check!","🎁💖 /giveaway prize - Giveaway!"]
  picked=feats.copy();random.shuffle(picked)
- border=random.choice(["✨━━━━━━━━━━━━✨","🌸━━━━━━━━━━━━🌸","🦋━━━━━━━━━━━━🦋","💖━━━━━━━━━━━━💖"])
+ border="✨━━━━━━━━━━━━✨"
  msg=f"{border}\n{random.choice(titles)}\n{border}\n\n{random.choice(intros)}\n\n💖✨ Did You Know? ✨💖\n━━━━━━━━━━━━\n"
  for f in picked: msg+=f"{f}\n"
  msg+=f"\n{border}\n💖🌸 Try One Now Baby! 🌸💖\n{border}\n\n🌿💖 Join our family @bigolive_asia 💖🌿\n💖✨ Type /help for all! ALL FREE! 👑✨\n🌸💕 Love you babies! Muahhh! 💕🌸"
@@ -152,15 +151,15 @@ async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
   if cid>0: continue
   try: await context.bot.send_message(chat_id=cid,text=msg);await asyncio.sleep(1)
   except: pass
-async def auto_daily_quote(context: ContextTypes.DEFAULT_TYPE):
+async def auto_daily_quote(context):
  for cid in get_all_chats():
   if cid>0: continue
   try: await context.bot.send_message(chat_id=cid,text=f"✨💖 Daily Quote 💖✨\n\n🌸 {random.choice(QUOTES)} 🌸\n\n- Pamela 💕");await asyncio.sleep(1)
   except: pass
-async def auto_daily_meme(context: ContextTypes.DEFAULT_TYPE):
+async def auto_daily_meme(context):
  for cid in get_all_chats():
   if cid>0: continue
-  try: await context.bot.send_photo(chat_id=cid,photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('funny cute meme')}",caption="😂💖 Daily Meme! - Pamela 💖😂");await asyncio.sleep(1)
+  try: await context.bot.send_photo(chat_id=cid,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('funny cute meme'),caption="😂💖 Daily Meme! - Pamela 💖😂");await asyncio.sleep(1)
   except: pass
 async def test_promo_cmd(u,c):
  save_chat_id(u.effective_chat.id);await u.message.reply_text("🌸💖 Testing Promo... 💖🌸");await auto_promo(c);await u.message.reply_text("✅💖 Promo Test Done! 💖✅")
@@ -179,11 +178,11 @@ async def tr_cmd(u,c):
  tr=translate_text(txt,lang)
  if tr: await u.message.reply_text(f"🌍✨ Translated to {lang.upper()} ✨🌍:\n\n💖 {tr} 💖")
  else: await u.message.reply_text("😭💖 Oops baby! Try again! 💖😭")
-async def livetv_cmd(u,c): await u.message.reply_text("📺👑 PAMELA WORLD LIVE TV - ALL FREE! 👑📺\n\n🇱🇰 SRI LANKA:\nHiru TV - https://www.youtube.com/@HiruTV/live\nSirasa TV - https://www.youtube.com/@SirasaTV/live\nDerana TV - https://www.youtube.com/@TVDerana/live\nITN - https://www.youtube.com/@ITNSriLanka/live\nRupavahini - https://www.youtube.com/@SriRupavahini/live\nSwarnavahini - https://www.youtube.com/@Swarnavahini/live\n\n🇱🇰 NEWS:\nHiru News - https://www.youtube.com/@HiruNews/live\nNewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\nAda Derana - https://www.youtube.com/@AdaDerana/live\n\n🌍 WORLD:\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\nFrance 24 - https://www.youtube.com/@FRANCE24English/live\nDW - https://www.youtube.com/@dwnews/live\nEuronews - https://www.youtube.com/@euronews/live\nBloomberg - https://www.youtube.com/@BloombergTelevision/live\nNDTV - https://www.youtube.com/@NDTV/live\nWION - https://www.youtube.com/@WION/live\n\n🇮🇳 INDIA:\nAaj Tak - https://www.youtube.com/@aajtak/live\nIndia Today - https://www.youtube.com/@IndiaToday/live\nRepublic TV - https://www.youtube.com/@RepublicWorld/live\n\n🇺🇸 USA:\nABC News - https://www.youtube.com/@ABCNews/live\nNBC News - https://www.youtube.com/@NBCNews/live\nFox News - https://www.youtube.com/@FoxNews/live\n\n🏏⚽ SPORTS:\nSky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\nESPN - https://www.youtube.com/@ESPN/live\nSky Sports Football - https://www.youtube.com/@SkySportsFootball/live\nWWE - https://www.youtube.com/@WWE/live\nF1 - https://www.youtube.com/@F1/live\n\n🎵 MUSIC:\nMTV - https://www.youtube.com/@MTV/live\nLofi Girl - https://www.youtube.com/@LofiGirl/live\n\n💖🌸 Enjoy Baby! - Pamela 🌸💖\n🌿 Join @bigolive_asia 💖")
-async def worldtv_cmd(u,c): await u.message.reply_text("🌍👑 PAMELA WORLD TV! 👑🌍\n\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\nFrance 24 - https://www.youtube.com/@FRANCE24English/live\nDW - https://www.youtube.com/@dwnews/live\n\n💖🌸 Enjoy World TV Baby! - Pamela 🌸💖")
+async def livetv_cmd(u,c): await u.message.reply_text("📺👑 PAMELA WORLD LIVE TV - ALL FREE! 👑📺\n\nSRI LANKA:\nHiru TV - https://www.youtube.com/@HiruTV/live\nSirasa TV - https://www.youtube.com/@SirasaTV/live\nDerana TV - https://www.youtube.com/@TVDerana/live\nITN - https://www.youtube.com/@ITNSriLanka/live\n\nNEWS:\nHiru News - https://www.youtube.com/@HiruNews/live\nNewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\nAda Derana - https://www.youtube.com/@AdaDerana/live\n\nWORLD:\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\nFrance 24 - https://www.youtube.com/@FRANCE24English/live\nDW - https://www.youtube.com/@dwnews/live\n\nSPORTS:\nSky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\nESPN - https://www.youtube.com/@ESPN/live\nWWE - https://www.youtube.com/@WWE/live\nF1 - https://www.youtube.com/@F1/live\n\n💖🌸 Enjoy Baby! - Pamela 🌸💖\n🌿 Join @bigolive_asia 💖")
+async def worldtv_cmd(u,c): await u.message.reply_text("🌍👑 PAMELA WORLD TV! 👑🌍\n\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\n\n💖🌸 Enjoy World TV Baby! - Pamela 🌸💖")
 async def sportstv_cmd(u,c): await u.message.reply_text("🏏⚽ PAMELA SPORTS TV! ⚽🏏\n\nSky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\nESPN - https://www.youtube.com/@ESPN/live\nSky Sports Football - https://www.youtube.com/@SkySportsFootball/live\nWWE - https://www.youtube.com/@WWE/live\nF1 - https://www.youtube.com/@F1/live\n\n💖🌸 Enjoy Sports Baby! - Pamela 🌸💖")
 async def tv_cmd(u,c): await livetv_cmd(u,c)
-async def news_cmd(u,c): await u.message.reply_text("📰🌍 LIVE NEWS WORLD! 🌍📰\n\n🇱🇰 Hiru News - https://www.youtube.com/@HiruNews/live\nNewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\nAda Derana - https://www.youtube.com/@AdaDerana/live\n\n🌍 BBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\n\n💖🌸 Stay Updated Baby! - Pamela 🌸💖")
+async def news_cmd(u,c): await u.message.reply_text("📰🌍 LIVE NEWS WORLD! 🌍📰\n\nHiru News - https://www.youtube.com/@HiruNews/live\nNewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\nAda Derana - https://www.youtube.com/@AdaDerana/live\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\n\n💖🌸 Stay Updated Baby! - Pamela 🌸💖")
 async def hiru_cmd(u,c): await u.message.reply_text("📺💖 Hiru TV Live! 💖📺\nhttps://www.youtube.com/@HiruTV/live\n\n💖 Enjoy Baby! - Pamela 💖")
 async def sirasa_cmd(u,c): await u.message.reply_text("📺💖 Sirasa TV Live! 💖📺\nhttps://www.youtube.com/@SirasaTV/live\n\n💖 Enjoy Baby! - Pamela 💖")
 async def derana_cmd(u,c): await u.message.reply_text("📺💖 Derana TV Live! 💖📺\nhttps://www.youtube.com/@TVDerana/live\n\n💖 Enjoy Baby! - Pamela 💖")
@@ -326,7 +325,7 @@ async def unlock_cmd(u,c):
 async def rules_cmd(u,c):
  cid=str(u.effective_chat.id);custom=rules_db.get(cid,"")
  if custom: await u.message.reply_text(f"📜💖 GROUP RULES 💖📜\n\n{custom}");return
- await u.message.reply_text("📜💖 GROUP RULES 💖📜\n\n1. 🌸 Be kind baby!\n2. 💖 No bad words!\n3. ✨ No spam!\n4. 🦋 Respect everyone!\n5. 👑 Love Pamela's World!\n\n💖 Break rules = Warn / Ban! 💖")
+ await u.message.reply_text("📜💖 GROUP RULES 💖📜\n\n1. Be kind baby!\n2. No bad words!\n3. No spam!\n4. Respect everyone!\n5. Love Pamela's World!\n\n💖 Break rules = Warn / Ban! 💖")
 async def setrules_cmd(u,c):
  if not await is_admin(u,u.message.from_user.id): await u.message.reply_text("Only for Admins!");return
  if not c.args: await u.message.reply_text("Use /setrules Your rules here");return
@@ -346,7 +345,7 @@ async def report_cmd(u,c):
  try:
   admins=await u.effective_chat.get_administrators()
   for a in admins:
-   try: await c.bot.send_message(chat_id=a.user.id,text=f"🚨 REPORT in {u.effective_chat.title} User: {t.first_name} Reported by: {u.message.from_user.first_name}")
+   try: await c.bot.send_message(chat_id=a.user.id,text=f"REPORT in {u.effective_chat.title} User: {t.first_name} Reported by: {u.message.from_user.first_name}")
    except: pass
   await u.message.reply_text("✅💖 Reported to Admins! Thank you baby! 💖✅")
  except Exception as e: await u.message.reply_text(f"Oops! {e}")
@@ -475,7 +474,7 @@ async def lyrics_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /lyrics Shape of You");return
  q=" ".join(c.args)
  try:
-  r=requests.get(f"https://api.lyrics.ovh/v1/{urllib.parse.quote(q.split(' - ')[0])}/{urllib.parse.quote(q)}",timeout=10);d=r.json();lyrics=d.get("lyrics","")
+  r=requests.get("https://api.lyrics.ovh/v1/"+urllib.parse.quote(q.split(" - ")[0])+"/"+urllib.parse.quote(q),timeout=10);d=r.json();lyrics=d.get("lyrics","")
   if lyrics: await u.message.reply_text(f"🎤💖 Lyrics - {q} 💖🎤\n\n{lyrics[:3500]}\nJoin @bigolive_asia 💖")
   else: await u.message.reply_text("💖 Lyrics not found baby! Try /song! 💖")
  except: await u.message.reply_text("💖 Lyrics not found baby! 💖")
@@ -483,7 +482,7 @@ async def movie_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /movie Avatar");return
  q=" ".join(c.args)
  try:
-  r=requests.get(f"https://www.omdbapi.com/?t={urllib.parse.quote(q)}&apikey=trilogy",timeout=10);d=r.json()
+  r=requests.get("https://www.omdbapi.com/?t="+urllib.parse.quote(q)+"&apikey=trilogy",timeout=10);d=r.json()
   if d.get("Response")=="True":
    cap=f"🎬💖 {d.get('Title')} ({d.get('Year')}) 💖🎬\nRating: {d.get('imdbRating')}/10 ⭐\nGenre: {d.get('Genre')}\nDirector: {d.get('Director')}\nCast: {d.get('Actors')}\nPlot: {d.get('Plot')}\nJoin @bigolive_asia 💖"
    if d.get("Poster") and d["Poster"]!="N/A": await u.message.reply_photo(photo=d["Poster"],caption=cap)
@@ -494,7 +493,7 @@ async def anime_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /anime Naruto");return
  q=" ".join(c.args)
  try:
-  r=requests.get(f"https://api.jikan.moe/v4/anime?q={urllib.parse.quote(q)}&limit=1",timeout=10);d=r.json();a=d["data"][0];cap=f"🍥💖 {a['title']} 💖🍥\nScore: {a.get('score')}\nEpisodes: {a.get('episodes')}\nStatus: {a.get('status')}\nSynopsis: {a.get('synopsis','')[:500]}\nJoin @bigolive_asia 💖"
+  r=requests.get("https://api.jikan.moe/v4/anime?q="+urllib.parse.quote(q)+"&limit=1",timeout=10);d=r.json();a=d["data"][0];cap=f"🍥💖 {a['title']} 💖🍥\nScore: {a.get('score')}\nEpisodes: {a.get('episodes')}\nStatus: {a.get('status')}\nSynopsis: {a.get('synopsis','')[:500]}\nJoin @bigolive_asia 💖"
   if a.get("images",{}).get("jpg",{}).get("image_url"): await u.message.reply_photo(photo=a["images"]["jpg"]["image_url"],caption=cap)
   else: await u.message.reply_text(cap)
  except: await u.message.reply_text("Anime not found baby!")
@@ -698,12 +697,12 @@ async def pfp_cmd(u,c):
  except Exception as e: await u.message.reply_text(f"Oops! {e}")
 async def cartoon_cmd(u,c):
  if not u.message.reply_to_message or not u.message.reply_to_message.photo: await u.message.reply_text("Reply to a photo and type /cartoon!");return
- try: await u.message.reply_text("Making cartoon... Wait!");await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute cartoon style portrait')}",caption="🎨💖 Cartoon Version! - Pamela 💖🎨")
+ try: await u.message.reply_text("Making cartoon... Wait!");await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute cartoon style portrait'),caption="🎨💖 Cartoon Version! - Pamela 💖🎨")
  except: await u.message.reply_text("Oops!")
 async def meme_cmd(u,c):
- txt=" ".join(c.args) if c.args else "funny cute meme";await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(txt)}",caption=f"😂💖 MEME - {txt} - Pamela 💖😂")
+ txt=" ".join(c.args) if c.args else "funny cute meme";await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(txt),caption=f"😂💖 MEME - {txt} - Pamela 💖😂")
 async def wallpaper_cmd(u,c):
- q=" ".join(c.args) if c.args else "cute pink wallpaper";await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(q+' hd wallpaper')}",caption=f"🌸💖 WALLPAPER - {q} - Pamela 💖🌸")
+ q=" ".join(c.args) if c.args else "cute pink wallpaper";await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(q+' hd wallpaper'),caption=f"🌸💖 WALLPAPER - {q} - Pamela 💖🌸")
 async def filter_cmd(u,c):
  if not await is_admin(u,u.message.from_user.id): await u.message.reply_text("Only for Admins!");return
  if len(c.args)<2: await u.message.reply_text("Use like /filter hi Hello Baby!");return
@@ -746,19 +745,19 @@ async def unafk_cmd(u,c):
 async def img_cmd(u,c):
  if not c.args: await u.message.reply_text("Use like /img cute cat!");return
  prompt=" ".join(c.args);await u.message.reply_text(f"🎨💖 Generating... Wait baby! 💖🎨\nPrompt: {prompt}")
- try: url=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt)}";await u.message.reply_photo(photo=url,caption=f"🎨💖 Your Image! 💖🎨\nPrompt: {prompt}\nPamela loves you! 💖")
+ try: url="https://image.pollinations.ai/prompt/"+urllib.parse.quote(prompt);await u.message.reply_photo(photo=url,caption=f"🎨💖 Your Image! 💖🎨\nPrompt: {prompt}\nPamela loves you! 💖")
  except: await u.message.reply_text("Oops baby! Could not make image!")
 async def weather_cmd(u,c):
  city=" ".join(c.args) if c.args else "Colombo"
  try:
-  url=f"https://wttr.in/{urllib.parse.quote(city)}?format=j1";r=requests.get(url,timeout=10);d=r.json();cur=d['current_condition'][0];await u.message.reply_text(f"🌧️💖 Weather in {city} 💖🌧️\nTemp: {cur['temp_C']}C\nCondition: {cur['weatherDesc'][0]['value']}\nHumidity: {cur['humidity']}%\nWind: {cur['windspeedKmph']} km/h\nPamela loves you! 💖")
+  url="https://wttr.in/"+urllib.parse.quote(city)+"?format=j1";r=requests.get(url,timeout=10);d=r.json();cur=d['current_condition'][0];await u.message.reply_text(f"🌧️💖 Weather in {city} 💖🌧️\nTemp: {cur['temp_C']}C\nCondition: {cur['weatherDesc'][0]['value']}\nHumidity: {cur['humidity']}%\nWind: {cur['windspeedKmph']} km/h\nPamela loves you! 💖")
  except: await u.message.reply_text("Oops baby! Could not check weather!")
 async def imaginehd_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /imaginehd cute cat");return
  prompt=" ".join(c.args);await u.message.reply_text(f"🎨💖 Generating 4K HD 4 Styles... Wait baby! Prompt: {prompt} 💖🎨")
  styles=["ultra realistic 4k","anime style","cute cartoon","cinematic"]
  for s in styles:
-  try: await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt+' '+s+' hd 4k')}",caption=f"🎨💖 HD - {s} - {prompt} - Pamela 💖")
+  try: await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(prompt+' '+s+' hd 4k'),caption=f"🎨💖 HD - {s} - {prompt} - Pamela 💖")
   except: pass
 async def face_cmd(u,c):
  if not u.message.reply_to_message or not u.message.reply_to_message.photo: await u.message.reply_text("Reply to a Photo and type /face!");return
@@ -797,7 +796,7 @@ async def gold_cmd(u,c):
  try:
   r=requests.get("https://data-asg.goldprice.org/dbXRates/USD",timeout=10);d=r.json();price=d["items"][0]["curr"];await u.message.reply_text(f"🥇💖 GOLD PRICE LIVE! 💖🥇\n\nGold (1 oz): ${price}\nGold (1g): ${price/31.1:.2f}\n\nCheck: https://goldprice.org\n- Pamela 💖")
  except: await u.message.reply_text("🥇 GOLD PRICE!\n\nCheck Live: https://goldprice.org\nGold is shining like you baby! - Pamela")
-async def radio_cmd(u,c): await u.message.reply_text("📻💖 LIVE RADIO! 💖📻\n\n🇱🇰 Hiru FM - https://www.hirufm.lk\nY FM - https://www.yfm.lk\nGold FM - https://www.goldfm.lk\n\n🌍 BBC Radio - https://www.bbc.co.uk/sounds\nLofi Radio - https://www.youtube.com/@LofiGirl/live\n\nEnjoy Music Baby! - Pamela 💖")
+async def radio_cmd(u,c): await u.message.reply_text("📻💖 LIVE RADIO! 💖📻\n\nHiru FM - https://www.hirufm.lk\nY FM - https://www.yfm.lk\nGold FM - https://www.goldfm.lk\n\nBBC Radio - https://www.bbc.co.uk/sounds\nLofi Radio - https://www.youtube.com/@LofiGirl/live\n\nEnjoy Music Baby! - Pamela 💖")
 async def homework_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /homework What is photosynthesis?");return
  q=" ".join(c.args);rep=ask_pamela(f"Explain homework simply for student, step by step, easy: {q}");await u.message.reply_text(f"📚💖 HOMEWORK HELP! 💖📚\nQ: {q}\n\n{rep}")
@@ -805,7 +804,7 @@ async def dictionary_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /dictionary love");return
  w=c.args[0]
  try:
-  r=requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{urllib.parse.quote(w)}",timeout=10);d=r.json();m=d[0]["meanings"][0];defi=m["definitions"][0]["definition"];await u.message.reply_text(f"📖💖 DICTIONARY - {w.upper()} 💖📖\n\nMeaning: {defi}\nPart: {m.get('partOfSpeech','')}\nExample: {m['definitions'][0].get('example','No example')}\n- Pamela 💖")
+  r=requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/"+urllib.parse.quote(w),timeout=10);d=r.json();m=d[0]["meanings"][0];defi=m["definitions"][0]["definition"];await u.message.reply_text(f"📖💖 DICTIONARY - {w.upper()} 💖📖\n\nMeaning: {defi}\nPart: {m.get('partOfSpeech','')}\nExample: {m['definitions'][0].get('example','No example')}\n- Pamela 💖")
  except: await u.message.reply_text(f"Dictionary: {w} - Could not find! Try another word baby!")
 async def solve_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /solve 2+2*5");return
@@ -881,7 +880,7 @@ def make_voice_file(text,lang="en",fname="voice.mp3"):
   from gtts import gTTS;t=gTTS(text=text,lang=lang,slow=False);t.save(fname);return fname
  except:
   try:
-   r=requests.get(f"https://translate.google.com/translate_tts?ie=UTF-8&q={urllib.parse.quote(text[:200])}&tl={lang}&client=tw-ob",headers={"User-Agent":"Mozilla/5.0"},timeout=15)
+   r=requests.get("https://translate.google.com/translate_tts?ie=UTF-8&q="+urllib.parse.quote(text[:200])+"&tl="+lang+"&client=tw-ob",headers={"User-Agent":"Mozilla/5.0"},timeout=15)
    open(fname,"wb").write(r.content);return fname
   except: return None
 async def voice_cmd(u,c):
@@ -914,17 +913,17 @@ async def podcast_cmd(u,c):
  if f and os.path.exists(f): await u.message.reply_voice(voice=open(f,"rb"),caption="🎙️💖 Podcast Voice! 💖🎙️");os.remove(f)
  await sm.delete()
 async def translatevoice_cmd(u,c):
- if len(c.args)<2: await u.message.reply_text("Use /translatevoice si Hello baby - si=en,ta,hi,fr,de,es");return
+ if len(c.args)<2: await u.message.reply_text("Use /translatevoice en Hello baby");return
  lang=c.args[0];txt=" ".join(c.args[1:]);tr=translate_text(txt,lang) or txt;sm=await u.message.reply_text(f"🌐🎤 Translating Voice to {lang}... 💖");f=make_voice_file(tr,lang if lang in ["en","si","ta","hi","fr","de","es"] else "en",f"tv_{u.message.from_user.id}.mp3");await u.message.reply_text(f"🌐🎤 TRANSLATE VOICE - {lang} 💖\nOriginal: {txt}\nTranslated: {tr}")
  if f and os.path.exists(f): await u.message.reply_voice(voice=open(f,"rb"),caption=f"🌐🎤 Voice in {lang}! 💖");os.remove(f)
  await sm.delete()
 async def aivideo_cmd(u,c):
  prompt=" ".join(c.args) if c.args else "cute cat dancing";await u.message.reply_text(f"🎬🤖 AI Video Generating... Prompt: {prompt} 💖")
- try: await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt+' cinematic video frame hd')}",caption=f"🎬🤖 AI VIDEO FRAME - {prompt} 💖🤖\nFull Video: Use /video + /slowmo /reverse to make video fun!\nPamela AI Video - ALL FREE! 💖")
+ try: await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(prompt+' cinematic video frame hd'),caption=f"🎬🤖 AI VIDEO FRAME - {prompt} 💖🤖\nFull Video: Use /video + /slowmo /reverse to make video fun!\nPamela AI Video - ALL FREE! 💖")
  except: await u.message.reply_text(f"AI Video Idea: {prompt} - Pamela loves it!")
 async def talkingphoto_cmd(u,c):
  if not u.message.reply_to_message or not u.message.reply_to_message.photo: await u.message.reply_text("Reply to a Photo and type /talkingphoto!");return
- txt=" ".join(c.args) if c.args else "Hello baby! I am talking! Pamela made me talk!";await u.message.reply_photo(photo=u.message.reply_to_message.photo[-1].file_id,caption=f"🗣️💖 TALKING PHOTO! 💖🗣️\nPhoto says: {txt}\n\nUse /voice {txt} to hear voice too! 💖")
+ txt=" ".join(c.args) if c.args else "Hello baby! I am talking! Pamela made me talk!";await u.message.reply_photo(photo=u.message.reply_to_message.photo[-1].file_id,caption=f"🗣️💖 TALKING PHOTO! 💖🗣️\nPhoto says: {txt}\n\nUse /voice to hear voice too! 💖")
  f=make_voice_file(txt,"en",f"talk_{u.message.from_user.id}.mp3")
  if f and os.path.exists(f): await u.message.reply_voice(voice=open(f,"rb"),caption="🗣️💖 Talking Photo Voice! 💖");os.remove(f)
 async def lipsync_cmd(u,c):
@@ -932,15 +931,15 @@ async def lipsync_cmd(u,c):
  txt=" ".join(c.args) if c.args else "La la la Pamela loves you!";await u.message.reply_photo(photo=u.message.reply_to_message.photo[-1].file_id,caption=f"💋💖 LIP SYNC! 💖💋\nLip Sync Text: {txt}\n\nPhoto is singing! 🎵💖\nUse /sing to hear song!")
 async def faceswap_cmd(u,c):
  if not u.message.reply_to_message or not u.message.reply_to_message.photo: await u.message.reply_text("Reply to a Photo and type /faceswap!");return
- await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute face swap portrait, beautiful person, hd')}",caption="🔄💖 FACE SWAP - AI Style! 💖🔄\nYour face + AI Style = New Look!\nTry /outfit /babyface /oldface too! - Pamela 💖")
+ await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute face swap portrait, beautiful person, hd'),caption="🔄💖 FACE SWAP - AI Style! 💖🔄\nYour face + AI Style = New Look!\nTry /outfit /babyface /oldface too! - Pamela 💖")
 async def outfit_cmd(u,c):
- style=" ".join(c.args) if c.args else "princess dress";await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(f'beautiful girl wearing {style}, full body, hd, cute')}",caption=f"👗💖 AI OUTFIT - {style} 💖👗\nYou look GORGEOUS baby! - Pamela 💖\nTry: /outfit saree /outfit suit /outfit princess dress")
+ style=" ".join(c.args) if c.args else "princess dress";await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f'beautiful girl wearing {style}, full body, hd, cute'),caption=f"👗💖 AI OUTFIT - {style} 💖👗\nYou look GORGEOUS baby! - Pamela 💖\nTry: /outfit saree /outfit suit /outfit princess dress")
 async def babyface_cmd(u,c):
- await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute baby face, adorable baby, big eyes, hd')}",caption="👶💖 BABY FACE! 💖👶\nAwww so cute! You were this cute baby! - Pamela 💖\nTry /oldface too!")
+ await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute baby face, adorable baby, big eyes, hd'),caption="👶💖 BABY FACE! 💖👶\nAwww so cute! You were this cute baby! - Pamela 💖\nTry /oldface too!")
 async def oldface_cmd(u,c):
- await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('old person face, wise, cute grandma grandpa, hd')}",caption="👴💖 OLD FACE! 💖👴\nWhen you are old, you will still be cute! - Pamela 💖")
+ await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('old person face, wise, cute grandma grandpa, hd'),caption="👴💖 OLD FACE! 💖👴\nWhen you are old, you will still be cute! - Pamela 💖")
 async def couplephoto_cmd(u,c):
- await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute couple photo, romantic, pink background, holding hands, hd')}",caption="💑💖 COUPLE PHOTO! 💖💑\nSo romantic! Pamela loves love! 💖\nUse /ship to check love %!")
+ await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute couple photo, romantic, pink background, holding hands, hd'),caption="💑💖 COUPLE PHOTO! 💖💑\nSo romantic! Pamela loves love! 💖\nUse /ship to check love %!")
 async def spin_cmd(u,c):
  prizes=["100 Coins","50 Coins","Free Hug from Pamela","200 Coins","Cute Badge","0 Coins - Try Again","500 Coins JACKPOT","Pamela Kiss"];p=random.choice(prizes);uid=str(u.message.from_user.id)
  if "Coins" in p and "0" not in p:
@@ -967,7 +966,7 @@ async def ludo_cmd(u,c):
  dice=[random.randint(1,6) for _ in range(4)];await u.message.reply_text(f"🎲💖 LUDO! 💖🎲\n\nYour Dice: {dice}\nPamela Dice: {[random.randint(1,6) for _ in range(4)]}\n\nWinner: {random.choice(['You Win! +100 Coins!','Pamela Wins!','Draw!'])}\nType /ludo again! 💖")
 async def qr_cmd(u,c):
  txt=" ".join(c.args) if c.args else "Pamela Loves You"
- try: await u.message.reply_photo(photo=f"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={urllib.parse.quote(txt)}",caption=f"📷💖 QR CODE! 💖📷\nText: {txt}\nScan it baby! - Pamela 💖")
+ try: await u.message.reply_photo(photo="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+urllib.parse.quote(txt),caption=f"📷💖 QR CODE! 💖📷\nText: {txt}\nScan it baby! - Pamela 💖")
  except: await u.message.reply_text(f"QR for: {txt}")
 async def password_cmd(u,c):
  length=12;chars=string.ascii_letters+string.digits+"!@#$%";pw="".join(secrets.choice(chars) for _ in range(length));await u.message.reply_text(f"🔑💖 STRONG PASSWORD! 💖🔑\n\nPassword: `{pw}`\n\nKeep it secret baby! Do not share! - Pamela 💖")
@@ -983,7 +982,7 @@ async def shortlink_cmd(u,c):
   await u.message.reply_text(f"🔗💖 SHORT LINK! 💖🔗\nOriginal: {url}\nTry is.gd baby! - Pamela 💖")
 async def screenshot_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /screenshot https://google.com");return
- url=c.args[0];await u.message.reply_photo(photo=f"https://image.thum.io/get/width/800/{urllib.parse.quote(url)}",caption=f"📸💖 WEBSITE SCREENSHOT! 💖📸\nWebsite: {url}\n- Pamela 💖")
+ url=c.args[0];await u.message.reply_photo(photo="https://image.thum.io/get/width/800/"+urllib.parse.quote(url),caption=f"📸💖 WEBSITE SCREENSHOT! 💖📸\nWebsite: {url}\n- Pamela 💖")
 async def pdf_cmd(u,c):
  txt=" ".join(c.args) if c.args else "Pamela Loves You"
  try:
@@ -994,20 +993,20 @@ async def sticker_cmd(u,c):
  try: await u.message.reply_sticker(sticker=u.message.reply_to_message.photo[-1].file_id)
  except: await u.message.reply_text("🎭💖 STICKER! Reply Photo -> Sticker! Try again baby! 💖")
 async def lovecalc_cmd(u,c):
- t=get_target(u);name=t.first_name if t else u.message.from_user.first_name;pct=random.randint(50,100);await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute love calculator hearts pink')}",caption=f"💘💖 LOVE CALCULATOR! 💖💘\n{u.message.from_user.first_name} + {name} = {pct}% Love!\n{'Perfect Match! Soulmates!' if pct>85 else 'So Cute Together!' if pct>70 else 'Cute Couple!'}\n- Pamela 💖")
+ t=get_target(u);name=t.first_name if t else u.message.from_user.first_name;pct=random.randint(50,100);await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute love calculator hearts pink'),caption=f"💘💖 LOVE CALCULATOR! 💖💘\n{u.message.from_user.first_name} + {name} = {pct}% Love!\n{'Perfect Match! Soulmates!' if pct>85 else 'So Cute Together!' if pct>70 else 'Cute Couple!'}\n- Pamela 💖")
 async def horoscopedaily_cmd(u,c): await u.message.reply_text(f"🔮💖 DAILY HOROSCOPE! 💖🔮\n\n🌸 {random.choice(HOROSCOPES)} 🌸\n\nCome tomorrow again baby! - Pamela 💖")
-async```python
 async def dreammeaning_cmd(u,c):
  dream=" ".join(c.args) if c.args else "flying";rep=ask_pamela(f"What does dreaming about {dream} mean? Explain cute short");await u.message.reply_text(f"🌙💖 DREAM MEANING - {dream} 💖🌙\n\n{rep}")
-async def goodmorningphoto_cmd(u,c): await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute good morning flowers sunrise hearts pink')}",caption="☀️💖 GOOD MORNING BABY! 💖☀️\nHave a beautiful day! Pamela loves you! 🌸💖")
+async def goodmorningphoto_cmd(u,c): await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('cute good morning flowers sunrise hearts pink'),caption="☀️💖 GOOD MORNING BABY! 💖☀️\nHave a beautiful day! Pamela loves you! 🌸💖")
 async def welcomephoto_cmd(u,c):
- name=u.message.from_user.first_name;await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(f'cute welcome card for {name} pink flowers')}",caption=f"📸💖 WELCOME PHOTO for {name}! 💖📸\nWelcome to Pamela's World! - Pamela 💖")
+ name=u.message.from_user.first_name;await u.message.reply_photo(photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f'cute welcome card for {name} pink flowers'),caption=f"📸💖 WELCOME PHOTO for {name}! 💖📸\nWelcome to Pamela's World! - Pamela 💖")
 async def topweek_cmd(u,c):
  cid=str(u.effective_chat.id);msgs=msg_db.get(cid,[])
  from collections import Counter;cc=Counter([m["user"] for m in msgs]);txt="📊💖 TOP OF WEEK! 💖📊\n\n"
  for i,(name,cnt) in enumerate(cc.most_common(5),1): txt+=f"{i}. {name} - {cnt} Messages 💬\n"
  if not cc: txt+="💖 No messages yet! 💖"
  await u.message.reply_text(txt)
+async def```python
 async def activecheck_cmd(u,c):
  users=user_db.get(str(u.effective_chat.id),[]);await u.message.reply_text(f"👀💖 ACTIVE CHECK! 💖👀\n\nTotal Members Tracked: {len(users)}\nActive Today: {len([m for m in msg_db.get(str(u.effective_chat.id),[]) if datetime.datetime.fromtimestamp(m['time']).date()==datetime.date.today()])} Messages Today!\n\nSay Hi if you are active baby! - Pamela 💖")
 async def giveaway_cmd(u,c):
@@ -1022,7 +1021,7 @@ async def welcome_new(u,c):
    custom=welcome_db.get(str(u.effective_chat.id),"")
    if custom: txt=f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n✨━━━━━━━━━━━━━━━━━━━✨\n\n{custom}\n\n🦋💕 Pamela loves you! 💕🦋\n🌿 Join @bigolive_asia 💖"
    else: txt=f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n👑✨ {member.first_name} ✨👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\n🦋💕 Helloooo Cutie Pie! 💕🦋\n🌷💖 Welcome to {u.effective_chat.title}! 💖🌷\n\n🎀✨ You are SO cute today! ✨🎀\n💐💖 Thank you for joining us baby! 💖💐\n\n📜💕 Check Rules with /rules 💕📜\n💬🌸 Talk with me! Say Hi Pamela! 🌸💬\n🎁🎵 Songs! Games! TV! All FREE! 🎵🎁\n\n🌿💖 Join our family @bigolive_asia 💖🌿\n💖🌸 Pamela loves you! Muahhh! 😘🌸💖"
-   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote(f'cute welcome card for {member.first_name} pink flowers butterflies hearts')}",caption=txt)
+   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f'cute welcome card for {member.first_name} pink flowers butterflies hearts'),caption=txt)
    except: await u.message.reply_text(txt)
 async def goodbye(u,c):
  if u.message.left_chat_member: await u.message.reply_text(f"😭💔 BYE BYE BABY! 💔😭\n\n🌸💖 {u.message.left_chat_member.first_name} left us! 💖🌸\n🦋💕 We will MISS you so much baby! 💕🦋\n🌷✨ Come back soon cutie! ✨🌷\n💖 Muahhh! Love you! 💖")
