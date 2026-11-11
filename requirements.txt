@@ -4,3 +4,5 @@ requests
 pytz
 yt-dlp
 Pillow
+gTTS
+qrcode
