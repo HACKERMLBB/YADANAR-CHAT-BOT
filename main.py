@@ -1,4 +1,4 @@
-# PAMELA AI - FULL CODE SINGLE FILE - ALL FREE - OLD + ALL NEW - NO REMOVE
+# PAMELA AI - FULL CODE SINGLE FILE - 100 PERCENT ENGLISH - OLD + ALL NEW - FIXED
 import os,time,threading,asyncio,requests,urllib.parse,random,json,datetime,pytz,subprocess,secrets,string
 from flask import Flask
 from telegram import Update
@@ -876,7 +876,6 @@ async def event_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /event Party | Tomorrow 7PM | Group Party!");return
  parts=" ".join(c.args).split("|");name=parts[0].strip();when=parts[1].strip() if len(parts)>1 else "Soon";desc=parts[2].strip() if len(parts)>2 else "Fun Event!"
  cid=str(u.effective_chat.id);event_db[cid]={"name":name,"when":when,"desc":desc,"by":u.message.from_user.first_name};save_json("pamela_event.json",event_db);await u.message.reply_text(f"🎉💖 EVENT CREATED! 💖🎉\n\nName: {name}\nWhen: {when}\nAbout: {desc}\nBy: {u.message.from_user.first_name}\n\nEveryone Join! - Pamela 💖")
-# ===== NEW ALL FEATURES - OLD NOT CHANGED =====
 def make_voice_file(text,lang="en",fname="voice.mp3"):
  try:
   from gtts import gTTS;t=gTTS(text=text,lang=lang,slow=False);t.save(fname);return fname
@@ -976,9 +975,12 @@ async def shortlink_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /shortlink https://google.com");return
  url=c.args[0]
  try:
-  r=requests.get(f"https://is.gd/create.php?format=simple&url={urllib```python
-.quote(url)}",timeout=10);short=r.text.strip();await u.message.reply_text(f"🔗💖 SHORT LINK! 💖🔗\n\nOriginal: {url}\nShort: {short}\n\nShare it baby! - Pamela 💖")
- except: await u.message.reply_text(f"🔗💖 SHORT LINK! 💖🔗\nOriginal: {url}\nTry is.gd baby! - Pamela 💖")
+  short_url="https://is.gd/create.php?format=simple&url=" + urllib.parse.quote(url)
+  r=requests.get(short_url,timeout=10)
+  short=r.text.strip()
+  await u.message.reply_text(f"🔗💖 SHORT LINK! 💖🔗\n\nOriginal: {url}\nShort: {short}\n\nShare it baby! - Pamela 💖")
+ except:
+  await u.message.reply_text(f"🔗💖 SHORT LINK! 💖🔗\nOriginal: {url}\nTry is.gd baby! - Pamela 💖")
 async def screenshot_cmd(u,c):
  if not c.args: await u.message.reply_text("Use /screenshot https://google.com");return
  url=c.args[0];await u.message.reply_photo(photo=f"https://image.thum.io/get/width/800/{urllib.parse.quote(url)}",caption=f"📸💖 WEBSITE SCREENSHOT! 💖📸\nWebsite: {url}\n- Pamela 💖")
@@ -994,6 +996,7 @@ async def sticker_cmd(u,c):
 async def lovecalc_cmd(u,c):
  t=get_target(u);name=t.first_name if t else u.message.from_user.first_name;pct=random.randint(50,100);await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute love calculator hearts pink')}",caption=f"💘💖 LOVE CALCULATOR! 💖💘\n{u.message.from_user.first_name} + {name} = {pct}% Love!\n{'Perfect Match! Soulmates!' if pct>85 else 'So Cute Together!' if pct>70 else 'Cute Couple!'}\n- Pamela 💖")
 async def horoscopedaily_cmd(u,c): await u.message.reply_text(f"🔮💖 DAILY HOROSCOPE! 💖🔮\n\n🌸 {random.choice(HOROSCOPES)} 🌸\n\nCome tomorrow again baby! - Pamela 💖")
+async```python
 async def dreammeaning_cmd(u,c):
  dream=" ".join(c.args) if c.args else "flying";rep=ask_pamela(f"What does dreaming about {dream} mean? Explain cute short");await u.message.reply_text(f"🌙💖 DREAM MEANING - {dream} 💖🌙\n\n{rep}")
 async def goodmorningphoto_cmd(u,c): await u.message.reply_photo(photo=f"https://image.pollinations.ai/prompt/{urllib.parse.quote('cute good morning flowers sunrise hearts pink')}",caption="☀️💖 GOOD MORNING BABY! 💖☀️\nHave a beautiful day! Pamela loves you! 🌸💖")
