@@ -14,7 +14,7 @@ try:
  _g=os.getenv("GROUP_IDS","")
  if _g: GROUP_IDS=[int(x.strip()) for x in _g.split(",") if x.strip()]
 except: GROUP_IDS=[]
-ACTIVE_CHATS=set(GROUP_IDS);last={};COOL=15
+ACTIVE=set(GROUP_IDS);last={};COOL=15
 warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};flood={};bank={};stats={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={};riddle={}
 def LJ(f,d):
  try:
@@ -32,13 +32,13 @@ def save_u(cid,uid):
  if cid not in users: users[cid]=[]
  if uid not in users[cid]: users[cid].append(uid);SJ("pamela_users.json",users)
 def all_chats():
- s=set(ACTIVE_CHATS)
+ s=set(ACTIVE)
  for k in list(users.keys()):
   if str(k).lstrip("-").isdigit(): s.add(int(k))
  for g in GROUP_IDS: s.add(g)
  return list(s)
 def save_c(cid):
- try: ACTIVE_CHATS.add(int(cid));save_u(cid,0)
+ try: ACTIVE.add(int(cid));save_u(cid,0)
  except: pass
 def save_m(cid,mid,uname,un,txt):
  cid=str(cid)
@@ -47,7 +47,7 @@ def save_m(cid,mid,uname,un,txt):
  if len(msgs[cid])>200: msgs[cid]=msgs[cid][-200:]
  SJ("pamela_messages.json",msgs)
 def cool(cid):
- n=time.time();l=last.get(cid,0);r=COOL-(n-l)
+ n=time.time();r=COOL-(n-last.get(cid,0))
  if r>0: return int(r)
  last[cid]=n;return 0
 def tr_txt(t,lang):
@@ -165,8 +165,7 @@ async def tr_cmd(u,c):
  if u.message.reply_to_message and u.message.reply_to_message.text: txt=u.message.reply_to_message.text
  elif len(c.args)>1: txt=" ".join(c.args[1:])
  else: await u.message.reply_text("💖 Reply to a text baby! 💖");return
- tr=tr_txt(txt,lang)
- await u.message.reply_text(f"🌍✨ Translated to {lang.upper()} ✨🌍:\n\n💖 {tr} 💖" if tr else "😭💖 Oops baby! Try again! 💖😭")
+ tr=tr_txt(txt,lang);await u.message.reply_text(f"🌍✨ Translated to {lang.upper()} ✨🌍:\n\n💖 {tr} 💖" if tr else "😭💖 Oops baby! Try again! 💖😭")
 async def livetv(u,c): await u.message.reply_text("📺👑 PAMELA WORLD LIVE TV - ALL FREE! 👑📺\n\nSRI LANKA:\nHiru TV - https://www.youtube.com/@HiruTV/live\nSirasa TV - https://www.youtube.com/@SirasaTV/live\nDerana TV - https://www.youtube.com/@TVDerana/live\nITN - https://www.youtube.com/@ITNSriLanka/live\n\nNEWS:\nHiru News - https://www.youtube.com/@HiruNews/live\nNewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\nAda Derana - https://www.youtube.com/@AdaDerana/live\n\nWORLD:\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\nFrance 24 - https://www.youtube.com/@FRANCE24English/live\nDW - https://www.youtube.com/@dwnews/live\n\nSPORTS:\nSky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\nESPN - https://www.youtube.com/@ESPN/live\nWWE - https://www.youtube.com/@WWE/live\nF1 - https://www.youtube.com/@F1/live\n\n💖🌸 Enjoy Baby! - Pamela 🌸💖\n🌿 Join @bigolive_asia 💖")
 async def worldtv(u,c): await u.message.reply_text("🌍👑 PAMELA WORLD TV! 👑🌍\n\nBBC - https://www.youtube.com/@BBCNews/live\nCNN - https://www.youtube.com/@CNN/live\nAl Jazeera - https://www.youtube.com/@AlJazeeraEnglish/live\nSky News - https://www.youtube.com/@SkyNews/live\n\n💖🌸 Enjoy World TV Baby! - Pamela 🌸💖")
 async def sportstv(u,c): await u.message.reply_text("🏏⚽ PAMELA SPORTS TV! ⚽🏏\n\nSky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\nESPN - https://www.youtube.com/@ESPN/live\nSky Sports Football - https://www.youtube.com/@SkySportsFootball/live\nWWE - https://www.youtube.com/@WWE/live\nF1 - https://www.youtube.com/@F1/live\n\n💖🌸 Enjoy Sports Baby! - Pamela 🌸💖")
@@ -969,8 +968,7 @@ async def welcome_new(u,c):
   else:
    custom=welcome.get(str(u.effective_chat.id),"")
    txt=f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n✨━━━━━━━━━━━━━━━━━━━✨\n\n{custom}\n\n🦋💕 Pamela loves you! 💕🦋\n🌿 Join @bigolive_asia 💖" if custom else f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n👑✨ {member.first_name} ✨👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\n🦋💕 Helloooo Cutie Pie! 💕🦋\n🌷💖 Welcome to {u.effective_chat.title}! 💖🌷\n\n🎀✨ You are SO cute today! ✨🎀\n💐💖 Thank you for joining us baby! 💖💐\n\n📜💕 Check Rules with /rules 💕📜\n💬🌸 Talk with me! Say Hi Pamela! 🌸💬\n🎁🎵 Songs! Games! TV! All FREE! 🎵🎁\n\n🌿💖 Join our family @bigolive_asia 💖🌿\n💖🌸 Pamela loves you! Muahhh! 😘🌸💖"
-   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f```python
-'cute welcome card for {member.first_name} pink flowers butterflies hearts'),caption=txt)
+   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f'cute welcome card for {member.first_name} pink flowers butterflies hearts'),caption=txt)
    except: await u.message.reply_text(txt)
 async def goodbye(u,c):
  if u.message.left_chat_member: await u.message.reply_text(f"😭💔 BYE BYE BABY! 💔😭\n\n🌸💖 {u.message.left_chat_member.first_name} left us! 💖🌸\n🦋💕 We will MISS you so much baby! 💕🦋\n🌷✨ Come back soon cutie! ✨🌷\n💖 Muahhh! Love you! 💖")
