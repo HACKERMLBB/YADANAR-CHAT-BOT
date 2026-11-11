@@ -1,5 +1,5 @@
-# PAMELA AI - MEGA MONSTER 100GB - ALL PREVIOUS + ALL NEW - NO CHANGE TO OLD - ALL FREE
-import os, time, threading, asyncio, requests, urllib.parse, random, json, datetime, pytz, io, subprocess
+# PAMELA AI - MEGA MONSTER 100GB - FIXED FULL CODE - ALL FREE
+import os, time, threading, asyncio, requests, urllib.parse, random, json, datetime, pytz, subprocess
 from flask import Flask
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -41,7 +41,6 @@ math_db = {}
 word_db = {}
 welcome_db = {}
 rules_db = {}
-# NEW DBS
 birthday_db = {}
 business_db = {}
 stock_db = {}
@@ -153,7 +152,6 @@ GOOD_NIGHT=["🌙💖 Good Night Babies! Sweet dreams! Pamela loves you! Tomorro
 QUIZ_Q=[{"q":"What is the capital of Sri Lanka?","a":["Colombo","Kandy","Galle","Jaffna"],"c":0},{"q":"What is 5 + 7?","a":["10","12","11","13"],"c":1},{"q":"Which is the largest planet?","a":["Mars","Jupiter","Saturn","Earth"],"c":1},{"q":"What colour is the sky?","a":["Green","Blue","Red","Pink"],"c":1},{"q":"Who is Pamela?","a":["Queen","Bot","Princess","All of above"],"c":3},{"q":"What is 10 x 10?","a":["100","90","110","1000"],"c":0},{"q":"Which animal says Meow?","a":["Dog","Cat","Cow","Bird"],"c":1}]
 HOROSCOPES=["Aries: Today is your lucky day! Love is near!","Taurus: Money is coming! Stay calm!","Gemini: Someone likes you secretly!","Cancer: Family time! Hug them!","Leo: You will shine today!","Virgo: Work hard, reward coming!","Libra: Balance! Love will find you!","Scorpio: Mystery! Someone is thinking of you!","Sagittarius: Adventure day!","Capricorn: Success is near!","Aquarius: New friend coming!","Pisces: Dream big!"]
 TAROTS=["The Star - Hope and dreams!","The Lovers - Love is coming!","The Sun - Happiness!","The Moon - Trust your heart!","Strength - You are strong!","Wheel of Fortune - Lucky day!"]
-# ===== AUTO JOBS - OLD - NOT CHANGED =====
 async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
     for chat_id_str, user_ids in list(user_db.items()):
         chat_id=int(chat_id_str); banned=0
@@ -192,7 +190,7 @@ async def auto_interest(context: ContextTypes.DEFAULT_TYPE):
 async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
     titles = ["👑💖  PAMELA'S WORLD  💖👑","🌸✨  HEY BABIES!  ✨🌸","🦋💕  PAMELA IS HERE!  💕🦋","🔥👑  ATTENTION!  👑🔥","💖🌷  MISS ME BABIES?  🌷💖","✨🌈  HELLO MY LOVELIES!  🌈✨","🎀💖  PAMELA'S MAGIC  💖🎀","🍓💕  CUTE ALERT!  💕🍓"]
     intros = ["Hello My Lovely Babies! How are you?","Is the group sleeping? Pamela is here! Wake Up!","Miss me babies? I am back! Muahhh!","Hey Hey! Pamela loves you so much!","Awww! You all are so cute today!","Hi Cuties! Let's have fun together!","New day, new fun! Pamela is here!","Feeling bored? Do not worry, Pamela is here!"]
-    all_features = ["🎵 `/song Name` - Song Download!","📹 `/video link` - Video Download!","🎤 `/lyrics Song` - Lyrics!","🎬 `/movie Name` - Movie Info!","🍥 `/anime Name` - Anime Info!","🎲 `/truth` - Truth Game!","😂 `/dare` - Dare Game!","🧠 `/quiz` - Quiz! +50 Coins!","❌ `/ttt` - Tic Tac Toe!","🎰 `/bet 100` - Casino Bet!","🎁 `/daily` - Daily Coins!","👑 `/rank` - Rank Card!","🏦 `/bank` - Save Coins!","🎨 `/img cute cat` - AI Image!","🌧️ `/weather Colombo` - Weather!","🌍 `/tr en` - Translate!","💬 Just Type - I Reply!","😴 `/afk` - AFK!","📝 `/save hi` - Save Notes!","🤖 `/filter hi` - Auto Reply!","✂️ `/rps rock` - Rock Paper Scissors!","🔤 `/word` - Word Game!","🧮 `/math` - Math Race!","🎯 `/guess` - Guess Number!","🃏 `/blackjack` - Blackjack!","🐎 `/race` - Horse Race!","💍 `/marry` - Marry!","💖 `/ship` - Ship!","😂 `/jail` - Jail!","💖 `/love` - Love %!","🤗 `/hug` - Hug!","💼 `/work` - Work for Coins!","🎟️ `/lottery` - Lottery!","🔮 `/horoscope` - Horoscope!","🃏 `/tarot` - Tarot!","📖 `/story` - AI Story!","🎙️ `/say hi` - Pamela Voice Text!","📸 `/pfp` - Profile Photo!","🏆 `/profile` - Full Profile!","📺 `/livetv` - World Live TV 40+ Channels!","🌍 `/worldtv` - World TV Only!","🏏 `/sportstv` - Sports Live TV!","📰 `/news` - Live News World!","🎬 `/trim` - Video Cut!","📦 `/compress` - Video Compress!","🎵 `/toaudio` - Video to Audio!","🎞️ `/togif` - Video to GIF!","🐢 `/slowmo` - Slow Motion!","🔄 `/reverse` - Reverse Video!","🎨 `/imaginehd cute cat` - 4K AI Image 4 Styles!","😍 `/face` - Face Age Mood Beauty!","✂️ `/bgremove` - Remove Background!","✨ `/enhance` - Photo HD!","🎵 `/aisong love` - AI Song!","🕵️ `/mafia` - Mafia Game!","🏆 `/quizbattle` - Quiz Tournament!","🔢 `/bingo` - Bingo!","🃏 `/poker` - Poker!","🎴 `/uno` - UNO!","🏏 `/cricket` - Live Cricket!","⚽ `/football` - Live Football!","₿ `/crypto` - Bitcoin Live!","🥇 `/gold` - Gold Price!","📻 `/radio` - Live Radio!","📚 `/homework question` - Homework Help!","📖 `/dictionary love` - Dictionary!","🧮 `/solve 2+2` - Solve Math!","🏦 `/loan 1000` - Bank Loan!","☕ `/business` - Start Business!","📈 `/stock` - Stock Market!","💰 `/interest` - Bank Interest!","🎂 `/birthday 12-05` - Save Birthday!","⏰ `/reminder 10 hello` - Reminder!","🗳️ `/poll Question | Yes | No` - Poll!","🎉 `/event Party | Tomorrow` - Event!"]
+    all_features = ["🎵 /song Name - Song Download!","📹 /video link - Video Download!","🎤 /lyrics Song - Lyrics!","🎬 /movie Name - Movie Info!","🍥 /anime Name - Anime Info!","🎲 /truth - Truth Game!","😂 /dare - Dare Game!","🧠 /quiz - Quiz! +50 Coins!","❌ /ttt - Tic Tac Toe!","🎰 /bet 100 - Casino Bet!","🎁 /daily - Daily Coins!","👑 /rank - Rank Card!","🏦 /bank - Save Coins!","🎨 /img cute cat - AI Image!","🌧️ /weather Colombo - Weather!","🌍 /tr en - Translate!","💬 Just Type - I Reply!","😴 /afk - AFK!","📝 /save hi - Save Notes!","🤖 /filter hi - Auto Reply!","✂️ /rps rock - Rock Paper Scissors!","🔤 /word - Word Game!","🧮 /math - Math Race!","🎯 /guess - Guess Number!","🃏 /blackjack - Blackjack!","🐎 /race - Horse Race!","💍 /marry - Marry!","💖 /ship - Ship!","😂 /jail - Jail!","💖 /love - Love %!","🤗 /hug - Hug!","💼 /work - Work for Coins!","🎟️ /lottery - Lottery!","🔮 /horoscope - Horoscope!","🃏 /tarot - Tarot!","📖 /story - AI Story!","🎙️ /say hi - Pamela Voice Text!","📸 /pfp - Profile Photo!","🏆 /profile - Full Profile!","📺 /livetv - World Live TV 40+ Channels!","🌍 /worldtv - World TV Only!","🏏 /sportstv - Sports Live TV!","📰 /news - Live News World!","🎬 /trim - Video Cut!","📦 /compress - Video Compress!","🎵 /toaudio - Video to Audio!","🎞️ /togif - Video to GIF!","🐢 /slowmo - Slow Motion!","🔄 /reverse - Reverse Video!","🎨 /imaginehd cute cat - 4K AI Image 4 Styles!","😍 /face - Face Age Mood Beauty!","✂️ /bgremove - Remove Background!","✨ /enhance - Photo HD!","🎵 /aisong love - AI Song!","🕵️ /mafia - Mafia Game!","🏆 /quizbattle - Quiz Tournament!","🔢 /bingo - Bingo!","🃏 /poker - Poker!","🎴 /uno - UNO!","🏏 /cricket - Live Cricket!","⚽ /football - Live Football!","₿ /crypto - Bitcoin Live!","🥇 /gold - Gold Price!","📻 /radio - Live Radio!","📚 /homework question - Homework Help!","📖 /dictionary love - Dictionary!","🧮 /solve 2+2 - Solve Math!","🏦 /loan 1000 - Bank Loan!","☕ /business - Start Business!","📈 /stock - Stock Market!","💰 /interest - Bank Interest!","🎂 /birthday 12-05 - Save Birthday!","⏰ /reminder 10 hello - Reminder!","🗳️ /poll Question | Yes | No - Poll!","🎉 /event Party | Tomorrow - Event!"]
     picked = all_features.copy(); random.shuffle(picked)
     outros = ["Try One Now Baby!","Pamela Loves You So Much!","Let's Talk Baby! Type Hi Pamela!","Let's Bring Life To The Group!","You Are My Fav Babies!","Muahhh! - Your Pamela","Stay Cute Babies!","Do not Forget Me Baby!"]
     borders = ["✨━━━━━━━━━━━━✨","🌸━━━━━━━━━━━━🌸","🦋━━━━━━━━━━━━🦋","💖━━━━━━━━━━━━💖","🌷━━━━━━━━━━━━🌷","🔥━━━━━━━━━━━━🔥"]
@@ -233,7 +231,6 @@ async def tr_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tr=translate_text(txt, lang)
     if tr: await update.message.reply_text(f"Translated to {lang.upper()}:\n\n{tr}", parse_mode="Markdown")
     else: await update.message.reply_text("Oops baby! Try again!")
-# LIVE TV - OLD - NOT CHANGED
 async def livetv_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📺👑 PAMELA WORLD LIVE TV - ALL FREE!\n\nClick a Channel to Watch Live!\n\n🇱🇰 SRI LANKA TV:\n• Hiru TV - https://www.youtube.com/@HiruTV/live\n• Sirasa TV - https://www.youtube.com/@SirasaTV/live\n• Derana TV - https://www.youtube.com/@TVDerana/live\n• ITN - https://www.youtube.com/@ITNSriLanka/live\n• Rupavahini - https://www.youtube.com/@SriRupavahini/live\n• Swarnavahini - https://www.youtube.com/@Swarnavahini/live\n\n🇱🇰 SRI LANKA NEWS:\n• Hiru News - https://www.youtube.com/@HiruNews/live\n• NewsFirst - https://www.youtube.com/@NewsfirstLIVE/live\n• Ada Derana - https://www.youtube.com/@AdaDerana/live\n\n🌍 WORLD NEWS - LIVE 24/7:\n• BBC World News - https://www.youtube.com/@BBCNews/live\n• CNN - https://www.youtube.com/@CNN/live\n• Al Jazeera English - https://www.youtube.com/@AlJazeeraEnglish/live\n• Sky News - https://www.youtube.com/@SkyNews/live\n• France 24 English - https://www.youtube.com/@FRANCE24English/live\n• DW News - https://www.youtube.com/@dwnews/live\n• Euronews - https://www.youtube.com/@euronews/live\n• Bloomberg - https://www.youtube.com/@BloombergTelevision/live\n• NDTV World - https://www.youtube.com/@NDTV/live\n• WION - https://www.youtube.com/@WION/live\n\n🇮🇳 INDIA TV:\n• Aaj Tak - https://www.youtube.com/@aajtak/live\n• India Today - https://www.youtube.com/@IndiaToday/live\n• NDTV India - https://www.youtube.com/@NDTVIndia/live\n• Republic TV - https://www.youtube.com/@RepublicWorld/live\n• Zee News - https://www.youtube.com/@ZeeNews/live\n\n🇺🇸 USA TV:\n• ABC News - https://www.youtube.com/@ABCNews/live\n• NBC News - https://www.youtube.com/@NBCNews/live\n• Fox News - https://www.youtube.com/@FoxNews/live\n• CBS News - https://www.youtube.com/@CBSNews/live\n\n🇬🇧 UK TV:\n• BBC News - https://www.youtube.com/@BBCNews/live\n• Sky News UK - https://www.youtube.com/@SkyNews/live\n• GB News - https://www.youtube.com/@GBNews/live\n\n🇦🇪 MIDDLE EAST / ARAB:\n• Al Arabiya - https://www.youtube.com/@AlArabiya/live\n• Al Jazeera Arabic - https://www.youtube.com/@AlJazeeraArabic/live\n\n🏏 SPORTS LIVE:\n• Sky Sports Cricket - https://www.youtube.com/@SkySportsCricket/live\n• ESPN - https://www.youtube.com/@ESPN/live\n• Sky Sports Football - https://www.youtube.com/@SkySportsFootball/live\n• WWE - https://www.youtube.com/@WWE/live\n• F1 - https://www.youtube.com/@F1/live\n\n🎬 KIDS / CARTOON:\n• Cartoon Network - https://www.youtube.com/@CartoonNetwork/live\n• Disney - https://www.youtube.com/@DisneyChannel/live\n\n🎵 MUSIC LIVE:\n• MTV - https://www.youtube.com/@MTV/live\n• Lofi Girl - https://www.youtube.com/@LofiGirl/live\n• Chill Music - https://www.youtube.com/@ChillMusicLab/live\n\nEnjoy Baby! - Pamela\nJoin @bigolive_asia")
 async def worldtv_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -250,7 +247,6 @@ async def sirasa_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📺 Sirasa TV Live!\n\nWatch Here:\nhttps://www.youtube.com/@SirasaTV/live\n\nEnjoy Baby! - Pamela")
 async def derana_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📺 Derana TV Live!\n\nWatch Here:\nhttps://www.youtube.com/@TVDerana/live\n\nEnjoy Baby! - Pamela")
-# VIDEO EDITING - OLD - NOT CHANGED
 async def download_reply_video(update):
     if not update.message.reply_to_message or not update.message.reply_to_message.video:
         await update.message.reply_text("Reply to a Video and type command baby!"); return None
@@ -298,7 +294,6 @@ async def mutevideo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         out = f"mute_{update.message.from_user.id}.mp4"; sm = await update.message.reply_text("Muting Video... Wait baby!"); subprocess.run(["ffmpeg","-y","-i",path,"-c:v","copy","-an",out], capture_output=True); await update.message.reply_video(video=open(out,"rb"), caption="Muted Video!\n- Pamela"); os.remove(path); os.remove(out); await sm.delete()
     except Exception as e: await update.message.reply_text(f"Oops! {e}")
-# ===== ALL OLD COMMANDS - NOT CHANGED - KEPT SAME =====
 async def ban_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type=="private": await update.message.reply_text("Only in groups!"); return
     if not await is_admin(update, update.message.from_user.id): await update.message.reply_text("Only for Admins!"); return
@@ -471,10 +466,10 @@ async def leaderboard_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i,(uid, coins) in enumerate(sorted_coins,1): txt+=f"{i}. User {uid} - {coins} Coins\n"
     if not sorted_coins: txt+="No one yet baby! Be first!"
     await update.message.reply_text(txt)
-async def shop_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text("PAMELA SHOP - ALL FREE - FUN ONLY!\n\nCute Badge - 200 Coins\nButterfly Badge - 300 Coins\nQueen Title - 500 Coins\n\nUse /daily to get coins! Coming Soon! ALL Features FREE!")
+async def shop_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text("PAMELA SHOP - ALL FREE - FUN ONLY!\n\nCute Badge - 200 Coins\nButterfly Badge - 300 Coins\nQueen Title - 500 Coins\n\nUse /daily to get coins! /shopbuy badge")
 async def shopbuy_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /shopbuy badge / butterfly / queen"); return
-    item=context.args[0].lower(); prices={"badge":200,"butterfly":300,"queen":500}; 
+    item=context.args[0].lower(); prices={"badge":200,"butterfly":300,"queen":500}
     if item not in prices: await update.message.reply_text("Items: badge (200), butterfly (300), queen (500)"); return
     uid=str(update.message.from_user.id); price=prices[item]
     if coins_db.get(uid,0)<price: await update.message.reply_text("Not enough coins baby! Use /daily!"); return
@@ -819,7 +814,6 @@ async def weather_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         url=f"https://wttr.in/{urllib.parse.quote(city)}?format=j1"; r=requests.get(url, timeout=10); d=r.json(); cur=d['current_condition'][0]; await update.message.reply_text(f"Weather in {city}\nTemp: {cur['temp_C']}C\nCondition: {cur['weatherDesc'][0]['value']}\nHumidity: {cur['humidity']}%\nWind: {cur['windspeedKmph']} km/h\nPamela loves you!")
     except: await update.message.reply_text("Oops baby! Could not check weather!")
-# ===== NEW - AI SUPER =====
 async def imaginehd_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /imaginehd cute cat"); return
     prompt=" ".join(context.args); await update.message.reply_text(f"Generating 4K HD 4 Styles... Wait baby! Prompt: {prompt}")
@@ -832,39 +826,29 @@ async def face_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     age=random.randint(16,30); mood=random.choice(["Happy","Cute","Beautiful","Confident","Sweet","Dreamy"]); beauty=random.randint(85,99); await update.message.reply_photo(photo=update.message.reply_to_message.photo[-1].file_id, caption=f"FACE ANALYSIS - FUN!\nAge Guess: {age}\nMood: {mood}\nBeauty Score: {beauty}/100\nCuteness: 100/100!\nPamela says you are GORGEOUS! - Pamela")
 async def bgremove_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.reply_to_message or not update.message.reply_to_message.photo: await update.message.reply_text("Reply to a Photo and type /bgremove!"); return
-    await update.message.reply_text("Removing Background... Wait baby! Use https://www.remove.bg for best HD! Here is your photo with white bg idea!")
-    await update.message.reply_photo(photo=update.message.reply_to_message.photo[-1].file_id, caption="Background Remove - Try remove.bg for HD! - Pamela\nTip: Use /enhance for HD!")
+    await update.message.reply_text("Removing Background... Wait baby! Use https://www.remove.bg for best HD! Here is your photo!")
+    await update.message.reply_photo(photo=update.message.reply_to_message.photo[-1].file_id, caption="Background Remove - Try remove.bg for HD! - Pamela")
 async def enhance_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.reply_to_message or not update.message.reply_to_message.photo: await update.message.reply_text("Reply to a Photo and type /enhance!"); return
-    await update.message.reply_photo(photo=update.message.reply_to_message.photo[-1].file_id, caption="ENHANCED HD!\nBrightness + Sharpness + Beauty Filter Applied! (Fun Filter)\nYou look MORE Beautiful! - Pamela")
+    await update.message.reply_photo(photo=update.message.reply_to_message.photo[-1].file_id, caption="ENHANCED HD!\nBrightness + Sharpness + Beauty Filter Applied!\nYou look MORE Beautiful! - Pamela")
 async def aisong_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     topic=" ".join(context.args) if context.args else "love"; await update.message.reply_text(f"Writing AI Song about {topic}... Wait baby!"); rep=ask_pamela(f"Write a short cute song lyrics about {topic}, 2 verses + chorus, with emojis"); await update.message.reply_text(f"AI SONG - {topic}\n\n{rep}\n\nSing it baby! - Pamela")
-# ===== NEW - LIVE GAMES =====
 async def mafia_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cid=update.effective_chat.id; players=user_db.get(str(cid), [])[:8]
-    if len(players)<3: await update.message.reply_text("Mafia needs 3+ players! Chat more! Pamela will pick from active users!"); return
-    mafia=random.choice(players); await update.message.reply_text(f"MAFIA GAME STARTED!\nPlayers: {len(players)}\n\nOne Mafia is hidden!\nEveryone is Villager except 1 Mafia!\n\nDiscuss! Who is Mafia?\nVote with /votemafia UserID\nMafia is secret! Pamela knows! (DM Pamela for hint - fun!)\nWinner gets +100 Coins!\n\nHint: Mafia User ID ends with {str(mafia)[-2:]}")
+    if len(players)<3: await update.message.reply_text("Mafia needs 3+ players! Chat more!"); return
+    mafia=random.choice(players); await update.message.reply_text(f"MAFIA GAME STARTED!\nPlayers: {len(players)}\n\nOne Mafia is hidden!\nDiscuss! Who is Mafia?\nVote with /votemafia UserID\nHint: Mafia User ID ends with {str(mafia)[-2:]}")
 async def votemafia_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /votemafia 12345"); return
     winner=random.choice(["Mafia Caught! Villagers Win! +50 Coins to all!","Mafia Escaped! Mafia Wins!"]); await update.message.reply_text(f"VOTE!\nYou voted {context.args[0]}\nResult: {winner}")
 async def quizbattle_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("QUIZ BATTLE TOURNAMENT!\n10 Questions! Fastest Wins!\n\nStart with /quiz! Answer fast!\nWinner gets +200 Coins!\n\nReady? Go! /quiz")
-    await quiz_cmd(update, context)
+    await update.message.reply_text("QUIZ BATTLE TOURNAMENT!\n10 Questions! Fastest Wins!\nWinner gets +200 Coins!\nReady? Go! /quiz"); await quiz_cmd(update, context)
 async def bingo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     nums=random.sample(range(1,76), 15); card="\n".join([str(nums[i:i+5]) for i in range(0,15,5)]); await update.message.reply_text(f"BINGO!\nYour Card:\n{card}\n\nNext Number: {random.randint(1,75)}!\nType /bingo again for new number!\nGet Bingo = +100 Coins!")
 async def poker_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cards=["A♠","K♥","Q♦","J♣","10♠","9♥","8♦"]; you=random.sample(cards,3); pamela=random.sample(cards,3); await update.message.reply_text(f"POKER!\nYou: {you}\nPamela: {pamela}\n\nWinner: {random.choice(['You Win! +100 Coins!','Pamela Wins!','Draw!'])}")
 async def uno_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     colors=["Red","Blue","Green","Yellow"]; await update.message.reply_text(f"UNO!\nYour Cards: {random.choice(colors)} {random.randint(0,9)}, {random.choice(colors)} {random.randint(0,9)}, {random.choice(colors)} Skip!\nPamela Card: {random.choice(colors)} {random.randint(0,9)}\n\nType /uno again to play next card!\nWinner gets +100 Coins!")
-# ===== NEW - LIVE / RADIO / NEWS =====
 async def cricket_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    try:
-        r=requests.get("https://api.cricapi.com/v1/currentMatches?apikey=demo&offset=0", timeout=5); d=r.json()
-        if d.get("data"): 
-            txt="LIVE CRICKET!\n\n"
-            for m in d["data"][:3]: txt+=f"{m.get('name','Match')} - {m.get('status','Live')}\n"
-            await update.message.reply_text(txt); return
-    except: pass
     await update.message.reply_text("🏏 LIVE CRICKET!\n\nCheck Live Scores:\n• ESPN Cricket - https://www.espncricinfo.com/live-cricket-score\n• Cricbuzz - https://www.cricbuzz.com/cricket-match/live-scores\n• Sri Lanka Cricket - https://www.srilankacricket.lk\n\nPamela loves Cricket! - Pamela")
 async def football_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⚽ LIVE FOOTBALL!\n\nCheck Live Scores:\n• ESPN Football - https://www.espn.com/soccer/scoreboard\n• Livescore - https://www.livescore.com\n• Flashscore - https://www.flashscore.com\n\nPamela loves Football! - Pamela")
@@ -878,7 +862,6 @@ async def gold_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except: await update.message.reply_text("🥇 GOLD PRICE!\n\nCheck Live: https://goldprice.org\nGold is shining like you baby! - Pamela")
 async def radio_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📻 LIVE RADIO!\n\n🇱🇰 Sri Lanka:\n• Hiru FM - https://www.hirufm.lk\n• Y FM - https://www.yfm.lk\n• Gold FM - https://www.goldfm.lk\n• Kiss FM - https://www.kiss899.com\n\n🌍 World:\n• BBC Radio - https://www.bbc.co.uk/sounds\n• Lofi Radio - https://www.youtube.com/@LofiGirl/live\n\nEnjoy Music Baby! - Pamela")
-# ===== NEW - STUDY =====
 async def homework_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /homework What is photosynthesis?"); return
     q=" ".join(context.args); rep=ask_pamela(f"Explain homework question simply for student, step by step, easy: {q}"); await update.message.reply_text(f"HOMEWORK HELP!\nQ: {q}\n\n{rep}")
@@ -889,9 +872,8 @@ async def dictionary_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         r=requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{urllib.parse.quote(w)}", timeout=10); d=r.json(); m=d[0]["meanings"][0]; defi=m["definitions"][0]["definition"]; await update.message.reply_text(f"DICTIONARY - {w.upper()}\n\nMeaning: {defi}\nPart: {m.get('partOfSpeech','')}\nExample: {m['definitions'][0].get('example','No example')}\n- Pamela")
     except: await update.message.reply_text(f"Dictionary: {w} - Could not find! Try another word baby!")
 async def solve_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not context.args: await update.message.reply_text("Use /solve 2+2*5 or Reply to Math Photo!"); return
+    if not context.args: await update.message.reply_text("Use /solve 2+2*5"); return
     q=" ".join(context.args); rep=ask_pamela(f"Solve this math step by step: {q}, show answer clearly"); await update.message.reply_text(f"SOLVE - {q}\n\n{rep}")
-# ===== NEW - SUPER ECONOMY =====
 async def loan_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /loan 1000 - Bank Loan! /payloan to pay back!"); return
     try: amt=int(context.args[0])
@@ -908,7 +890,7 @@ async def payloan_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def business_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid=str(update.message.from_user.id)
     if uid in business_db: await update.message.reply_text(f"Your Business: {business_db[uid]['type']} - Level {business_db[uid]['level']} - Earn {business_db[uid]['level']*20} Coins/day! Use /collect to collect!"); return
-    if not context.args: await update.message.reply_text("Start Business!\n/coffee - Coffee Shop (500 Coins)\n/shop - Shop (1000 Coins)\n/cafe - Cafe (2000 Coins)\n\nExample: /business coffee"); return
+    if not context.args: await update.message.reply_text("Start Business!\n/business coffee - Coffee Shop (500 Coins)\n/business shop - Shop (1000 Coins)\n/business cafe - Cafe (2000 Coins)"); return
     typ=context.args[0].lower(); costs={"coffee":500,"shop":1000,"cafe":2000}
     if typ not in costs: await update.message.reply_text("Use coffee / shop / cafe"); return
     cost=costs[typ]
@@ -922,8 +904,7 @@ async def stock_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("STOCK MARKET!\n/stock buy AAPL 10 - Buy 10\n/stock sell AAPL 10 - Sell\n/stock price - Prices\nStocks: AAPL, TSLA, PAMELA, BTC"); return
     action=context.args[0].lower()
     if action=="price":
-        prices={"AAPL":random.randint(100,200),"TSLA":random.randint(200,300),"PAMELA":random.randint(500,1000),"BTC":random.randint(50000,70000)}
-        txt="STOCK PRICES!\n\n"
+        prices={"AAPL":random.randint(100,200),"TSLA":random.randint(200,300),"PAMELA":random.randint(500,1000),"BTC":random.randint(50000,70000)}; txt="STOCK PRICES!\n\n"
         for k,v in prices.items(): txt+=f"{k}: ${v}\n"
         await update.message.reply_text(txt); return
     if action in ["buy","sell"] and len(context.args)>=3:
@@ -938,14 +919,13 @@ async def stock_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Use /stock buy AAPL 10")
 async def interest_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid=str(update.message.from_user.id); bonus=int(bank_db.get(uid,0)*0.05); bank_db[uid]=bank_db.get(uid,0)+bonus; save_json("pamela_bank.json", bank_db); await update.message.reply_text(f"BANK INTEREST!\nBank: {bank_db.get(uid,0)}\nInterest +{bonus} Coins! (5%)\nAuto interest every day at 6 AM too!")
-# ===== NEW - AUTO SPECIAL =====
 async def birthday_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args: await update.message.reply_text("Use /birthday 12-05 - DD-MM! Pamela will wish you on that day!"); return
     date=context.args[0]; cid=str(update.effective_chat.id); uid=str(update.message.from_user.id)
     if cid not in birthday_db: birthday_db[cid]={}
     birthday_db[cid][uid]={"date":date,"name":update.message.from_user.first_name}; save_json("pamela_birthday.json", birthday_db); await update.message.reply_text(f"Birthday Saved! {date}!\nPamela will wish you + Cake Photo on that day! Happy Early Birthday!")
 async def reminder_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if len(context.args)<2: await update.message.reply_text("Use /reminder 10 Hello - 10 minutes later! /reminder 60 Drink water"); return
+    if len(context.args)<2: await update.message.reply_text("Use /reminder 10 Hello - 10 minutes later!"); return
     try: mins=int(context.args[0])
     except: await update.message.reply_text("Number minutes!"); return
     txt=" ".join(context.args[1:]); await update.message.reply_text(f"Reminder Set! In {mins} minutes I will remind you: {txt}")
@@ -1048,14 +1028,12 @@ def run_bot():
     app.add_handler(CommandHandler("rps", rps_cmd)); app.add_handler(CommandHandler("word", word_cmd)); app.add_handler(CommandHandler("guessword", guessword_cmd)); app.add_handler(CommandHandler("math", math_cmd)); app.add_handler(CommandHandler("mathans", mathans_cmd)); app.add_handler(CommandHandler("guess", guess_cmd)); app.add_handler(CommandHandler("g", g_cmd)); app.add_handler(CommandHandler("blackjack", blackjack_cmd)); app.add_handler(CommandHandler("race", race_cmd)); app.add_handler(CommandHandler("hunger", hunger_cmd)); app.add_handler(CommandHandler("challenge", challenge_cmd))
     app.add_handler(CommandHandler("marry", marry_cmd)); app.add_handler(CommandHandler("divorce", divorce_cmd)); app.add_handler(CommandHandler("ship", ship_cmd)); app.add_handler(CommandHandler("couple", couple_cmd)); app.add_handler(CommandHandler("love", love_cmd)); app.add_handler(CommandHandler("hug", hug_cmd)); app.add_handler(CommandHandler("kiss", kiss_cmd)); app.add_handler(CommandHandler("slap", slap_cmd)); app.add_handler(CommandHandler("pat", pat_cmd)); app.add_handler(CommandHandler("jail", jail_cmd))
     app.add_handler(CommandHandler("story", story_cmd)); app.add_handler(CommandHandler("dream", dream_cmd)); app.add_handler(CommandHandler("horoscope", horoscope_cmd)); app.add_handler(CommandHandler("tarot", tarot_cmd)); app.add_handler(CommandHandler("ask", ask_cmd)); app.add_handler(CommandHandler("say", say_cmd)); app.add_handler(CommandHandler("pfp", pfp_cmd)); app.add_handler(CommandHandler("cartoon", cartoon_cmd)); app.add_handler(CommandHandler("meme", meme_cmd)); app.add_handler(CommandHandler("wallpaper", wallpaper_cmd))
-    # NEW HANDLERS - ALL NEW FEATURES
     app.add_handler(CommandHandler("imaginehd", imaginehd_cmd)); app.add_handler(CommandHandler("imagine", imaginehd_cmd)); app.add_handler(CommandHandler("face", face_cmd)); app.add_handler(CommandHandler("bgremove", bgremove_cmd)); app.add_handler(CommandHandler("enhance", enhance_cmd)); app.add_handler(CommandHandler("aisong", aisong_cmd))
     app.add_handler(CommandHandler("mafia", mafia_cmd)); app.add_handler(CommandHandler("votemafia", votemafia_cmd)); app.add_handler(CommandHandler("quizbattle", quizbattle_cmd)); app.add_handler(CommandHandler("bingo", bingo_cmd)); app.add_handler(CommandHandler("poker", poker_cmd)); app.add_handler(CommandHandler("uno", uno_cmd))
     app.add_handler(CommandHandler("cricket", cricket_cmd)); app.add_handler(CommandHandler("football", football_cmd)); app.add_handler(CommandHandler("crypto", crypto_cmd)); app.add_handler(CommandHandler("gold", gold_cmd)); app.add_handler(CommandHandler("radio", radio_cmd))
     app.add_handler(CommandHandler("homework", homework_cmd)); app.add_handler(CommandHandler("dictionary", dictionary_cmd)); app.add_handler(CommandHandler("solve", solve_cmd))
     app.add_handler(CommandHandler("loan", loan_cmd)); app.add_handler(CommandHandler("payloan", payloan_cmd)); app.add_handler(CommandHandler("business", business_cmd)); app.add_handler(CommandHandler("collect", collect_cmd)); app.add_handler(CommandHandler("stock", stock_cmd)); app.add_handler(CommandHandler("interest", interest_cmd))
     app.add_handler(CommandHandler("birthday", birthday_cmd)); app.add_handler(CommandHandler("reminder", reminder_cmd)); app.add_handler(CommandHandler("remind", reminder_cmd)); app.add_handler(CommandHandler("poll", poll_cmd)); app.add_handler(CommandHandler("event", event_cmd))
-    app.add_handler(CommandHandler("testpromo", test_promo_cmd)); app.add_handler(CommandHandler("testgm", test_gm_cmd)); app.add_handler(CommandHandler("testgn", test_gn```python
     app.add_handler(CommandHandler("testpromo", test_promo_cmd)); app.add_handler(CommandHandler("testgm", test_gm_cmd)); app.add_handler(CommandHandler("testgn", test_gn_cmd))
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome_new)); app.add_handler(MessageHandler(filters.StatusUpdate.LEFT_CHAT_MEMBER, goodbye)); app.add_handler(MessageHandler(filters.VOICE, voice_handler)); app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat)); app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST & filters.TEXT, channel_chat))
     from telegram.ext import ChatMemberHandler
