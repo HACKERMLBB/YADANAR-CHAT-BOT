@@ -969,11 +969,11 @@ async def welcome_new(u,c):
   else:
    custom=welcome.get(str(u.effective_chat.id),"")
    txt=f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n✨━━━━━━━━━━━━━━━━━━━✨\n\n{custom}\n\n🦋💕 Pamela loves you! 💕🦋\n🌿 Join @bigolive_asia 💖" if custom else f"✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME BABY! 💖🌸\n👑✨ {member.first_name} ✨👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\n🦋💕 Helloooo Cutie Pie! 💕🦋\n🌷💖 Welcome to {u.effective_chat.title}! 💖🌷\n\n🎀✨ You are SO cute today! ✨🎀\n💐💖 Thank you for joining us baby! 💖💐\n\n📜💕 Check Rules with /rules 💕📜\n💬🌸 Talk with me! Say Hi Pamela! 🌸💬\n🎁🎵 Songs! Games! TV! All FREE! 🎵🎁\n\n🌿💖 Join our family @bigolive_asia 💖🌿\n💖🌸 Pamela loves you! Muahhh! 😘🌸💖"
-   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f'cute welcome card for {member.first_name} pink flowers butterflies hearts'),caption=txt)
+   try: await c.bot.send_photo(chat_id=u.effective_chat.id,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote(f```python
+'cute welcome card for {member.first_name} pink flowers butterflies hearts'),caption=txt)
    except: await u.message.reply_text(txt)
 async def goodbye(u,c):
- if u.message.left_chat_member: await u.message.reply_text```python
-(f"😭💔 BYE BYE BABY! 💔😭\n\n🌸💖 {u.message.left_chat_member.first_name} left us! 💖🌸\n🦋💕 We will MISS you so much baby! 💕🦋\n🌷✨ Come back soon cutie! ✨🌷\n💖 Muahhh! Love you! 💖")
+ if u.message.left_chat_member: await u.message.reply_text(f"😭💔 BYE BYE BABY! 💔😭\n\n🌸💖 {u.message.left_chat_member.first_name} left us! 💖🌸\n🦋💕 We will MISS you so much baby! 💕🦋\n🌷✨ Come back soon cutie! ✨🌷\n💖 Muahhh! Love you! 💖")
 async def chat(u,c):
  if not u.message or not u.message.text: return
  user=u.message.from_user;cid=u.effective_chat.id;text=u.message.text;save_c(cid);save_u(cid,user.id);save_m(cid,u.message.message_id,user.first_name,user.username,text)
