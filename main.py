@@ -1034,7 +1034,6 @@ async def HANDLE_MSG(u,c):
  elif "good morning" in low or "morning" in low: rep="Good Morning my love! ☀️🥰 Have a beautiful day! Love you!"
  elif "good night" in low or "goodnight" in low: rep="Good Night baby! 🌙💖 Sleep well, sweet dreams! I love you!"
  elif "miss you" in low or "miss u" in low: rep="Aww I miss you too so much baby! 🥺💖 Come hug me!"
- elif "thank" in low or "thanks```python
  elif "thank" in low or "thanks" in low or "thx" in low: rep="Aww you are welcome baby! 🥰💖 Anything for you!"
  else: return
  if rep: await u.message.reply_text(rep+YWT if "subscribe" in low else rep)
