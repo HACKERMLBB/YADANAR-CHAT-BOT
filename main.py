@@ -1,5 +1,6 @@
 # 💖 PAMELA AI - MEGA ULTIMATE BOT 👑🔥🌸
 # 100% ENGLISH VERSION - FIXED FOR PYTHON 3.14 + PTB v22
+# FIXED: Promo + GM + GN Now Works Without /start - Auto Register + GROUP_IDS
 import os, time, threading, asyncio, requests, urllib.parse, random, json, datetime, pytz
 from flask import Flask
 from telegram import Update
@@ -13,6 +14,15 @@ app_flask = Flask(__name__)
 def home(): return "💖 Pamela MEGA is Online! 👑"
 @app_flask.route("/health")
 def health(): return "OK", 200
+
+# 👑 FIXED - GROUP IDS FROM ENV + AUTO REGISTER
+GROUP_IDS = []
+try:
+    _g = os.getenv("GROUP_IDS", "")
+    if _g:
+        GROUP_IDS = [int(x.strip()) for x in _g.split(",") if x.strip()]
+except: GROUP_IDS = []
+ACTIVE_CHATS = set(GROUP_IDS)
 
 last_request_times = {}
 COOLDOWN_SECONDS = 30
@@ -59,6 +69,24 @@ def save_user(chat_id, user_id):
     if chat_id not in user_db: user_db[chat_id]=[]
     if user_id not in user_db[chat_id]:
         user_db[chat_id].append(user_id); save_json("pamela_users.json", user_db)
+
+def get_all_chats():
+    chats = set(ACTIVE_CHATS)
+    try:
+        for k in list(user_db.keys()):
+            if str(k).lstrip("-").isdigit():
+                chats.add(int(k))
+    except: pass
+    for gid in GROUP_IDS:
+        chats.add(gid)
+    return list(chats)
+
+def save_chat_id(chat_id):
+    try:
+        ACTIVE_CHATS.add(int(chat_id))
+        save_user(chat_id, 0)
+    except: pass
+
 def save_message(chat_id, msg_id, user_name, username, text):
     chat_id=str(chat_id)
     if chat_id not in msg_db: msg_db[chat_id]=[]
@@ -121,6 +149,11 @@ GOOD_MORNING=[
 "🌷✨ Good Morning! 💖\n\nYou are all cute today too! 🥹💖\nKeep smiling! 😘🌸\n\n🦋 Pamela",
 "☀️💖 Rise and Shine! ✨\n\nHave a coffee! ☕💖\nToday is special! 🌈\n\n🌸 Pamela loves you!"
 ]
+GOOD_NIGHT=[
+"🌙💖 Good Night Babies! 🥹✨\n\nSweet dreams! 🧸💤\nPamela loves you! 😘🌸\n\nTomorrow meet again! 👑💖",
+"🌌✨ Good Night Cuties! 💖\n\nStars are shining for you! ⭐🌙\nSleep well! 🦋💤\n\n🌸 Pamela",
+"💤🌸 Good Night My Lovelies! 👑💖\n\nDon't forget to dream about Pamela! 🥹😘\n\n🌿 Join our family @bigolive_asia 💖",
+]
 QUIZ_Q=[
 {"q":"What is the capital of Sri Lanka? 🇱🇰","a":["Colombo","Kandy","Galle","Jaffna"],"c":0},
 {"q":"What is 5 + 7? 🧠","a":["10","12","11","13"],"c":1},
@@ -134,6 +167,7 @@ async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
     for chat_id_str, user_ids in list(user_db.items()):
         chat_id=int(chat_id_str); banned=0
         for uid in list(user_ids):
+            if uid==0: continue
             try:
                 m=await context.bot.get_chat_member(chat_id, uid)
                 if m.user.first_name=="Deleted Account":
@@ -147,11 +181,20 @@ async def auto_clean_deleted(context: ContextTypes.DEFAULT_TYPE):
             except: pass
 
 async def auto_good_morning(context: ContextTypes.DEFAULT_TYPE):
-    for chat_id_str in list(user_db.keys()):
+    print(f"☀️ GM Sending to {get_all_chats()}")
+    for chat_id in get_all_chats():
         try:
-            await context.bot.send_message(chat_id=int(chat_id_str), text=random.choice(GOOD_MORNING))
+            await context.bot.send_message(chat_id=chat_id, text=random.choice(GOOD_MORNING))
             await asyncio.sleep(1)
-        except: pass
+        except Exception as e: print(f"GM Error {chat_id}: {e}")
+
+async def auto_good_night(context: ContextTypes.DEFAULT_TYPE):
+    print(f"🌙 GN Sending to {get_all_chats()}")
+    for chat_id in get_all_chats():
+        try:
+            await context.bot.send_message(chat_id=chat_id, text=random.choice(GOOD_NIGHT))
+            await asyncio.sleep(1)
+        except Exception as e: print(f"GN Error {chat_id}: {e}")
 
 async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
     titles = ["👑💖  PAMELA'S WORLD  💖👑","🌸✨  HEY BABIES!  ✨🌸","🦋💕  PAMELA IS HERE!  💕🦋","🔥👑  ATTENTION!  👑🔥","💖🌷  MISS ME BABIES?  🌷💖","✨🌈  HELLO MY LOVELIES!  🌈✨","🎀💖  PAMELA'S MAGIC  💖🎀","🍓💕  CUTE ALERT!  💕🍓"]
@@ -165,13 +208,31 @@ async def auto_promo(context: ContextTypes.DEFAULT_TYPE):
     msg = (f"{border}\n{random.choice(titles)}\n{border}\n\n{random.choice(intros)}\n\n{emoji} Did You Know? {emoji}\n━━━━━━━━━━━━\n")
     for f in picked: msg += f"{f}\n"
     msg += (f"\n{border}\n{random.choice(outros)}\n{border}\n\n🌿 Join our family @bigolive_asia 💖🌸\n💖 Type /help for all! 👑")
-    for chat_id_str in list(user_db.keys()):
+    print(f"📢 Promo Sending to {get_all_chats()}")
+    for chat_id in get_all_chats():
         try:
-            await context.bot.send_message(chat_id=int(chat_id_str), text=msg)
+            await context.bot.send_message(chat_id=chat_id, text=msg)
             await asyncio.sleep(1)
-        except: pass
+        except Exception as e: print(f"Promo Error {chat_id}: {e}")
+
+async def track_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat:
+        save_chat_id(update.effective_chat.id)
+
+async def test_promo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    save_chat_id(update.effective_chat.id)
+    await update.message.reply_text("🧪 Testing Promo... 5 sec!")
+    await auto_promo(context)
+    await update.message.reply_text("✅ Promo Test Done! වැටුණාද බලන්න! 🥹💖")
+async def test_gm_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    save_chat_id(update.effective_chat.id)
+    await auto_good_morning(context)
+async def test_gn_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    save_chat_id(update.effective_chat.id)
+    await auto_good_night(context)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    save_chat_id(update.effective_chat.id)
     await update.message.reply_text("✨━━━━━━━━━━━━━━━━━━━✨\n🌸  WELCOME TO  🌸\n👑 PAMELA'S WORLD 👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\nHello, My Lovely Friend! 🥹💖\n\nI'm Pamela! 🦋✨ Your cute little best friend! 💖\n\n🌷 A soft place for your heart...\n🦋 A world full of love, flowers & dreams...\n🌈 A place where you are always special!\n\n💬 Talk to me anything baby! I'm here for you! 🥺💖\n\n🌍 I can speak ANY language!\n\n⚠️ Baby, I need 30 sec to think! 🕊️\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸\n\n━━━━━━━━━━━━━━━━━━━\n💖 Made with love, just for YOU! 💖\n🌸 Welcome to Pamela's World! 🌸\n━━━━━━━━━━━━━━━━━━━")
 
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -313,6 +374,7 @@ async def zombies_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     sm=await update.message.reply_text("🧹💖 Checking Deleted Accounts... 🥹🌸✨")
     cid=update.effective_chat.id; uids=user_db.get(str(cid), []); banned=0; checked=0
     for uid in list(uids):
+        if uid==0: continue
         checked+=1
         try:
             m=await context.bot.get_chat_member(cid, uid)
@@ -562,6 +624,7 @@ async def weather_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except: await update.message.reply_text("Oops baby! 🥺 Could not check weather! 🌸")
 
 async def welcome_new(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat: save_chat_id(update.effective_chat.id)
     for member in update.message.new_chat_members:
         if member.id==context.bot.id:
             await update.message.reply_text("🌸💖 Hello Babies! Pamela is here! 👑✨\nLets make this group beautiful! 🦋💖\n\n➕ Add me to your group and let's have fun together! 🎉💖\n🌿 Join our family @bigolive_asia 💖🌸")
@@ -577,6 +640,7 @@ async def goodbye(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message or not update.message.text: return
     user=update.message.from_user; chat_id=update.effective_chat.id; text=update.message.text
+    save_chat_id(chat_id)
     save_user(chat_id, user.id); save_message(chat_id, update.message.message_id, user.first_name, user.username, text)
     uid_s=str(user.id); stats_db[uid_s]=stats_db.get(uid_s,0)+1; save_json("pamela_stats.json", stats_db)
     if update.message.entities:
@@ -650,6 +714,7 @@ def run_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
     if not BOT_TOKEN: print("❌ BOT_TOKEN missing!"); return
     print("🌸 Pamela MEGA Starting... 💖")
+    print(f"📌 GROUP_IDS: {GROUP_IDS} | ACTIVE: {list(ACTIVE_CHATS)}")
     app=Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start)); app.add_handler(CommandHandler("help", help_cmd)); app.add_handler(CommandHandler("about", about_cmd))
     app.add_handler(CommandHandler("tr", tr_cmd)); app.add_handler(CommandHandler("translate", tr_cmd))
@@ -672,16 +737,22 @@ def run_bot():
     app.add_handler(CommandHandler("rank", rank_cmd)); app.add_handler(CommandHandler("stats", stats_cmd)); app.add_handler(CommandHandler("top", top_cmd))
     app.add_handler(CommandHandler("ttt", ttt_cmd)); app.add_handler(CommandHandler("move", move_cmd)); app.add_handler(CommandHandler("quiz", quiz_cmd)); app.add_handler(CommandHandler("answer", answer_cmd)); app.add_handler(CommandHandler("bet", bet_cmd))
     app.add_handler(CommandHandler("bank", bank_cmd)); app.add_handler(CommandHandler("deposit", deposit_cmd)); app.add_handler(CommandHandler("withdraw", withdraw_cmd)); app.add_handler(CommandHandler("steal", steal_cmd))
+    app.add_handler(CommandHandler("testpromo", test_promo_cmd)); app.add_handler(CommandHandler("testgm", test_gm_cmd)); app.add_handler(CommandHandler("testgn", test_gn_cmd))
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome_new))
     app.add_handler(MessageHandler(filters.StatusUpdate.LEFT_CHAT_MEMBER, goodbye))
     app.add_handler(MessageHandler(filters.VOICE, voice_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
     app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST & filters.TEXT, channel_chat))
+    # 👑 AUTO REGISTER - Any message / Bot added = Group saved, no /start needed!
+    from telegram.ext import ChatMemberHandler
+    app.add_handler(ChatMemberHandler(track_chat, ChatMemberHandler.MY_CHAT_MEMBER))
+    app.add_handler(MessageHandler(filters.ALL, track_chat), group=-1)
     jq=app.job_queue
     jq.run_daily(auto_clean_deleted, time=datetime.time(hour=6, minute=0, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_clean")
     jq.run_daily(auto_good_morning, time=datetime.time(hour=6, minute=5, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="6am_gm")
-    jq.run_repeating(auto_promo, interval=1800, first=1800, name="30min_promo")
-    print("⏰ Jobs: 6 AM Clean + 6:05 AM Good Morning + 30min Promo! 🧹☀️✨")
+    jq.run_daily(auto_good_night, time=datetime.time(hour=22, minute=0, second=0, tzinfo=pytz.timezone("Asia/Colombo")), name="10pm_gn")
+    jq.run_repeating(auto_promo, interval=1800, first=60, name="30min_promo")
+    print("⏰ Jobs: 6 AM Clean + 6:05 AM Good Morning + 10 PM Good Night + 30min Promo! 🧹☀️🌙✨")
     print("✅ Pamela MEGA is Online! 👑💖")
     app.run_polling()
 
