@@ -8,12 +8,12 @@ T=os.getenv("BOT_TOKEN");PORT=int(os.getenv("PORT",10000));F=Flask(__name__)
 def h(): return "Pamela Online!"
 @F.route("/health")
 def he(): return "OK",200
-G=[]
+GG=[]
 try:
  _g=os.getenv("GROUP_IDS","")
- if _g: G=[int(x.strip()) for x in _g.split(",") if x.strip()]
-except: G=[]
-A=set(G);last={};COOL=15;warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={}
+ if _g: GG=[int(x.strip()) for x in _g.split(",") if x.strip()]
+except: GG=[]
+A=set(GG);last={};COOL=15;warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={}
 def LJ(f,d):
  try:
   if os.path.exists(f):
@@ -33,7 +33,7 @@ def AC():
  s=set(A)
  for k in list(users.keys()):
   if str(k).lstrip("-").isdigit(): s.add(int(k))
- for g in G: s.add(g)
+ for g in GG: s.add(g)
  return list(s)
 def SC(cid):
  try: A.add(int(cid));SU(cid,0)
@@ -96,7 +96,6 @@ TAROT=["The Star - Hope and dreams!","The Lovers - Love coming!","The Sun - Happ
 RIDD=[{"q":"I speak without a mouth and hear without ears. What am I?","a":"echo"},{"q":"What has keys but can't open locks?","a":"piano"},{"q":"What gets wetter the more it dries?","a":"towel"},{"q":"What has a face and two hands but no arms or legs?","a":"clock"},{"q":"What comes once in a minute, twice in a moment, but never in a thousand years?","a":"m"}]
 WYR=["Would you rather be rich or famous?","Would you rather fly or be invisible?","Would you rather have super strength or super speed?","Would you rather live in beach or mountain?","Would you rather be Pamela's best friend forever or have 1 million coins?"]
 NEVER=["Never have I ever lied to my best friend.","Never have I ever stalked my crush.","Never have I ever cried watching a movie.","Never have I ever eaten in class.","Never have I ever pretended to be sick to skip school."]
-# YOUTUBE - 2ND FILE COMPACT - SAME LOGIC
 YC="https://www.youtube.com/channel/UCR4MDIWLNe4p_J-RP0dnS5g";YID="UCR4MDIWLNe4p_J-RP0dnS5g";YW="https://pamelacullen.onrender.com/";YWT=f"\n\n🌐 Join Our Website:\n👇 Click Here Baby! 👇\n{YW}\n💖 Pamela's World - Stay Cute, Stay Loved! 🌸";YL={"id":None};YV={"videos":[],"time":0,"latest":None,"latest_time":0};YCS=300
 def YCV(t): return (time.time()-t)<YCS
 def YCT(r):
@@ -230,7 +229,7 @@ async def YBH(u,c):
   else: txt+=f"🎬 <b>Channel:</b> {YC}\n\n"
   txt+="👇 Choose one baby! 👇"+YWT;await q.message.reply_text(txt,parse_mode="HTML",disable_web_page_preview=False,reply_markup=YMK())
 async def YCN(ctx):
- ch=[x.strip() for x in os.getenv("CHANNEL_IDS","").split(",") if x.strip()] or [str(x) for x in G]
+ ch=[x.strip() for x in os.getenv("CHANNEL_IDS","").split(",") if x.strip()] or [str(x) for x in GG]
  if not ch: return
  vd=YGL()
  if not vd: return
@@ -246,7 +245,7 @@ async def YCN(ctx):
     except: pass
    except Exception as e: print(e)
 async def YPR(ctx):
- ch=[x.strip() for x in os.getenv("CHANNEL_IDS","").split(",") if x.strip()] or [str(x) for x in G]
+ ch=[x.strip() for x in os.getenv("CHANNEL_IDS","").split(",") if x.strip()] or [str(x) for x in GG]
  if not ch: return
  vd=YGL()
  if not vd: return
@@ -254,7 +253,6 @@ async def YPR(ctx):
  for CH in ch:
   try: await YSP(ctx.bot,int(CH),vd["thumb"],txt,vid_id=vd["id"])
   except: pass
-# ===== 1ST FILE HANDLERS - COMPACT BUT SAME FEATURES =====
 async def START(u,c): SC(u.effective_chat.id);await u.message.reply_text("✨━━━━━━━━━━━━━━━━━━━✨\n🌸💖 WELCOME TO 💖🌸\n👑✨ PAMELA'S WORLD ✨👑\n✨━━━━━━━━━━━━━━━━━━━✨\n\n🦋💕 Hello, My Lovely Friend! 💕🦋\n💖🌸 I am Pamela! Your cute little best friend! 🌸💖\n\n💬🌸 Talk to me anything baby! I am here for you! 🌸💬\n🌍✨ I can speak ANY language! ✨🌍\n🎁💖 ALL FREE! No VIP! No Premium! 💖🎁\n\n🌿💖 Add me to your group! 💖🌿\n💕 Join @bigolive_asia 💕\n\n✨💖 Made with love, just for YOU! 💖✨")
 async def HELP(u,c): await u.message.reply_text("👑💖 PAMELA HELP - ALL FREE! 💖👑\n\n💬 CHAT: Just type! /ask /tr /story /say\n🎵 MUSIC: /song /video /lyrics /playlist /spotify\n🎬 MOVIE: /movie /anime\n📺 LIVE TV: /livetv /worldtv /sportstv /news /ytvideos /ytlatest /ytstart /ytsubs\n🎬 VIDEO EDIT: /trim /compress /toaudio /togif /slowmo /reverse /mutevideo\n🎨 AI: /imaginehd /face /bgremove /enhance /aisong /img\n🎤 AUDIO: /voice /sing /rap /shoutout /podcast /translatevoice\n🎬 AI VIDEO: /aivideo /talkingphoto /lipsync\n🎨 AI IMAGE: /faceswap /outfit /babyface /oldface /couplephoto\n🎮 GAMES: /truth /dare /dice /slot /coin /8ball /roast /quote /ttt /quiz /bet /rps /word /math /guess /blackjack /race /hunger /challenge /mafia /quizbattle /bingo /poker /uno /spin /wyr /never /riddle /chess /ludo\n🏏 LIVE: /cricket /football /crypto /gold /radio /weather\n📚 STUDY: /homework /dictionary /solve /tr\n💰 COINS: /daily /coins /leaderboard /bank /deposit /withdraw /steal /work /rob /gift /lottery /loan /business /stock /interest /shop\n💖 LOVE: /marry /divorce /ship /couple /love /hug /kiss /slap /pat /jail /lovecalc\n🛠️ TOOLS: /qr /password /shortlink /screenshot /pdf /sticker\n🛡️ MANAGE: /ban /kick /mute /warn /promote /pin /purge /del /lock /unlock /setwelcome /setrules /slowmode /report\n🤖 FILTERS: /filter /filters /stop\n📝 NOTES: /save /get /notes /clear\n😴 AFK: /afk /unafk\n🎂 SPECIAL: /birthday /reminder /poll /event /giveaway /horoscopedaily /dreammeaning /goodmorningphoto /welcomephoto /topweek /activecheck\n🏆 OTHER: /rank /profile /stats /top /topdaily /pfp /meme /wallpaper\n\n🌿💖 Join @bigolive_asia - ALL FREE! 💖🌿")
 async def ABOUT(u,c): await u.message.reply_text("🌸💖 About Pamela 💖🌸\n\n👑✨ I am Pamela, Queen of Pamela's World! ✨👑\n🦋💕 I love flowers, butterflies, nature, and YOU! 💕🦋\n🌿💖 Join @bigolive_asia - ALL FREE! 💖🌿")
@@ -547,7 +545,7 @@ async def MATHANS(u,c):
  else: await u.message.reply_text("Wrong! Try again!")
 async def GUESS(u,c):
  num=random.randint(1,100);guess[u.effective_chat.id]=num;await u.message.reply_text("🎯💖 GUESS GAME! 💖🎯\nI picked a number 1-100!\nGuess with /g 50 💖")
-async def G(u,c):
+async def GCMD(u,c):
  cid=u.effective_chat.id
  if cid not in guess: await u.message.reply_text("Start with /guess first!");return
  if not c.args: return
@@ -576,7 +574,7 @@ async def LOVE(u,c):
  if not t: await u.message.reply_text("Reply and type /love!");return
  await u.message.reply_text(f"💖🌸 LOVE METER! 🌸💖\n{u.message.from_user.first_name} loves {t.first_name} - {random.randint(10,100)}%! 💖")
 async def LOVEACT(u,c,txt):
- t=TG(u);n=t.first_name if t else "Pamela";await u.message.reply_text(f"{txt.format(u=u.message.from_user.first_name,n=n)}")
+ t=TG(u);n=t.first_name if t else "Pamela";await u.message.reply_text(txt.format(u=u.message.from_user.first_name,n=n))
 async def HUG(u,c): await LOVEACT(u,c,"🤗💖 {u} hugged {n}! So cute! 💖🤗")
 async def KISS(u,c): await LOVEACT(u,c,"😘💖 {u} kissed {n}! Muahhh! 💖😘")
 async def SLAP(u,c): await LOVEACT(u,c,"👋😂 {u} slapped {n}! Ouch! Funny! 😂👋")
@@ -656,8 +654,7 @@ async def UNAFK(u,c):
  await u.message.reply_text("💖 Welcome back baby! Missed you! 💖")
 async def CRICKET(u,c):
  try:
-  r=requests.get("https://www.cricbuzz.com/api/cricket/matches/list?matchState=live",timeout=10,headers={"User-Agent":"Mozilla/5.0"});d=r.json();ms=d.get("typeMatches",[])
-  txt="🏏🔥 LIVE CRICKET! 🔥🏏\n\n"
+  r=requests.get("https://www.cricbuzz.com/api/cricket/matches/list?matchState=live",timeout=10,headers={"User-Agent":"Mozilla/5.0"});d=r.json();ms=d.get("typeMatches",[]);txt="🏏🔥 LIVE CRICKET! 🔥🏏\n\n"
   for tm in ms:
    for sm in tm.get("seriesMatches",[]):
     for m in sm.get("seriesAdWrapper",{}).get("matches",[])[:3]: txt+=f"{m.get('matchInfo',{}).get('team1',{}).get('teamName','?')} vs {m.get('matchInfo',{}).get('team2',{}).get('teamName','?')} - {m.get('matchInfo',{}).get('status','Live')} 🏏\n"
@@ -703,8 +700,7 @@ async def REMIND(u,c):
  if len(c.args)<2: await u.message.reply_text("Use /reminder 10 hello");return
  try: sec=int(c.args[0])
  except: await u.message.reply_text("Number of seconds!");return
- txt=" ".join(c.args[1:]);await u.message.reply_text(f"⏰💖 Reminder set for {sec} sec! 💖⏰")
- await asyncio.sleep(sec);await u.message.reply_text(f"⏰💖 REMINDER! 💖⏰\n{txt}\nPamela reminds you! 💖")
+ txt=" ".join(c.args[1:]);await u.message.reply_text(f"⏰💖 Reminder set for {sec} sec! 💖⏰");await asyncio.sleep(sec);await u.message.reply_text(f"⏰💖 REMINDER! 💖⏰\n{txt}\nPamela reminds you! 💖")
 async def POLL(u,c):
  if not c.args: await u.message.reply_text("Use /poll Q | Yes | No");return
  parts=" ".join(c.args).split("|");q=parts[0].strip();opts=[p.strip() for p in parts[1:]] or ["Yes","No"];await u.message.reply_poll(question=q[:300],options=opts[:10],allows_multiple_answers=False)
@@ -740,7 +736,7 @@ async def LUDO(u,c): await u.message.reply_text("🎲💖 LUDO! 💖🎲\n\nPlay
 async def QR(u,c):
  txt=" ".join(c.args) if c.args else "Pamela";await u.message.reply_photo(photo=f"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={urllib.parse.quote(txt)}",caption=f"📷💖 QR CODE - {txt} - Pamela 💖")
 async def PASSWORD(u,c):
- import secrets,string;pw="".join(secrets.choice(string.ascii_letters+string.digits+"!@#") for _ in range(12));await u.message.reply_text(f"🔑💖 STRONG PASSWORD! 💖🔑\n\n{py}\n\nKeep it secret baby! 💖".replace("{py}",pw))
+ import secrets,string;pw="".join(secrets.choice(string.ascii_letters+string.digits+"!@#") for _ in range(12));await u.message.reply_text(f"🔑💖 STRONG PASSWORD! 💖🔑\n\n{pw}\n\nKeep it secret baby! 💖")
 async def SHORTLINK(u,c):
  if not c.args: await u.message.reply_text("Use /shortlink link");return
  url=c.args[0]
@@ -954,8 +950,6 @@ async def BGREMOVE(u,c):
 async def ENHANCE(u,c):
  if not u.message.reply_to_message or not u.message.reply_to_message.photo: await u.message.reply_text("Reply to a Photo and type /enhance!");return
  await u.message.reply_photo(photo=u.message.reply_to_message.photo[-1].file_id,caption="✨💖 ENHANCED HD! 💖✨\nBrightness + Sharpness + Beauty Filter!\nYou look MORE Beautiful! - Pamela 💖")
-async def FACEMASK(u,c): pass
-# AUTO JOBS
 async def AUTO_CLEAN(ctx):
  for cs,uids in list(users.items()):
   cid=int(cs);b=0
@@ -1021,6 +1015,7 @@ async def HANDLE_MSG(u,c):
  for w in BAD:
   if w in low: await u.message.reply_text("⚠️💖 No bad words baby! Be cute! 💖⚠️");return
  if u.message.text.startswith("/"): return
+ rep=None
  if "hi" in low or "hello" in low or "hey" in low: rep="Hiii my love! 🥰💖 How are you? I missed you so much!"
  elif "how are you" in low or "how r u" in low or "wassup" in low: rep="I am doing amazing now that you are talking to me! 🥰 What about you, cutie? 💗"
  elif "love you" in low or "love u" in low or "i love" in low: rep="Aww I love you too sooo much! ❤️🥰 You are my favourite!"
@@ -1036,7 +1031,7 @@ async def HANDLE_MSG(u,c):
  elif "miss you" in low or "miss u" in low: rep="Aww I miss you too so much baby! 🥺💖 Come hug me!"
  elif "thank" in low or "thanks" in low or "thx" in low: rep="Aww you are welcome baby! 🥰💖 Anything for you!"
  else: return
- if rep: await u.message.reply_text(rep+YWT if "subscribe" in low else rep)
+ if rep: await u.message.reply_text(rep)
 async def WELCOME(u,c):
  for user in u.message.new_chat_members:
   vd=YGL();txt=f"🌸✨ <b>Welcome, {user.first_name}!</b> ✨🌸\n\n👋 Hi baby! I am Pamela! 💖\n🎮 I love playing games!\n\n"
@@ -1049,20 +1044,17 @@ async def WELCOME(u,c):
   custom=welcome.get(str(u.effective_chat.id),"")
   if custom: await u.message.reply_text(f"🌸💖 {custom} 💖🌸")
 async def PHOTO(u,c): await u.message.reply_text("Wow! So cute photo! 😍💖 You look amazing! I love it!"+YWT)
-async def MEMBER(u,c):
- for user in u.message.new_chat_members: await WELCOME(u,c)
 def MAIN():
  import threading;threading.Thread(target=lambda: F.run(host="0.0.0.0",port=PORT),daemon=True).start()
  app=Application.builder().token(T).build();jq=app.job_queue
- H=[("start",START),("help",HELP),("about",ABOUT),("tr",TRC),("livetv",LIVETV),("worldtv",WORLDTV),("sportstv",SPORTTV),("news",NEWSC),("trim",TRIM),("compress",COMP),("toaudio",TOAUD),("togif",TOGIF),("slowmo",SLOWMO),("reverse",REV),("mutevideo",MUTEVID),("ban",BAN),("unban",UNBAN),("kick",KICK),("mute",MUTE),("unmute",UNMUTE),("warn",WARN),("warnings",WARNINGS),("promote",PROMOTE),("demote",DEMOTE),("pin",PIN),("unpin",UNPIN),("del",DEL),("purge",PURGE),("rules",RULES),("setrules",SETRULES),("setwelcome",SETWELCOME),("slowmode",SLOWMODE),("report",REPORT),("admins",ADMINS),("info",INFO),("id",IDC),("zombies",ZOMBIES),("snipe",SNIPE),("truth",TRUTH),("dare",DARE),("dice",DICE),("slot",SLOT),("coin",COIN),("8ball",EIGHT),("roast",ROAST),("quote",QUOTE),("daily",DAILY),("coins",COINS),("leaderboard",LEADER),("work",WORK),("bet",BET),("bank",BANKC),("deposit",DEP),("withdraw",WITH),("interest",INTEREST),("song",SONG),("playlist",PLAYLIST),("spotify",SPOTIFY),("video",VIDEO),("lyrics",LYRICS),("movie",MOVIE),("anime",ANIME),("rank",RANK),("profile",PROFILE),("stats",STATS),("topdaily",TOPDAILY),("topweek",TOPWEEK),("activecheck",ACTIVECHECK),("ttt",TTT),("move",MOVE),("quiz",QUIZ),("answer",ANSWER),("quizbattle",QUIZBATTLE),("rps",RPS),("word",WORD),("guessword",GUESSWORD),("math",MATH),("mathans",MATHANS),("guess",GUESS),("g",G),("blackjack",BLACKJACK),("race",RACE),("hunger",HUNGER),("challenge",CHALLENGE),("mafia",MAFIA),("votemafia",VOTEMAFIA),("bingo",BINGO),("poker",POKER),("uno",UNO),("marry",MARRY),("divorce",DIVORCE),("ship",SHIP),("couple",COUPLE),("love",LOVE),("lovecalc",LOVECALC),("hug",HUG),("kiss",KISS),("slap",SLAP),("pat",PAT),("jail",JAIL),("story",STORY),("horoscope",HORO),("horoscopedaily",HORODAILY),("tarot",TAROTC),("ask",ASKC),("say",SAY),("pfp",PFP),("cartoon",CARTOON),("meme",MEME),("wallpaper",WALL),("img",IMG),("imaginehd",IMAGINEHD),("face",FACE),("bgremove",BGREMOVE),("enhance",ENHANCE),("aisong",AISONG),("weather",WEATHER),("cricket",CRICKET),("football",FOOTBALL),("crypto",CRYPTO),("gold",GOLD),("radio",RADIO),("homework",HOMEWORK),("dictionary",DICT),("solve",SOLVE),("loan",LOAN),("business",BUSINESS),("stock",STOCKM),("birthday",BDAY),("reminder",REMIND),("poll",POLL),("event",EVENT),("giveaway",GIVEAWAY),("voice",VOICE),("sing",SING),("rap",RAP),("shoutout",SHOUT),("podcast",PODCAST),("aivideo",AIVIDEO),("spin",SPIN),("wyr",WYRC),("never",NEVERC),("riddle",RIDDLEC),("riddleans",RIDDLEANS),("chess",CHESS),("ludo",LUDO),("qr",QR),("password",PASSWORD),("shortlink",SHORTLINK),("screenshot",SCREENSHOT),("pdf",PDF),("sticker",STICKER),("filter",FILTC),("filters",FILTL),("stop",STOPF),("save",SAVEN),("get",GETN),("notes",NOTESL),("clear",CLEAR),("afk",AFK),("unafk",UNAFK),("lock",LOCK),("unlock",UNLOCK),("shop",SHOP),("shopbuy",SHOPBUY),("gift",GIFT),("lottery",LOTTERY),("give",GIVE),("steal",STEAL),("rob",ROB),("dreammeaning",DREAM),("goodmorningphoto",GMPHOTO),("welcomephoto",WELCOMEPHOTO),("ytstart",YST),("ytlatest",YLT),("ytvideos",YVD),("ytsubs",YSU)]
+ H=[("start",START),("help",HELP),("about",ABOUT),("tr",TRC),("livetv",LIVETV),("worldtv",WORLDTV),("sportstv",SPORTTV),("news",NEWSC),("trim",TRIM),("compress",COMP),("toaudio",TOAUD),("togif",TOGIF),("slowmo",SLOWMO),("reverse",REV),("mutevideo",MUTEVID),("ban",BAN),("unban",UNBAN),("kick",KICK),("mute",MUTE),("unmute",UNMUTE),("warn",WARN),("warnings",WARNINGS),("promote",PROMOTE),("demote",DEMOTE),("pin",PIN),("unpin",UNPIN),("del",DEL),("purge",PURGE),("rules",RULES),("setrules",SETRULES),("setwelcome",SETWELCOME),("slowmode",SLOWMODE),("report",REPORT),("admins",ADMINS),("info",INFO),("id",IDC),("zombies",ZOMBIES),("snipe",SNIPE),("truth",TRUTH),("dare",DARE),("dice",DICE),("slot",SLOT),("coin",COIN),("8ball",EIGHT),("roast",ROAST),("quote",QUOTE),("daily",DAILY),("coins",COINS),("leaderboard",LEADER),("work",WORK),("bet",BET),("bank",BANKC),("deposit",DEP),("withdraw",WITH),("interest",INTEREST),("song",SONG),("playlist",PLAYLIST),("spotify",SPOTIFY),("video",VIDEO),("lyrics",LYRICS),("movie",MOVIE),("anime",ANIME),("rank",RANK),("profile",PROFILE),("stats",STATS),("topdaily",TOPDAILY),("topweek",TOPWEEK),("activecheck",ACTIVECHECK),("ttt",TTT),("move",MOVE),("quiz",QUIZ),("answer",ANSWER),("quizbattle",QUIZBATTLE),("rps",RPS),("word",WORD),("guessword",GUESSWORD),("math",MATH),("mathans",MATHANS),("guess",GUESS),("g",GCMD),("blackjack",BLACKJACK),("race",RACE),("hunger",HUNGER),("challenge",CHALLENGE),("mafia",MAFIA),("votemafia",VOTEMAFIA),("bingo",BINGO),("poker",POKER),("uno",UNO),("marry",MARRY),("divorce",DIVORCE),("ship",SHIP),("couple",COUPLE),("love",LOVE),("lovecalc",LOVECALC),("hug",HUG),("kiss",KISS),("slap",SLAP),("pat",PAT),("jail",JAIL),("story",STORY),("horoscope",HORO),("horoscopedaily",HORODAILY),("tarot",TAROTC),("ask",ASKC),("say",SAY),("pfp",PFP),("cartoon",CARTOON),("meme",MEME),("wallpaper",WALL),("img",IMG),("imaginehd",IMAGINEHD),("face",FACE),("bgremove",BGREMOVE),("enhance",ENHANCE),("aisong",AISONG),("weather",WEATHER),("cricket",CRICKET),("football",FOOTBALL),("crypto",CRYPTO),("gold",GOLD),("radio",RADIO),("homework",HOMEWORK),("dictionary",DICT),("solve",SOLVE),("loan",LOAN),("business",BUSINESS),("stock",STOCKM),("birthday",BDAY),("reminder",REMIND),("poll",POLL),("event",EVENT),("giveaway",GIVEAWAY),("voice",VOICE),("sing",SING),("rap",RAP),("shoutout",SHOUT),("podcast",PODCAST),("aivideo",AIVIDEO),("spin",SPIN),("wyr",WYRC),("never",NEVERC),("riddle",RIDDLEC),("riddleans",RIDDLEANS),("chess",CHESS),("ludo",LUDO),("qr",QR),("password",PASSWORD),("shortlink",SHORTLINK),("screenshot",SCREENSHOT),("pdf",PDF),("sticker",STICKER),("filter",FILTC),("filters",FILTL),("stop",STOPF),("save",SAVEN),("get",GETN),("notes",NOTESL),("clear",CLEAR),("afk",AFK),("unafk",UNAFK),("lock",LOCK),("unlock",UNLOCK),("shop",SHOP),("shopbuy",SHOPBUY),("gift",GIFT),("lottery",LOTTERY),("give",GIVE),("steal",STEAL),("rob",ROB),("dreammeaning",DREAM),("goodmorningphoto",GMPHOTO),("welcomephoto",WELCOMEPHOTO),("ytstart",YST),("ytlatest",YLT),("ytvideos",YVD),("ytsubs",YSU)]
  for n,f in H: app.add_handler(CommandHandler(n,f))
  app.add_handler(CallbackQueryHandler(YBH,pattern="^yt_"))
  app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS,WELCOME))
  app.add_handler(MessageHandler(filters.PHOTO,PHOTO))
  app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,HANDLE_MSG))
- app.add_handler(ChatMemberHandler(MEMBER,ChatMemberHandler.CHAT_MEMBER))
  if jq:
   jq.run_repeating(YCN,interval=60,first=10);jq.run_repeating(YPR,interval=300,first=30);jq.run_repeating(AUTO_PROMO,interval=3600,first=60);jq.run_repeating(AUTO_QUOTE,interval=86400,first=120);jq.run_repeating(AUTO_MEME,interval=86400,first=180);jq.run_repeating(AUTO_BDAY,interval=3600,first=20);jq.run_repeating(AUTO_INT,interval=86400,first=30)
-  import datetime as dt;from datetime import time as dtime;jq.run_daily(AUTO_GM,time=dtime(hour=6,minute=0));jq.run_daily(AUTO_GN,time=dtime(hour=22,minute=0));jq.run_daily(AUTO_CLEAN,time=dtime(hour=6,minute=0))
+  from datetime import time as dtime;jq.run_daily(AUTO_GM,time=dtime(hour=6,minute=0));jq.run_daily(AUTO_GN,time=dtime(hour=22,minute=0));jq.run_daily(AUTO_CLEAN,time=dtime(hour=6,minute=0))
  print("Pamela Merged Compact Bot Started ✅");app.run_polling()
 if __name__=="__main__": MAIN()
