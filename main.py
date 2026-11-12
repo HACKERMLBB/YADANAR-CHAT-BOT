@@ -1,7 +1,7 @@
 import os,time,asyncio,requests,urllib.parse,random,json,datetime,subprocess,re,html,xml.etree.ElementTree as ET
 from flask import Flask
 from telegram import Update,ChatPermissions,InlineKeyboardButton as B,InlineKeyboardMarkup as M
-from telegram.ext import Application,CommandHandler,MessageHandler,filters,ChatMemberHandler,CallbackQueryHandler
+from telegram.ext import Application,CommandHandler,MessageHandler,filters,CallbackQueryHandler
 from telegram.constants import ChatMemberStatus
 T=os.getenv("BOT_TOKEN");PORT=int(os.getenv("PORT",10000));F=Flask(__name__)
 @F.route("/")
@@ -13,7 +13,7 @@ try:
  _g=os.getenv("GROUP_IDS","")
  if _g: GG=[int(x.strip()) for x in _g.split(",") if x.strip()]
 except: GG=[]
-A=set(GG);last={};COOL=15;warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={}
+A=set(GG);last={};warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={}
 def LJ(f,d):
  try:
   if os.path.exists(f):
@@ -44,10 +44,6 @@ def SM(cid,mid,uname,un,txt):
  msgs[cid].append({"msg_id":mid,"user":uname,"username":un,"text":txt,"time":time.time()})
  if len(msgs[cid])>200: msgs[cid]=msgs[cid][-200:]
  SJ("pamela_messages.json",msgs)
-def CL(cid):
- n=time.time();r=COOL-(n-last.get(cid,0))
- if r>0: return int(r)
- last[cid]=n;return 0
 def TR(t,l):
  try:
   r=requests.get("https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl="+l+"&dt=t&q="+urllib.parse.quote(t),timeout=10);d=r.json();return "".join([x[0] for x in d[0] if x[0]])
