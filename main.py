@@ -13,7 +13,7 @@ try:
  _g=os.getenv("GROUP_IDS","")
  if _g: GG=[int(x.strip()) for x in _g.split(",") if x.strip()]
 except: GG=[]
-A=set(GG);last={};warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={}
+A=set(GG);last={};warns={};afk={};filt={};notes={};coins={};levels={};users={};msgs={};bank={};quiz={};ttt={};mem={};streak={};marry={};guess={};math={};word={};welcome={};rules={};bday={};busi={};stock={};loan={};event={};riddle={}
 def LJ(f,d):
  try:
   if os.path.exists(f):
@@ -50,6 +50,7 @@ def TR(t,l):
  except: return None
 CS=["🌸💖 ","🦋✨ ","🌷💗 ","💖🌸 "];CE=["\n\n💖🌸 Love you, baby! 🌸💖","\n\n🦋💕 Pamela loves you! 💕🦋","\n\n🌸✨ Stay cute, baby! ✨🌸"]
 def CU(r): return f"{random.choice(CS)}{r}{random.choice(CE)}"
+# ===== FREE AI - NO TOKEN NEEDED =====
 def ASK(t,uid=None):
  try:
   m=""
@@ -57,10 +58,26 @@ def ASK(t,uid=None):
    h=mem.get(str(uid),[])
    if h: m=" Past: "+" | ".join(h[-5:])
   p="You are Pamela, CUTEST princess! Use LOTS cute emojis EVERY sentence! Be super cute, soft, baby-talk. Call user baby,cutie. Use hehe,awww,hihi,yayyy,muahhh. Keep short max 3-4 lines. Reply in EXACT SAME language as user! "+m+f" User says: {t}"
-  res=requests.get("https://text.pollinations.ai/"+urllib.parse.quote(p),timeout=60)
-  if res.status_code==200:
-   rep=res.text.strip()
-   if rep:
+  # Try 1 - Free Pollinations OpenAI style (no token)
+  try:
+   res=requests.post("https://text.pollinations.ai/openai",json={"model":"openai","messages":[{"role":"user","content":p}]},timeout=45)
+   if res.status_code==200:
+    j=res.json()
+    rep=j["choices"][0]["message"]["content"].strip()
+    if rep:
+     if uid:
+      u=str(uid)
+      if u not in mem: mem[u]=[]
+      mem[u].append(f"User: {t} | Pamela: {rep[:100]}")
+      if len(mem[u])>20: mem[u]=mem[u][-20:]
+      SJ("pamela_memory.json",mem)
+     return CU(rep)
+  except Exception as e: print("AI Try1 fail",e)
+  # Try 2 - Free Pollinations GET
+  try:
+   res2=requests.get("https://text.pollinations.ai/"+urllib.parse.quote(p),timeout=45)
+   if res2.status_code==200 and res2.text.strip():
+    rep=res2.text.strip()
     if uid:
      u=str(uid)
      if u not in mem: mem[u]=[]
@@ -68,10 +85,17 @@ def ASK(t,uid=None):
      if len(mem[u])>20: mem[u]=mem[u][-20:]
      SJ("pamela_memory.json",mem)
     return CU(rep)
-   return "Sorry baby! I got shy! Try again?"
-  elif res.status_code==402: return "Baby! I am tired! Wait 30 sec!"
-  else: return "Oops baby! Sleepy! Try again!"
- except: return "Baby! Trouble! Try again!"
+  except Exception as e: print("AI Try2 fail",e)
+  # Try 3 - Free Pollinations with model
+  try:
+   res3=requests.get("https://text.pollinations.ai/"+urllib.parse.quote(p)+"?model=openai",timeout=45)
+   if res3.status_code==200 and res3.text.strip():
+    return CU(res3.text.strip())
+  except Exception as e: print("AI Try3 fail",e)
+  return "Baby! I am tired! Wait 30 sec and try again! 🥺💖"
+ except Exception as e:
+  print("AI Error:",e)
+  return "Baby! Trouble! Try again! 🥺💖"
 async def ADM(u,uid):
  try:
   m=await u.effective_chat.get_member(uid);return m.status in [ChatMemberStatus.ADMINISTRATOR,ChatMemberStatus.OWNER]
@@ -162,7 +186,8 @@ def YGV(c=10):
  v=YFS(c)
  if v: YV["videos"]=v;YV["time"]=time.time();return v
  return []
-async def YSP(bot,cid,th,cap,rm=None,vid=None):
+async def YSP(bot,cid,th,cap,rm=None,vid=None,vid_id=None):
+ vid=vid_id or vid
  ths=YTL(vid) if vid else [th] if th else []
  for t in ths:
   try: return await bot.send_photo(chat_id=cid,photo=t,caption=cap,parse_mode="HTML",reply_markup=rm)
@@ -999,6 +1024,7 @@ async def AUTO_MEME(ctx):
   if cid>0: continue
   try: await ctx.bot.send_photo(chat_id=cid,photo="https://image.pollinations.ai/prompt/"+urllib.parse.quote('funny cute meme'),caption="😂💖 Daily Meme! - Pamela 💖😂");await asyncio.sleep(1)
   except: pass
+# ===== FREE AI CHAT - GROUP + PRIVATE BOTH =====
 async def HANDLE_MSG(u,c):
  if not u.message or not u.message.text: return
  txt=u.message.text;low=txt.lower();cid=u.effective_chat.id
@@ -1026,7 +1052,16 @@ async def HANDLE_MSG(u,c):
  elif "good night" in low or "goodnight" in low: rep="Good Night baby! 🌙💖 Sleep well, sweet dreams! I love you!"
  elif "miss you" in low or "miss u" in low: rep="Aww I miss you too so much baby! 🥺💖 Come hug me!"
  elif "thank" in low or "thanks" in low or "thx" in low: rep="Aww you are welcome baby! 🥰💖 Anything for you!"
- else: return
+ else:
+  # FREE AI FOR ALL OTHER MESSAGES - Private + Group both
+  # Group eke: Pamela kiyala thiyenawanam witharak AI, naththan Private eke okkoma AI
+  is_private = u.effective_chat.type=="private"
+  is_reply_to_bot = u.message.reply_to_message and u.message.reply_to_message.from_user and u.message.reply_to_message.from_user.id==c.bot.id
+  is_mention = "pamela" in low or "@" in txt
+  if is_private or is_reply_to_bot or is_mention or True:
+   ai_rep=ASK(txt,u.message.from_user.id)
+   await u.message.reply_text(ai_rep)
+  return
  if rep: await u.message.reply_text(rep)
 async def WELCOME(u,c):
  for user in u.message.new_chat_members:
@@ -1036,7 +1071,7 @@ async def WELCOME(u,c):
   await u.message.reply_text(txt,parse_mode="HTML",disable_web_page_preview=True,reply_markup=YMK())
   if vd and vd.get("thumb"):
    try: await u.message.reply_photo(photo=vd["thumb"],caption=f"🎬 <b>{YCT(vd['title'])}</b>\n{vd['link']}"+YWT,parse_mode="HTML")
-   except: await u.message.reply_text(f"🎬 <b>{YCT(vd['title'])}</b>\n{vd['link']}"+YWT,parse_mode="HTML",disable_web_page_preview=False)
+   except: await u.message.reply_text(f"🎬 <b>{YCT(vd['title'])}</b>\n{vd['link']}"+YWT,parse_mode="HTML",disable_web_page_preview```python
   custom=welcome.get(str(u.effective_chat.id),"")
   if custom: await u.message.reply_text(f"🌸💖 {custom} 💖🌸")
 async def PHOTO(u,c): await u.message.reply_text("Wow! So cute photo! 😍💖 You look amazing! I love it!"+YWT)
